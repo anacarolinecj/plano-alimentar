@@ -126,7 +126,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 
     <div class="card">
       <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">☕</div><div class="card-title">Pré-treino</div></div>
-      <div class="fixed-item">Café com leite — 1 xícara (250 ml)</div>
+      <div class="option-list" id="g-pretreino">
+        <div class="opt" onclick="pick('pretreino',this,'Café com leite','1 xícara (250 ml)')"><div class="opt-check"></div><span class="opt-text">Café com leite</span><span class="opt-qty">1 xícara (250 ml)</span></div>
+      </div>
     </div>
 
     <div class="card">
@@ -443,7 +445,7 @@ function pick(group, el, label, qty) {
 }
 
 function restoreChoices() {
-  var groups = ['cafe-carb','cafe-prot','alm-leg','alm-carb','alm-legu','alm-prot','lanche','jantar'];
+  var groups = ['pretreino','cafe-carb','cafe-prot','alm-leg','alm-carb','alm-legu','alm-prot','lanche','jantar'];
   groups.forEach(function(g) {
     var val = state.choices[g];
     if(!val) return;
@@ -485,6 +487,7 @@ function resetWater() {
 }
 
 var groupLabels = {
+  'pretreino': 'Pré-treino',
   'cafe-carb': 'Café da manhã — carboidrato',
   'cafe-prot': 'Café da manhã — proteína',
   'alm-leg': 'Almoço — legume',
