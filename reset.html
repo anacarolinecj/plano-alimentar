@@ -70,11 +70,23 @@ async function salvar() {
   if(!nova || nova.length < 6) { document.getElementById('erro').textContent = 'Senha deve ter pelo menos 6 caracteres.'; return; }
   if(nova !== nova2) { document.getElementById('erro').textContent = 'As senhas não coincidem.'; return; }
   try {
+    // Troca o token de verificação por um JWT
+    var verify = await fetch(SUPABASE_URL + '/auth/v1/verify', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: token, type: 'recovery' })
+    });
+    var verifyData = await verify.json();
+    if(!verifyData.access_token) {
+      document.getElementById('erro').textContent = 'Link inválido ou expirado. Solicite um novo.';
+      return;
+    }
+    // Atualiza a senha com o JWT
     var res = await fetch(SUPABASE_URL + '/auth/v1/user', {
       method: 'PUT',
       headers: {
         'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + token,
+        'Authorization': 'Bearer ' + verifyData.access_token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ password: nova })
@@ -84,7 +96,7 @@ async function salvar() {
       document.getElementById('msg').textContent = 'Senha redefinida! Redirecionando...';
       setTimeout(function(){ window.location.href = '/plano-alimentar/'; }, 2000);
     } else {
-      document.getElementById('erro').textContent = 'Erro ao salvar. Link pode ter expirado.';
+      document.getElementById('erro').textContent = 'Erro ao salvar senha.';
     }
   } catch(e) {
     document.getElementById('erro').textContent = 'Erro de conexão.';
