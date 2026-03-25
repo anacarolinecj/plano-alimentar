@@ -444,13 +444,73 @@ async function mostrarCadastro() {
 
 async function esqueceuSenha() {
   var email = document.getElementById('login-email').value.trim();
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('login-msg').textContent = '';
   if(!email) { document.getElementById('login-error').textContent = 'Digite seu email primeiro.'; return; }
-  await fetch(SUPABASE_URL + '/auth/v1/recover', {
-    method: 'POST',
-    headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email })
-  });
-  document.getElementById('login-msg').textContent = 'Email de recuperação enviado!';
+  try {
+    var res = await fetch(SUPABASE_URL + '/auth/v1/otp', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, create_user: false })
+    });
+    if(res.ok) {
+      // Mostra tela de código OTP + nova senha
+      document.getElementById('login-subtitle').textContent = 'Verifique seu email';
+      document.querySelector('.login-form').innerHTML = `
+        <p style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:8px">Digite o código que chegou no email <strong>${email}</strong> e sua nova senha</p>
+        <input type="text" id="otp-code" placeholder="Código do email (6 dígitos)" maxlength="6" style="letter-spacing:4px;text-align:center" />
+        <input type="password" id="nova-senha" placeholder="Nova senha" />
+        <input type="password" id="nova-senha2" placeholder="Confirmar nova senha" />
+        <div id="login-error"></div>
+        <div id="login-msg"></div>
+        <button onclick="confirmarOTP('${email}')">Salvar nova senha</button>
+        <button class="secondary" onclick="location.reload()">Voltar</button>
+      `;
+    } else {
+      document.getElementById('login-error').textContent = 'Email não encontrado.';
+    }
+  } catch(e) {
+    document.getElementById('login-error').textContent = 'Erro de conexão.';
+  }
+}
+
+async function confirmarOTP(email) {
+  var token = document.getElementById('otp-code').value.trim();
+  var nova = document.getElementById('nova-senha').value;
+  var nova2 = document.getElementById('nova-senha2').value;
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('login-msg').textContent = '';
+  if(!token) { document.getElementById('login-error').textContent = 'Digite o código do email.'; return; }
+  if(!nova || nova.length < 6) { document.getElementById('login-error').textContent = 'Senha deve ter pelo menos 6 caracteres.'; return; }
+  if(nova !== nova2) { document.getElementById('login-error').textContent = 'As senhas não coincidem.'; return; }
+  try {
+    // Verifica o OTP
+    var res = await fetch(SUPABASE_URL + '/auth/v1/verify', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, token: token, type: 'email' })
+    });
+    var data = await res.json();
+    if(data.access_token) {
+      // Atualiza a senha
+      var res2 = await fetch(SUPABASE_URL + '/auth/v1/user', {
+        method: 'PUT',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + data.access_token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: nova })
+      });
+      var data2 = await res2.json();
+      if(data2.id) {
+        document.getElementById('login-msg').textContent = 'Senha redefinida com sucesso! Faça login.';
+        setTimeout(function(){ location.reload(); }, 2000);
+      } else {
+        document.getElementById('login-error').textContent = 'Erro ao salvar nova senha.';
+      }
+    } else {
+      document.getElementById('login-error').textContent = 'Código inválido ou expirado.';
+    }
+  } catch(e) {
+    document.getElementById('login-error').textContent = 'Erro de conexão.';
+  }
 }
 
 function fazerLogout() {
