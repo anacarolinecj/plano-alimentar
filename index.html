@@ -521,17 +521,45 @@ var groupLabels = {
   'jantar': 'Jantar'
 };
 
-function renderSummary() {
-  var container = document.getElementById('summary-content');
+var refeicoes = [
+  { label: '☕ Pré-treino', keys: ['pretreino'] },
+  { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot'] },
+  { label: '🍽️ Almoço', keys: ['alm-leg','alm-carb','alm-legu','alm-prot'] },
+  { label: '🍎 Lanche da tarde', keys: ['lanche'] },
+  { label: '🌙 Jantar', keys: ['jantar'] }
+];
+
+function renderChoicesAgrupado(choices, incluirAgua, water) {
   var html = '';
   var hasAny = false;
-  for(var k in groupLabels) {
-    if(state.choices[k]) {
-      hasAny = true;
-      html += '<div class="summary-row"><div class="summary-label">' + groupLabels[k] + '</div><div class="summary-value">' + state.choices[k] + '</div></div>';
-    }
+  refeicoes.forEach(function(r) {
+    var items = [];
+    r.keys.forEach(function(k) {
+      if(choices[k]) items.push(choices[k]);
+    });
+    if(items.length === 0) return;
+    hasAny = true;
+    html += '<div style="margin-bottom:12px">';
+    html += '<div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">' + r.label + '</div>';
+    items.forEach(function(item) {
+      html += '<div style="font-size:13px;color:var(--green);font-weight:500;padding:2px 0">' + item + '</div>';
+    });
+    html += '</div>';
+  });
+  if(incluirAgua && water) {
+    hasAny = true;
+    html += '<div style="margin-bottom:12px">';
+    html += '<div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">💧 Água</div>';
+    html += '<div style="font-size:13px;color:var(--blue);font-weight:500">' + water + ' ml</div>';
+    html += '</div>';
   }
-  container.innerHTML = hasAny ? html : '<div class="summary-empty">Faça suas escolhas na aba Refeições para ver o resumo aqui.</div>';
+  return { html: html, hasAny: hasAny };
+}
+
+function renderSummary() {
+  var container = document.getElementById('summary-content');
+  var result = renderChoicesAgrupado(state.choices, true, state.water);
+  container.innerHTML = result.hasAny ? result.html : '<div class="summary-empty">Faça suas escolhas na aba Refeições para ver o resumo aqui.</div>';
 }
 
 function showTab(id, btn) {
@@ -571,22 +599,10 @@ async function loadHistorico() {
       var d = new Date(parts[0], parts[1]-1, parts[2]);
       var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
       var isToday = row.data === todayKey();
+      var result = renderChoicesAgrupado(row.choices || {}, true, row.water);
       html += '<div style="margin-bottom:16px">';
-      html += '<div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:6px">' + dateStr + (isToday ? ' — hoje' : '') + '</div>';
-      var choices = row.choices || {};
-      var hasChoices = false;
-      for(var k in groupLabels) {
-        if(choices[k]) {
-          hasChoices = true;
-          html += '<div class="summary-row"><div class="summary-label">' + groupLabels[k] + '</div><div class="summary-value">' + choices[k] + '</div></div>';
-        }
-      }
-      if(row.water) {
-        html += '<div class="summary-row"><div class="summary-label">Água</div><div class="summary-value">' + row.water + ' ml</div></div>';
-      }
-      if(!hasChoices && !row.water) {
-        html += '<div style="font-size:12px;color:var(--muted);padding:4px 0">Nenhuma escolha registrada</div>';
-      }
+      html += '<div style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:10px">' + dateStr + (isToday ? ' — hoje' : '') + '</div>';
+      html += result.hasAny ? result.html : '<div style="font-size:12px;color:var(--muted)">Nenhuma escolha registrada</div>';
       html += '</div><hr style="border:none;border-top:1px solid var(--border);margin-bottom:16px">';
     });
     container.innerHTML = html;
