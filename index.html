@@ -492,7 +492,7 @@ function setSyncStatus(msg, cls) {
 
 async function loadFromSupabase() {
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?data=eq.' + todayKey() + '&select=*', {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=*', {
       headers: authHeaders()
     });
     var rows = await res.json();
@@ -511,12 +511,12 @@ async function saveToSupabase() {
   setSyncStatus('Salvando…', 'saving');
   localStorage.setItem('plano_ana_' + todayKey(), JSON.stringify(state));
   try {
-    var patch = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?data=eq.' + todayKey(), {
+    var patch = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
       method: 'PATCH',
       headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
       body: JSON.stringify({ choices: state.choices, water: state.water, updated_at: new Date().toISOString() })
     });
-    var countRes = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?data=eq.' + todayKey() + '&select=data', {
+    var countRes = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=data', {
       headers: authHeaders()
     });
     var rows = await countRes.json();
