@@ -357,7 +357,10 @@ var state = { choices: {}, water: 0 };
 var saveTimer = null;
 
 function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+  var d = new Date();
+  var mm = String(d.getMonth()+1).padStart(2,'0');
+  var dd = String(d.getDate()).padStart(2,'0');
+  return d.getFullYear() + '-' + mm + '-' + dd;
 }
 
 function setSyncStatus(msg, cls) {
