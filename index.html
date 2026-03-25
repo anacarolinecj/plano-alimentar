@@ -752,9 +752,14 @@ async function init() {
 }
 
 // Verifica se é redirecionamento de recuperação de senha
-var urlParams = new URLSearchParams(window.location.search);
-var recoveryToken = urlParams.get('token');
-var recoveryType = urlParams.get('type');
+var hashStr = window.location.hash.substring(1);
+var hashParams = {};
+hashStr.split('&').forEach(function(p) {
+  var parts = p.split('=');
+  if(parts.length === 2) hashParams[parts[0]] = decodeURIComponent(parts[1]);
+});
+var recoveryToken = hashParams['access_token'];
+var recoveryType = hashParams['type'];
 
 if(recoveryToken && recoveryType === 'recovery') {
   document.getElementById('login-screen').style.display = 'flex';
