@@ -552,7 +552,8 @@ async function loadHistorico() {
     var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
     var html = '';
     rows.forEach(function(row) {
-      var d = new Date(row.data + 'T12:00:00');
+      var parts = row.data.split('-');
+      var d = new Date(parts[0], parts[1]-1, parts[2]);
       var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
       var isToday = row.data === todayKey();
       html += '<div style="margin-bottom:16px">';
