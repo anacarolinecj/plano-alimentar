@@ -448,17 +448,16 @@ async function esqueceuSenha() {
   document.getElementById('login-msg').textContent = '';
   if(!email) { document.getElementById('login-error').textContent = 'Digite seu email primeiro.'; return; }
   try {
-    var res = await fetch(SUPABASE_URL + '/auth/v1/otp', {
+    var res = await fetch(SUPABASE_URL + '/auth/v1/recover', {
       method: 'POST',
       headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, create_user: false })
+      body: JSON.stringify({ email: email })
     });
     if(res.ok) {
-      // Mostra tela de código OTP + nova senha
       document.getElementById('login-subtitle').textContent = 'Verifique seu email';
       document.querySelector('.login-form').innerHTML = `
         <p style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:8px">Digite o código que chegou no email <strong>${email}</strong> e sua nova senha</p>
-        <input type="text" id="otp-code" placeholder="Código do email (6 dígitos)" maxlength="6" style="letter-spacing:4px;text-align:center" />
+        <input type="text" id="otp-code" placeholder="Código do email" style="letter-spacing:4px;text-align:center" />
         <input type="password" id="nova-senha" placeholder="Nova senha" />
         <input type="password" id="nova-senha2" placeholder="Confirmar nova senha" />
         <div id="login-error"></div>
