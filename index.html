@@ -557,11 +557,27 @@ function setSyncStatus(msg, cls) {
   el.className = 'sync-status ' + (cls || '');
 }
 
+function handleAuthExpired() {
+  setSyncStatus('Sessão expirada — faça login novamente', 'error');
+  sessionStorage.removeItem('plano_token');
+  sessionStorage.removeItem('plano_user');
+  currentToken = null;
+  currentUser = null;
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app-header').style.display = 'none';
+  document.getElementById('tabs-bar').style.display = 'none';
+  document.getElementById('main-content').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-error').textContent = 'Sua sessão expirou. Entre novamente.';
+}
+
 async function loadFromSupabase() {
+  if(!currentUser || !currentToken) return;
   try {
     var res = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=*', {
       headers: authHeaders()
     });
+    if(res.status === 401) { handleAuthExpired(); return; }
     var rows = await res.json();
     if(rows && rows.length > 0) {
       state.choices = rows[0].choices || {};
@@ -575,6 +591,7 @@ async function loadFromSupabase() {
 }
 
 async function saveToSupabase() {
+  if(!currentUser || !currentToken) return;
   setSyncStatus('Salvando…', 'saving');
   localStorage.setItem('plano_ana_' + todayKey(), JSON.stringify(state));
   try {
@@ -583,9 +600,11 @@ async function saveToSupabase() {
       headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
       body: JSON.stringify({ choices: state.choices, water: state.water, updated_at: new Date().toISOString() })
     });
+    if(patch.status === 401) { handleAuthExpired(); return; }
     var countRes = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=data', {
       headers: authHeaders()
     });
+    if(countRes.status === 401) { handleAuthExpired(); return; }
     var rows = await countRes.json();
     if(rows && rows.length > 0) {
       setSyncStatus('Salvo na nuvem ✓', 'saved');
@@ -597,6 +616,7 @@ async function saveToSupabase() {
       headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
       body: JSON.stringify({ data: todayKey(), choices: state.choices, water: state.water, updated_at: new Date().toISOString(), user_id: currentUser.id })
     });
+    if(post.status === 401) { handleAuthExpired(); return; }
     if(post.ok || post.status === 201) {
       setSyncStatus('Salvo na nuvem ✓', 'saved');
       setTimeout(function(){ setSyncStatus(''); }, 3000);
@@ -718,12 +738,17 @@ function renderSummary() {
 }
 
 async function loadHistorico() {
+  if(!currentUser || !currentToken) {
+    document.getElementById('historico-content').innerHTML = '<div class="summary-empty">Faça login para ver seu histórico.</div>';
+    return;
+  }
   var container = document.getElementById('historico-content');
   container.innerHTML = '<div class="summary-empty">Carregando...</div>';
   try {
     var res = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?select=*&user_id=eq.' + currentUser.id + '&order=data.desc&limit=30', {
       headers: authHeaders()
     });
+    if(res.status === 401) { handleAuthExpired(); return; }
     var rows = await res.json();
     if(!rows || rows.length === 0) { container.innerHTML = '<div class="summary-empty">Nenhum registro ainda.</div>'; return; }
     var days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
