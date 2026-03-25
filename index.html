@@ -120,9 +120,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <input type="password" id="login-senha" placeholder="Senha" onkeydown="if(event.key==='Enter') fazerLogin()" />
     <div id="login-error"></div>
     <div id="login-msg"></div>
-    <button onclick="fazerLogin()">Entrar</button>
-    <button class="secondary" onclick="mostrarCadastro()">Criar conta</button>
-    <button class="secondary" onclick="esqueceuSenha()">Esqueci minha senha</button>
+    <button id="btn-login" onclick="fazerLogin()">Entrar</button>
+    <button id="btn-cadastro" class="secondary" onclick="mostrarCadastro()">Criar conta</button>
+    <button id="btn-esqueceu" class="secondary" onclick="esqueceuSenha()">Esqueci minha senha</button>
   </div>
 </div>
 
@@ -384,6 +384,16 @@ var saveTimer = null;
 var currentUser = null;
 var currentToken = null;
 
+function setLoginBusy(isBusy) {
+  ['btn-login', 'btn-cadastro', 'btn-esqueceu'].forEach(function(id){
+    var btn = document.getElementById(id);
+    if(!btn) return;
+    btn.disabled = isBusy;
+    btn.style.opacity = isBusy ? '0.7' : '1';
+    btn.style.cursor = isBusy ? 'not-allowed' : 'pointer';
+  });
+}
+
 function todayKey() {
   var d = new Date();
   var mm = String(d.getMonth()+1).padStart(2,'0');
@@ -398,6 +408,7 @@ async function fazerLogin() {
   document.getElementById('login-error').textContent = '';
   document.getElementById('login-msg').textContent = '';
   if(!email || !senha) { document.getElementById('login-error').textContent = 'Preencha email e senha.'; return; }
+  setLoginBusy(true);
   try {
     var res = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
       method: 'POST',
@@ -416,6 +427,8 @@ async function fazerLogin() {
     }
   } catch(e) {
     document.getElementById('login-error').textContent = 'Erro de conexão.';
+  } finally {
+    setLoginBusy(false);
   }
 }
 
@@ -425,6 +438,7 @@ async function mostrarCadastro() {
   document.getElementById('login-error').textContent = '';
   document.getElementById('login-msg').textContent = '';
   if(!email || !senha) { document.getElementById('login-error').textContent = 'Preencha email e senha para criar conta.'; return; }
+  setLoginBusy(true);
   try {
     var res = await fetch(SUPABASE_URL + '/auth/v1/signup', {
       method: 'POST',
@@ -439,6 +453,8 @@ async function mostrarCadastro() {
     }
   } catch(e) {
     document.getElementById('login-error').textContent = 'Erro de conexão.';
+  } finally {
+    setLoginBusy(false);
   }
 }
 
@@ -447,6 +463,7 @@ async function esqueceuSenha() {
   document.getElementById('login-error').textContent = '';
   document.getElementById('login-msg').textContent = '';
   if(!email) { document.getElementById('login-error').textContent = 'Digite seu email primeiro.'; return; }
+  setLoginBusy(true);
   try {
     await fetch(SUPABASE_URL + '/auth/v1/recover', {
       method: 'POST',
@@ -456,6 +473,8 @@ async function esqueceuSenha() {
     document.getElementById('login-msg').textContent = 'Email enviado! Verifique sua caixa de entrada.';
   } catch(e) {
     document.getElementById('login-error').textContent = 'Erro de conexão.';
+  } finally {
+    setLoginBusy(false);
   }
 }
 
@@ -699,7 +718,7 @@ async function loadHistorico() {
   var container = document.getElementById('historico-content');
   container.innerHTML = '<div class="summary-empty">Carregando...</div>';
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?select=*&order=data.desc&limit=30', {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?select=*&user_id=eq.' + currentUser.id + '&order=data.desc&limit=30', {
       headers: authHeaders()
     });
     var rows = await res.json();
@@ -736,7 +755,9 @@ function showTab(id, btn) {
 function clearDay() {
   if(!confirm('Limpar todas as escolhas de hoje?')) return;
   state.choices = {};
+  state.water = 0;
   document.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+  renderWater();
   scheduleSave();
   showToast('Escolhas apagadas');
 }
