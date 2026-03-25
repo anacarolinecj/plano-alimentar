@@ -120,9 +120,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <input type="password" id="login-senha" placeholder="Senha" onkeydown="if(event.key==='Enter') fazerLogin()" />
     <div id="login-error"></div>
     <div id="login-msg"></div>
-    <button onclick="fazerLogin()">Entrar</button>
-    <button class="secondary" onclick="mostrarCadastro()">Criar conta</button>
-    <button class="secondary" onclick="esqueceuSenha()">Esqueci minha senha</button>
+    <button id="btn-login" onclick="fazerLogin()">Entrar</button>
+    <button id="btn-cadastro" class="secondary" onclick="mostrarCadastro()">Criar conta</button>
+    <button id="btn-esqueceu" class="secondary" onclick="esqueceuSenha()">Esqueci minha senha</button>
   </div>
 </div>
 
@@ -185,6 +185,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="card">
       <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">🍽️</div><div class="card-title">Almoço</div></div>
       <div class="note" style="margin-bottom:12px">Pode usar marmita pronta, ou montar:</div>
+      <div class="option-list" id="g-alm-marmita" style="margin-bottom:10px">
+        <div class="opt" onclick="pick('alm-marmita',this,'Marmita pronta','1 unidade')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span><span class="opt-qty">1 unidade</span></div>
+      </div>
       <div class="fixed-item">Folhas à vontade (couve, alface, repolho, rúcula…)</div>
       <div class="group-label">Legume</div>
       <div class="option-list" id="g-alm-leg">
@@ -384,6 +387,16 @@ var saveTimer = null;
 var currentUser = null;
 var currentToken = null;
 
+function setLoginBusy(isBusy) {
+  ['btn-login', 'btn-cadastro', 'btn-esqueceu'].forEach(function(id){
+    var btn = document.getElementById(id);
+    if(!btn) return;
+    btn.disabled = isBusy;
+    btn.style.opacity = isBusy ? '0.7' : '1';
+    btn.style.cursor = isBusy ? 'not-allowed' : 'pointer';
+  });
+}
+
 function todayKey() {
   var d = new Date();
   var mm = String(d.getMonth()+1).padStart(2,'0');
@@ -398,6 +411,7 @@ async function fazerLogin() {
   document.getElementById('login-error').textContent = '';
   document.getElementById('login-msg').textContent = '';
   if(!email || !senha) { document.getElementById('login-error').textContent = 'Preencha email e senha.'; return; }
+  setLoginBusy(true);
   try {
     var res = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
       method: 'POST',
@@ -416,6 +430,8 @@ async function fazerLogin() {
     }
   } catch(e) {
     document.getElementById('login-error').textContent = 'Erro de conexão.';
+  } finally {
+    setLoginBusy(false);
   }
 }
 
@@ -425,6 +441,7 @@ async function mostrarCadastro() {
   document.getElementById('login-error').textContent = '';
   document.getElementById('login-msg').textContent = '';
   if(!email || !senha) { document.getElementById('login-error').textContent = 'Preencha email e senha para criar conta.'; return; }
+  setLoginBusy(true);
   try {
     var res = await fetch(SUPABASE_URL + '/auth/v1/signup', {
       method: 'POST',
@@ -439,6 +456,8 @@ async function mostrarCadastro() {
     }
   } catch(e) {
     document.getElementById('login-error').textContent = 'Erro de conexão.';
+  } finally {
+    setLoginBusy(false);
   }
 }
 
@@ -447,6 +466,7 @@ async function esqueceuSenha() {
   document.getElementById('login-error').textContent = '';
   document.getElementById('login-msg').textContent = '';
   if(!email) { document.getElementById('login-error').textContent = 'Digite seu email primeiro.'; return; }
+  setLoginBusy(true);
   try {
     await fetch(SUPABASE_URL + '/auth/v1/recover', {
       method: 'POST',
@@ -456,6 +476,8 @@ async function esqueceuSenha() {
     document.getElementById('login-msg').textContent = 'Email enviado! Verifique sua caixa de entrada.';
   } catch(e) {
     document.getElementById('login-error').textContent = 'Erro de conexão.';
+  } finally {
+    setLoginBusy(false);
   }
 }
 
@@ -615,7 +637,7 @@ function pick(group, el, label, qty) {
 }
 
 function restoreChoices() {
-  var groups = ['pretreino','cafe-carb','cafe-prot','alm-leg','alm-carb','alm-legu','alm-prot','lanche','jantar'];
+  var groups = ['pretreino','cafe-carb','cafe-prot','alm-marmita','alm-leg','alm-carb','alm-legu','alm-prot','lanche','jantar'];
   groups.forEach(function(g) {
     var val = state.choices[g];
     if(!val) return;
@@ -659,7 +681,7 @@ function resetWater() {
 var refeicoes = [
   { label: '☕ Pré-treino', keys: ['pretreino'] },
   { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot'] },
-  { label: '🍽️ Almoço', keys: ['alm-leg','alm-carb','alm-legu','alm-prot'] },
+  { label: '🍽️ Almoço', keys: ['alm-marmita','alm-leg','alm-carb','alm-legu','alm-prot'] },
   { label: '🍎 Lanche da tarde', keys: ['lanche'] },
   { label: '🌙 Jantar', keys: ['jantar'] }
 ];
@@ -699,7 +721,7 @@ async function loadHistorico() {
   var container = document.getElementById('historico-content');
   container.innerHTML = '<div class="summary-empty">Carregando...</div>';
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?select=*&order=data.desc&limit=30', {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/plano_diario?select=*&user_id=eq.' + currentUser.id + '&order=data.desc&limit=30', {
       headers: authHeaders()
     });
     var rows = await res.json();
@@ -736,7 +758,9 @@ function showTab(id, btn) {
 function clearDay() {
   if(!confirm('Limpar todas as escolhas de hoje?')) return;
   state.choices = {};
+  state.water = 0;
   document.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+  renderWater();
   scheduleSave();
   showToast('Escolhas apagadas');
 }
