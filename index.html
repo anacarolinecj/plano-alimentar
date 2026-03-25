@@ -119,6 +119,18 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .fruit-item { padding: 7px 10px; border-radius: var(--radius-sm); background: var(--green-pale); font-size: 12px; color: var(--green); }
 .fruit-item strong { display: block; font-weight: 600; font-size: 12px; }
 .fruit-item.wide { grid-column: span 2; }
+.humor-opt { flex:1; text-align:center; padding:10px 4px; border-radius:var(--radius-sm); border:1px solid var(--border); cursor:pointer; transition:all 0.15s; background:var(--bg); }
+.humor-opt.selected { background:var(--green-pale); border-color:var(--green-light); }
+.humor-emoji { font-size:20px; margin-bottom:4px; }
+.humor-label { font-size:10px; color:var(--muted); }
+.humor-opt.selected .humor-label { color:var(--green); font-weight:500; }
+.dia-opt { flex:1; text-align:center; cursor:pointer; }
+.dia-letra { width:34px; height:34px; border-radius:50%; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin:0 auto 4px; font-size:11px; color:var(--muted); transition:all 0.15s; }
+.dia-opt.active .dia-letra { background:var(--green-pale); border-color:var(--green-light); color:var(--green); font-weight:600; }
+.dia-sub { font-size:10px; color:var(--muted); }
+.dia-opt.active .dia-sub { color:var(--green); }
+.med-input { width:100%; padding:9px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color 0.2s; }
+.med-input:focus { border-color:var(--green-light); }
 .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 998; gap: 12px; }
 .loading-overlay p { color: var(--muted); font-size: 14px; }
 .spinner { width: 32px; height: 32px; border: 3px solid var(--green-pale); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -165,6 +177,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="nav-item" id="nav-receitas" onclick="showTab('receitas','Receitas',this)"><span class="icon">👩‍🍳</span>Receitas</div>
     <div class="nav-item" id="nav-dicas" onclick="showTab('dicas','Dicas',this)"><span class="icon">✅</span>Dicas</div>
     <div class="nav-item" id="nav-historico" onclick="showTab('historico','Histórico',this)"><span class="icon">📅</span>Histórico</div>
+    <div class="nav-section-title" style="margin-top:8px">Acompanhamento</div>
+    <div class="nav-item" id="nav-evolucao" onclick="showTab('evolucao','Evolução',this)"><span class="icon">📊</span>Evolução</div>
   </nav>
   <div class="sidebar-footer">
     <div class="logout-item" onclick="fazerLogout()"><span>↩️</span> Sair</div>
@@ -406,6 +420,76 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">📅</div><div class="card-title">Histórico de dias</div></div>
       <div id="historico-content"><div class="summary-empty">Carregando histórico...</div></div>
     </div>
+  </section>
+
+  <section id="evolucao" class="section">
+
+    <div class="card">
+      <div class="card-header"><div class="meal-icon" style="background:#fff3cd">😊</div><div class="card-title">Humor e energia — hoje</div></div>
+      <div style="display:flex;justify-content:space-between;gap:6px" id="humor-btns">
+        <div class="humor-opt" onclick="pickHumor(this,'😞','Péssimo')"><div class="humor-emoji">😞</div><div class="humor-label">Péssimo</div></div>
+        <div class="humor-opt" onclick="pickHumor(this,'😕','Ruim')"><div class="humor-emoji">😕</div><div class="humor-label">Ruim</div></div>
+        <div class="humor-opt" onclick="pickHumor(this,'😐','Ok')"><div class="humor-emoji">😐</div><div class="humor-label">Ok</div></div>
+        <div class="humor-opt" onclick="pickHumor(this,'😊','Bom')"><div class="humor-emoji">😊</div><div class="humor-label">Bom</div></div>
+        <div class="humor-opt" onclick="pickHumor(this,'😄','Ótimo')"><div class="humor-emoji">😄</div><div class="humor-label">Ótimo</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div class="card-title">Academia — esta semana</div></div>
+      <div style="display:flex;justify-content:space-between;gap:4px" id="academia-btns">
+        <div class="dia-opt" onclick="toggleAcademia(this,'seg')" data-dia="seg"><div class="dia-letra">S</div><div class="dia-sub">Seg</div></div>
+        <div class="dia-opt" onclick="toggleAcademia(this,'ter')" data-dia="ter"><div class="dia-letra">T</div><div class="dia-sub">Ter</div></div>
+        <div class="dia-opt" onclick="toggleAcademia(this,'qua')" data-dia="qua"><div class="dia-letra">Q</div><div class="dia-sub">Qua</div></div>
+        <div class="dia-opt" onclick="toggleAcademia(this,'qui')" data-dia="qui"><div class="dia-letra">Q</div><div class="dia-sub">Qui</div></div>
+        <div class="dia-opt" onclick="toggleAcademia(this,'sex')" data-dia="sex"><div class="dia-letra">S</div><div class="dia-sub">Sex</div></div>
+        <div class="dia-opt" onclick="toggleAcademia(this,'sab')" data-dia="sab"><div class="dia-letra">S</div><div class="dia-sub">Sáb</div></div>
+        <div class="dia-opt" onclick="toggleAcademia(this,'dom')" data-dia="dom"><div class="dia-letra">D</div><div class="dia-sub">Dom</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="meal-icon" style="background:#eff6ff">📏</div><div class="card-title">Medidas semanais</div></div>
+      <div class="note" style="margin-bottom:14px">Registre uma vez por semana, sempre no mesmo dia</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div>
+          <div class="group-label" style="margin-top:0">Peso (kg)</div>
+          <input type="number" step="0.1" placeholder="ex: 68.4" id="med-peso" class="med-input" />
+        </div>
+        <div>
+          <div class="group-label" style="margin-top:0">Gordura corporal (%)</div>
+          <input type="number" step="0.1" placeholder="ex: 24.5" id="med-gordura" class="med-input" />
+        </div>
+        <div>
+          <div class="group-label" style="margin-top:0">Massa muscular (%)</div>
+          <input type="number" step="0.1" placeholder="ex: 32.0" id="med-massa" class="med-input" />
+        </div>
+        <div>
+          <div class="group-label" style="margin-top:0">Cintura (cm)</div>
+          <input type="number" step="0.1" placeholder="ex: 72" id="med-cintura" class="med-input" />
+        </div>
+        <div>
+          <div class="group-label" style="margin-top:0">Quadril (cm)</div>
+          <input type="number" step="0.1" placeholder="ex: 95" id="med-quadril" class="med-input" />
+        </div>
+        <div>
+          <div class="group-label" style="margin-top:0">Braço (cm)</div>
+          <input type="number" step="0.1" placeholder="ex: 30" id="med-braco" class="med-input" />
+        </div>
+        <div>
+          <div class="group-label" style="margin-top:0">Coxa (cm)</div>
+          <input type="number" step="0.1" placeholder="ex: 55" id="med-coxa" class="med-input" />
+        </div>
+      </div>
+      <button onclick="salvarMedidas()" style="width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Salvar medidas</button>
+      <div id="medidas-msg" style="font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">📈</div><div class="card-title">Histórico de medidas</div></div>
+      <div id="medidas-historico"><div class="summary-empty">Nenhum registro ainda.</div></div>
+    </div>
+
   </section>
 
 </main>
@@ -721,6 +805,7 @@ function showTab(id, title, navEl) {
   document.getElementById('header-title').textContent = title;
   if(id === 'resumo') renderSummary();
   if(id === 'historico') loadHistorico();
+  if(id === 'evolucao') loadEvolucao();
   closeSidebar();
 }
 
@@ -729,6 +814,118 @@ function clearDay() {
   state.choices = {}; state.water = 0;
   document.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
   renderWater(); scheduleSave(); showToast('Escolhas apagadas');
+}
+
+var humorMap = { '😞': 1, '😕': 2, '😐': 3, '😊': 4, '😄': 5 };
+var humorRevMap = { 1: { emoji: '😞', label: 'Péssimo' }, 2: { emoji: '😕', label: 'Ruim' }, 3: { emoji: '😐', label: 'Ok' }, 4: { emoji: '😊', label: 'Bom' }, 5: { emoji: '😄', label: 'Ótimo' } };
+
+function pickHumor(el, emoji, label) {
+  document.querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
+  el.classList.add('selected');
+  salvarAcompanhamento({ humor: humorMap[emoji] });
+  showToast('Humor salvo ✓');
+}
+
+function toggleAcademia(el, dia) {
+  el.classList.toggle('active');
+  var dias = [];
+  document.querySelectorAll('.dia-opt.active').forEach(function(d){ dias.push(d.getAttribute('data-dia')); });
+  salvarAcompanhamento({ exercicio: dias.join(',') });
+  showToast('Academia salvo ✓');
+}
+
+async function salvarAcompanhamento(campos) {
+  try {
+    var patch = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
+      method: 'PATCH',
+      headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+      body: JSON.stringify(Object.assign({}, campos, { updated_at: new Date().toISOString() }))
+    });
+    var countRes = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=id', { headers: authHeaders() });
+    var rows = await countRes.json();
+    if(!rows || !rows.length) {
+      await fetch(SUPABASE_URL + '/rest/v1/acompanhamento', {
+        method: 'POST',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(Object.assign({}, campos, { data: todayKey(), user_id: currentUser.id, updated_at: new Date().toISOString() }))
+      });
+    }
+  } catch(e) { console.error('Erro ao salvar acompanhamento:', e); }
+}
+
+async function salvarMedidas() {
+  var peso = document.getElementById('med-peso').value;
+  var gordura = document.getElementById('med-gordura').value;
+  var massa = document.getElementById('med-massa').value;
+  var medidas = {
+    cintura: document.getElementById('med-cintura').value,
+    quadril: document.getElementById('med-quadril').value,
+    braco: document.getElementById('med-braco').value,
+    coxa: document.getElementById('med-coxa').value
+  };
+  var hasAny = peso || gordura || massa || Object.values(medidas).some(function(v){ return v; });
+  if(!hasAny) { document.getElementById('medidas-msg').textContent = 'Preencha pelo menos um campo.'; return; }
+  var campos = { updated_at: new Date().toISOString() };
+  if(peso) campos.peso = parseFloat(peso);
+  if(gordura) campos.gordura = parseFloat(gordura);
+  if(massa) campos.massa = parseFloat(massa);
+  campos.medidas = medidas;
+  await salvarAcompanhamento(campos);
+  document.getElementById('medidas-msg').textContent = 'Medidas salvas ✓';
+  setTimeout(function(){ document.getElementById('medidas-msg').textContent = ''; }, 3000);
+  loadMedidasHistorico();
+}
+
+async function loadMedidasHistorico() {
+  var container = document.getElementById('medidas-historico');
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?user_id=eq.' + currentUser.id + '&select=*&order=data.desc&limit=12', { headers: authHeaders() });
+    var rows = await res.json();
+    var comMedidas = rows.filter(function(r){ return r.peso || r.gordura || r.massa || r.medidas; });
+    if(!comMedidas.length) { container.innerHTML = '<div class="summary-empty">Nenhum registro ainda.</div>'; return; }
+    var html = '';
+    comMedidas.forEach(function(row) {
+      var parts = row.data.split('-');
+      var d = new Date(parts[0], parts[1]-1, parts[2]);
+      var days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+      var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+      var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
+      html += '<div style="margin-bottom:14px"><div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:6px">' + dateStr + '</div>';
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">';
+      if(row.peso) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Peso:</span> <strong>' + row.peso + ' kg</strong></div>';
+      if(row.gordura) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Gordura:</span> <strong>' + row.gordura + '%</strong></div>';
+      if(row.massa) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Massa:</span> <strong>' + row.massa + '%</strong></div>';
+      var m = row.medidas || {};
+      if(m.cintura) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Cintura:</span> <strong>' + m.cintura + ' cm</strong></div>';
+      if(m.quadril) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Quadril:</span> <strong>' + m.quadril + ' cm</strong></div>';
+      if(m.braco) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Braço:</span> <strong>' + m.braco + ' cm</strong></div>';
+      if(m.coxa) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Coxa:</span> <strong>' + m.coxa + ' cm</strong></div>';
+      html += '</div></div><hr style="border:none;border-top:1px solid var(--border);margin-bottom:14px">';
+    });
+    container.innerHTML = html;
+  } catch(e) { container.innerHTML = '<div class="summary-empty">Erro ao carregar.</div>'; }
+}
+
+async function loadEvolucao() {
+  await loadMedidasHistorico();
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=*', { headers: authHeaders() });
+    var rows = await res.json();
+    if(!rows || !rows.length) return;
+    var row = rows[0];
+    if(row.humor && humorRevMap[row.humor]) {
+      var label = humorRevMap[row.humor].label;
+      document.querySelectorAll('.humor-opt').forEach(function(el) {
+        if(el.querySelector('.humor-label').textContent === label) el.classList.add('selected');
+      });
+    }
+    if(row.exercicio) {
+      row.exercicio.split(',').forEach(function(dia) {
+        var el = document.querySelector('[data-dia="' + dia.trim() + '"]');
+        if(el) el.classList.add('active');
+      });
+    }
+  } catch(e) {}
 }
 
 async function init() {
