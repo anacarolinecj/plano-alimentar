@@ -314,13 +314,18 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="meal-icon" style="background:#fff3cd">🍎</div>
         <div><div class="card-title">Lanche da tarde</div><div class="meal-time">16h00</div></div>
       </div>
+      <div class="group-label" style="margin-top:0">Escolha uma opção</div>
       <div class="option-list" id="g-lanche">
         <div class="opt" onclick="pickOpt('lanche',this,'Iogurte natural + fruta + aveia/granola','2 col. aveia')"><div class="opt-check"></div><span class="opt-text">Iogurte natural + fruta + aveia ou granola</span><span class="opt-qty">2 col. aveia</span></div>
         <div class="opt" onclick="pickOpt('lanche',this,'Bolo de caneca','1 receita')"><div class="opt-check"></div><span class="opt-text">Bolo de caneca</span><span class="opt-qty">1 receita</span></div>
         <div class="opt" onclick="pickOpt('lanche',this,'Panqueca de banana','banana + ovo + aveia')"><div class="opt-check"></div><span class="opt-text">Panqueca de banana</span><span class="opt-qty">banana + ovo + aveia</span></div>
-        <div class="opt" onclick="pickOpt('lanche',this,'Pão integral + proteína + ricota + fruta','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão integral + frango/atum/ovo + ricota + fruta</span><span class="opt-qty">2 fatias</span></div>
+        <div class="opt" onclick="pickOpt('lanche',this,'Pão integral + proteína + ricota + fruta','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão integral + proteína + ricota + fruta</span><span class="opt-qty">2 fatias</span></div>
       </div>
-      <div class="note">Pode acrescentar 1 xícara de café com leite</div>
+      <div style="height:1px;background:var(--border);margin:12px 0"></div>
+      <div class="group-label" style="margin-top:0">Adicionar</div>
+      <div class="option-list" id="g-lanche-cafe">
+        <div class="opt" onclick="toggleLancheCafe(this)"><div class="opt-check"></div><span class="opt-text">☕ Café com leite</span><span class="opt-qty">1 xícara</span></div>
+      </div>
     </div>
 
     <div class="card">
@@ -410,7 +415,22 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       </ol>
     </div>
     <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fff3cd">🍌</div><div class="card-title">Panqueca de banana</div></div>
+      <div class="card-header"><div class="meal-icon" style="background:#fff3cd">🍞</div><div class="card-title">Pão integral + proteína</div></div>
+      <div class="note" style="margin-bottom:12px">Opção de lanche da tarde — 2 fatias de pão integral</div>
+      <div class="group-label">Ingredientes</div>
+      <ul class="ingredient-list">
+        <li>2 fatias de pão integral</li>
+        <li>Proteína (escolha uma): frango desfiado 2 col. sopa (40 g) <em>ou</em> atum 2 col. sopa (40 g) <em>ou</em> ovo cozido 1 unidade</li>
+        <li>Ricota: 2 col. sopa (40 g)</li>
+        <li>1 porção de fruta (ver aba Dicas para quantidades)</li>
+      </ul>
+      <div class="group-label">Montagem</div>
+      <ol class="recipe-steps">
+        <li class="recipe-step">Passe a ricota nas fatias de pão como base</li>
+        <li class="recipe-step">Adicione a proteína escolhida por cima</li>
+        <li class="recipe-step">Sirva com a fruta ao lado</li>
+      </ol>
+    </div>
       <div class="group-label">Ingredientes</div>
       <ul class="ingredient-list">
         <li>1 banana prata (ou morango / maçã)</li><li>1 ovo</li>
@@ -670,7 +690,13 @@ function renderDate() {
   document.getElementById('date-display').textContent = days[d.getDay()] + ', ' + d.getDate() + ' de ' + months[d.getMonth()];
 }
 
-// Seleciona uma opção (radio — só uma por grupo)
+function toggleLancheCafe(el) {
+  el.classList.toggle('selected');
+  if(el.classList.contains('selected')) state.choices['lanche-cafe'] = 'Café com leite — 1 xícara';
+  else delete state.choices['lanche-cafe'];
+  scheduleSave(); showToast('Salvo ✓');
+}
+
 function pickOpt(group, el, label, qty) {
   el.closest('.option-list').querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
   el.classList.add('selected');
@@ -754,7 +780,11 @@ function restoreChoices() {
       if(legs.indexOf(p.getAttribute('data-label')) > -1) p.classList.add('selected');
     });
   }
-  // Marmita
+  // Restaura café do lanche
+  if(state.choices['lanche-cafe']) {
+    var cafeOpt = document.querySelector('#g-lanche-cafe .opt');
+    if(cafeOpt) cafeOpt.classList.add('selected');
+  }
   if(state.choices['alm-marmita']) {
     var mOpt = document.querySelector('#g-alm-marmita .opt');
     if(mOpt) mOpt.classList.add('selected');
@@ -784,7 +814,7 @@ var refeicoes = [
   { label: '☕ Pré-treino', keys: ['pretreino'] },
   { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot','cafe-fruta'] },
   { label: '🍽️ Almoço', keys: ['alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot'] },
-  { label: '🍎 Lanche da tarde', keys: ['lanche'] },
+  { label: '🍎 Lanche da tarde', keys: ['lanche','lanche-cafe'] },
   { label: '🌙 Jantar', keys: ['jantar'] }
 ];
 
