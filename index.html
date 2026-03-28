@@ -804,12 +804,27 @@ function initLista() {
 async function salvarLista() {
   var listaState = getListaState();
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/lista_compras', {
-      method: 'POST',
-      headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-      body: JSON.stringify({ user_id: currentUser.id, nome: todayKey(), itens: listaState, created_at: new Date().toISOString() })
-    });
-    if (res.ok || res.status === 201) {
+    // Verifica se já existe registro do dia
+    var checkRes = await fetch(SUPABASE_URL + '/rest/v1/lista_compras?user_id=eq.' + currentUser.id + '&nome=eq.' + todayKey() + '&select=id', { headers: authHeaders() });
+    var rows = await checkRes.json();
+    var payload = { user_id: currentUser.id, nome: todayKey(), itens: listaState, updated_at: new Date().toISOString() };
+    var res;
+    if (rows && rows.length > 0) {
+      // Atualiza o registro existente
+      res = await fetch(SUPABASE_URL + '/rest/v1/lista_compras?user_id=eq.' + currentUser.id + '&nome=eq.' + todayKey(), {
+        method: 'PATCH',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify({ itens: listaState, updated_at: new Date().toISOString() })
+      });
+    } else {
+      // Cria novo registro
+      res = await fetch(SUPABASE_URL + '/rest/v1/lista_compras', {
+        method: 'POST',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(payload)
+      });
+    }
+    if (res.ok || res.status === 201 || res.status === 204) {
       document.getElementById('lista-msg').textContent = 'Lista salva ✓';
       setTimeout(function() { document.getElementById('lista-msg').textContent = ''; }, 3000);
     } else {
@@ -839,26 +854,39 @@ async function loadHistoricoCompras() {
     var days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
     var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
     var html = '';
-    rows.forEach(function(row) {
-      var parts = row.nome.split('-');
+    rows.forEach(function(row, idx) {
+      var parts = (row.nome || '').split('-');
       var d = new Date(parts[0], parts[1]-1, parts[2]);
       var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
       var itens = row.itens || {};
       var comprados = Object.keys(itens).filter(function(k) { return itens[k]; });
-      var pendentes = Object.keys(itens).filter(function(k) { return !itens[k]; });
-      html += '<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:8px">' + dateStr + '</div>';
+      var rowId = 'hist-row-' + idx;
+      html += '<div style="border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:8px">';
+      html += '<div onclick="toggleHistRow(\'' + rowId + '\')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:#f5f5f2">';
+      html += '<div><div style="font-size:13px;font-weight:600;color:var(--text)">' + dateStr + '</div>';
+      html += '<div style="font-size:11px;color:var(--muted);margin-top:2px">' + comprados.length + ' itens comprados</div></div>';
+      html += '<span id="chev-' + rowId + '" style="font-size:11px;color:var(--muted);transition:transform 0.2s">▼</span></div>';
+      html += '<div id="' + rowId + '" style="display:none;padding:12px 14px;border-top:1px solid var(--border)">';
       if (comprados.length) {
-        html += '<div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Comprados (' + comprados.length + ')</div>';
-        comprados.forEach(function(item) { html += '<div style="font-size:12px;color:var(--muted);text-decoration:line-through;padding:2px 0">✓ ' + item + '</div>'; });
+        comprados.forEach(function(item) {
+          html += '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;color:var(--muted);text-decoration:line-through">';
+          html += '<div style="width:14px;height:14px;border-radius:3px;background:var(--green);flex-shrink:0"></div>' + item + '</div>';
+        });
+      } else {
+        html += '<div style="font-size:12px;color:var(--muted)">Nenhum item marcado.</div>';
       }
-      if (pendentes.length) {
-        html += '<div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);margin:8px 0 4px">Pendentes (' + pendentes.length + ')</div>';
-        pendentes.forEach(function(item) { html += '<div style="font-size:12px;color:var(--text);padding:2px 0">• ' + item + '</div>'; });
-      }
-      html += '</div><hr style="border:none;border-top:1px solid var(--border);margin-bottom:14px">';
+      html += '</div></div>';
     });
     container.innerHTML = html;
   } catch(e) { container.innerHTML = '<div class="summary-empty">Erro ao carregar histórico.</div>'; }
+}
+
+function toggleHistRow(id) {
+  var body = document.getElementById(id);
+  var chev = document.getElementById('chev-' + id);
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  chev.style.transform = isOpen ? '' : 'rotate(180deg)';
 }
 // ───────────────────────────────────────────────────────────────────────────
 
