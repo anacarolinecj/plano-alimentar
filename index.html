@@ -334,7 +334,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="opt" onclick="pickOpt('alm-prot',this,'Filé de carne','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Filé de carne</span><span class="opt-qty">1 filé (120 g)</span></div>
         <div class="opt" onclick="pickOpt('alm-prot',this,'Molho à bolonhesa','1 concha')"><div class="opt-check"></div><span class="opt-text">Molho à bolonhesa</span><span class="opt-qty">1 concha</span></div>
       </div>
-      <div class="fixed-item" style="margin-top:10px">+ 1 col. sopa de azeite extra virgem</div>
       <div class="fora-dieta-section">
         <div class="fora-dieta-label">Fora da dieta?</div>
         <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'alm')">
@@ -400,7 +399,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="opt" onclick="pickOpt('jantar',this,'Crepioca com queijo + tomate + folhas','3 col. tapioca')"><div class="opt-check"></div><span class="opt-text">Crepioca com queijo + tomate + folhas</span><span class="opt-qty">3 col. tapioca</span></div>
         <div class="opt" onclick="pickOpt('jantar',this,'Hambúrguer caseiro + pão + queijo + folhas','100 g')"><div class="opt-check"></div><span class="opt-text">Hambúrguer caseiro + pão + queijo + folhas</span><span class="opt-qty">100 g</span></div>
       </div>
-      <div class="fixed-item" style="margin-top:10px">+ 1 col. sopa de azeite extra virgem</div>
       <div class="fora-dieta-section">
         <div class="fora-dieta-label">Fora da dieta?</div>
         <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'jantar')">
@@ -427,11 +425,17 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
 
     <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fdecea">🍫</div><div class="card-title">Incluso no plano (todo dia)</div></div>
-      <div class="fixed-item">1 col. sopa de doce: mel, geleia, doce de leite ou chocolate (até 3 quadradinhos 50–70%)</div>
-      <div class="fixed-item">OU 1 unidade: sonho de valsa, ouro branco, twix ou prestígio (pequenos)</div>
-      <div class="fixed-item">Até 4 xícaras pequenas de café por dia</div>
-      <div class="fixed-item">Chá antes de dormir: camomila, mulungu, erva-cidreira ou melissa</div>
+      <div class="card-header"><div class="meal-icon" style="background:#fdecea">🍫</div><div class="card-title">Incluso no plano</div></div>
+      <div class="group-label" style="margin-top:0">Doce do dia (opcional)</div>
+      <div class="option-list" id="g-doce">
+        <div class="opt" onclick="pickOpt('doce',this,'Mel','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🍯 Mel</span><span class="opt-qty">1 col. sopa</span></div>
+        <div class="opt" onclick="pickOpt('doce',this,'Geleia','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🫐 Geleia</span><span class="opt-qty">1 col. sopa</span></div>
+        <div class="opt" onclick="pickOpt('doce',this,'Doce de leite','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🥛 Doce de leite</span><span class="opt-qty">1 col. sopa</span></div>
+        <div class="opt" onclick="pickOpt('doce',this,'Chocolate 50–70%','até 3 quadradinhos')"><div class="opt-check"></div><span class="opt-text">🍫 Chocolate 50–70%</span><span class="opt-qty">até 3 quadradinhos</span></div>
+        <div class="opt" onclick="pickOpt('doce',this,'Sonho de valsa / Ouro branco / Twix / Prestígio','1 un.')"><div class="opt-check"></div><span class="opt-text">🍬 Sonho de valsa / Ouro branco / Twix / Prestígio</span><span class="opt-qty">1 un.</span></div>
+      </div>
+      <div style="height:1px;background:var(--border);margin:14px 0"></div>
+      <div class="fixed-item">☕ Até 4 xícaras de café por dia</div>
     </div>
   </section>
 
