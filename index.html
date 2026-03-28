@@ -669,8 +669,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 </section>
 
 <section id="evolucao" class="section">
+
+  <!-- HOJE -->
+  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Hoje</div>
+
   <div class="card">
-    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div class="card-title">Humor e energia — hoje</div></div></div>
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div class="card-title">Como você está hoje?</div></div></div>
     <div style="display:flex;justify-content:space-between;gap:6px">
       <div class="humor-opt" onclick="pickHumor(this,'😞','Péssimo')"><div class="humor-emoji">😞</div><div class="humor-label">Péssimo</div></div>
       <div class="humor-opt" onclick="pickHumor(this,'😕','Ruim')"><div class="humor-emoji">😕</div><div class="humor-label">Ruim</div></div>
@@ -679,6 +683,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <div class="humor-opt" onclick="pickHumor(this,'😄','Ótimo')"><div class="humor-emoji">😄</div><div class="humor-label">Ótimo</div></div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div class="card-title">Academia — esta semana</div></div></div>
     <div style="display:flex;justify-content:space-between;gap:4px">
@@ -691,9 +696,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <div class="dia-opt" onclick="toggleAcademia(this,'dom')" data-dia="dom"><div class="dia-letra">D</div><div class="dia-sub">Dom</div></div>
     </div>
   </div>
+
   <div class="card">
-    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">📏</div><div class="card-title">Medidas semanais</div></div></div>
-    <div class="note" style="margin-bottom:14px">Registre uma vez por semana, sempre no mesmo dia</div>
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">✏️</div><div><div class="card-title">Registrar medidas</div><div class="meal-time">Registre uma vez por semana</div></div></div></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
       <div><div class="group-label" style="margin-top:0">Peso (kg)</div><input type="number" step="0.1" placeholder="ex: 68.4" id="med-peso" class="med-input" /></div>
       <div><div class="group-label" style="margin-top:0">Gordura (%)</div><input type="number" step="0.1" placeholder="ex: 24.5" id="med-gordura" class="med-input" /></div>
@@ -706,10 +711,23 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <button onclick="salvarMedidas()" style="width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Salvar medidas</button>
     <div id="medidas-msg" style="font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)"></div>
   </div>
-  <div class="card">
-    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">📈</div><div class="card-title">Histórico de medidas</div></div></div>
-    <div id="medidas-historico"><div class="summary-empty">Nenhum registro ainda.</div></div>
+
+  <!-- HISTÓRICO -->
+  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Histórico</div>
+
+  <div style="display:flex;gap:6px;margin-bottom:12px">
+    <div class="fruit-pill selected" id="ev-tab-semana" onclick="evSetView('semana',this)" style="border-radius:20px">Semana</div>
+    <div class="fruit-pill" id="ev-tab-mes" onclick="evSetView('mes',this)" style="border-radius:20px">Mês</div>
   </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;background:#f5f5f2;border-radius:var(--radius-sm);padding:8px 12px">
+    <button onclick="evNav(-1)" style="background:none;border:0.5px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif">‹</button>
+    <div id="ev-nav-label" style="font-size:13px;font-weight:600;color:var(--text)">—</div>
+    <button onclick="evNav(1)" style="background:none;border:0.5px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif">›</button>
+  </div>
+
+  <div id="ev-hist-content"></div>
+
 </section>
 
 <section id="lista" class="section">
@@ -1386,108 +1404,180 @@ function showTab(id, title, navEl) {
   closeSidebar();
 }
 
-var humorMap = { '😞':1,'😕':2,'😐':3,'😊':4,'😄':5 };
-var humorRevMap = { 1:{label:'Péssimo'},2:{label:'Ruim'},3:{label:'Ok'},4:{label:'Bom'},5:{label:'Ótimo'} };
+// ─── Evolução ────────────────────────────────────────────────────────────────
+var evView = 'semana', evSemOff = 0, evMesOff = 0;
+var evDadosCache = [];
+var evMeses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+var evMesesFull = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+var evDiasSem = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+var evHumorEmoji = ['','😞','😕','😐','😊','😄'];
+var evHumorColor = ['','#fdecea','#fff3cd','#f5f5f2','#d8f3dc','#b7e4c7'];
+var evHumorLabels = ['','Péssimo','Ruim','Ok','Bom','Ótimo'];
+var evHumorBarH = [0,12,24,36,48,64];
+var evDiasMap = {seg:1,ter:2,qua:3,qui:4,sex:5,sab:6,dom:0};
 
-function pickHumor(el, emoji, label) {
-  document.querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
-  el.classList.add('selected');
-  salvarAcompanhamento({ humor: humorMap[emoji] });
-  showToast('Humor salvo ✓');
+function evParseDate(s){ var p=s.split('-'); return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])); }
+function evFmtDate(s){ var p=s.split('-'); var d=new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])); return d.getDate()+' '+evMeses[d.getMonth()]; }
+function evGetMonday(d){ var day=d.getDay(), diff=day===0?-6:1-day; return new Date(d.getFullYear(),d.getMonth(),d.getDate()+diff); }
+
+function evGetDayData(dateStr){
+  return evDadosCache.find(function(r){ return r.data === dateStr; }) || null;
 }
 
-function toggleAcademia(el, dia) {
-  el.classList.toggle('active');
-  var dias = [];
-  document.querySelectorAll('.dia-opt.active').forEach(function(d){ dias.push(d.getAttribute('data-dia')); });
-  salvarAcompanhamento({ exercicio: dias.join(',') });
-  showToast('Academia salvo ✓');
+function evGetMedidas(ateBefore){
+  var limite = new Date(ateBefore); limite.setDate(limite.getDate()+1);
+  var atual=null, anterior=null;
+  var sorted = evDadosCache.filter(function(r){ return r.peso||r.gordura||r.massa; }).sort(function(a,b){ return a.data>b.data?1:-1; });
+  for(var i=sorted.length-1;i>=0;i--){
+    var d=evParseDate(sorted[i].data);
+    if(d<limite){ if(!atual){atual=sorted[i];}else if(!anterior){anterior=sorted[i];break;} }
+  }
+  return {atual:atual,anterior:anterior};
 }
 
-async function salvarAcompanhamento(campos) {
-  try {
-    await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
-      method: 'PATCH', headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-      body: JSON.stringify(Object.assign({}, campos, { updated_at: new Date().toISOString() }))
+function evDiffStr(atual, anterior, campo, unit, maisEBom){
+  if(!anterior) return '<div style="font-size:11px;color:var(--muted);margin-top:3px">Primeiro registro</div>';
+  var diff = Math.round((parseFloat(atual[campo])-parseFloat(anterior[campo]))*10)/10;
+  if(diff===0) return '<div style="font-size:11px;color:var(--muted);margin-top:3px">= igual a '+evFmtDate(anterior.data)+'</div>';
+  var pos=diff>0, bom=maisEBom?pos:!pos;
+  var cor=bom?'#2d6a4f':'#c0392b';
+  return '<div style="font-size:11px;color:'+cor+';margin-top:3px">'+(pos?'▲':'▼')+' '+Math.abs(diff)+' '+unit+' vs '+evFmtDate(anterior.data)+'</div>';
+}
+
+function evEmptyCard(icon, bg, titulo, sub){
+  return '<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:'+bg+'">'+icon+'</div><div class="card-title">'+titulo+'</div></div></div><div class="summary-empty">'+sub+'</div></div>';
+}
+
+function evMedCard(med, subLabel, regDoMes){
+  var h='<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">📏</div><div><div class="card-title">Medidas</div><div class="meal-time">'+subLabel+'</div></div></div></div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+  if(med.atual.peso)    h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Peso</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+med.atual.peso+' <span style="font-size:13px;font-weight:400;color:var(--muted)">kg</span></div>'+evDiffStr(med.atual,med.anterior,'peso','kg',false)+'</div>';
+  if(med.atual.gordura) h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Gordura</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+med.atual.gordura+' <span style="font-size:13px;font-weight:400;color:var(--muted)">%</span></div>'+evDiffStr(med.atual,med.anterior,'gordura','%',false)+'</div>';
+  if(med.atual.massa)   h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Massa muscular</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+med.atual.massa+' <span style="font-size:13px;font-weight:400;color:var(--muted)">%</span></div>'+evDiffStr(med.atual,med.anterior,'massa','%',true)+'</div>';
+  var m=med.atual.medidas||{};
+  if(m.cintura)  h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Cintura</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+m.cintura+' <span style="font-size:13px;font-weight:400;color:var(--muted)">cm</span></div>'+evDiffStr({cintura:m.cintura},med.anterior&&med.anterior.medidas?{cintura:med.anterior.medidas.cintura}:null,'cintura','cm',false)+'</div>';
+  if(m.quadril)  h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Quadril</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+m.quadril+' <span style="font-size:13px;font-weight:400;color:var(--muted)">cm</span></div></div>';
+  if(m.braco)    h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Braço</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+m.braco+' <span style="font-size:13px;font-weight:400;color:var(--muted)">cm</span></div></div>';
+  if(m.coxa)     h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Coxa</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+m.coxa+' <span style="font-size:13px;font-weight:400;color:var(--muted)">cm</span></div></div>';
+  h+='</div>';
+  if(regDoMes && regDoMes.length>1){
+    h+='<div class="group-label" style="margin-top:14px">Registros do mês</div>';
+    regDoMes.forEach(function(r){
+      h+='<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--muted)">'+evFmtDate(r.data)+'</span><span style="font-size:12px;color:var(--text)">'+(r.peso?r.peso+' kg':'')+' '+(r.gordura?'· '+r.gordura+'% gord':'')+' '+(r.massa?'· '+r.massa+'% musc':'')+'</span></div>';
     });
-    var countRes = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=id', { headers: authHeaders() });
-    var rows = await countRes.json();
-    if(!rows || !rows.length) {
-      await fetch(SUPABASE_URL + '/rest/v1/acompanhamento', {
-        method: 'POST', headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-        body: JSON.stringify(Object.assign({}, campos, { data: todayKey(), user_id: currentUser.id, updated_at: new Date().toISOString() }))
-      });
-    }
-  } catch(e) { console.error('Erro acompanhamento:', e); }
+  }
+  h+='</div>';
+  return h;
 }
 
-async function salvarMedidas() {
-  var peso = document.getElementById('med-peso').value;
-  var gordura = document.getElementById('med-gordura').value;
-  var massa = document.getElementById('med-massa').value;
-  var medidas = { cintura: document.getElementById('med-cintura').value, quadril: document.getElementById('med-quadril').value, braco: document.getElementById('med-braco').value, coxa: document.getElementById('med-coxa').value };
-  var hasAny = peso || gordura || massa || Object.values(medidas).some(function(v){ return v; });
-  if(!hasAny) { document.getElementById('medidas-msg').textContent = 'Preencha pelo menos um campo.'; return; }
-  var campos = { updated_at: new Date().toISOString(), medidas: medidas };
-  if(peso) campos.peso = parseFloat(peso);
-  if(gordura) campos.gordura = parseFloat(gordura);
-  if(massa) campos.massa = parseFloat(massa);
-  await salvarAcompanhamento(campos);
-  document.getElementById('medidas-msg').textContent = 'Medidas salvas ✓';
-  setTimeout(function(){ document.getElementById('medidas-msg').textContent = ''; }, 3000);
-  loadMedidasHistorico();
+function evRenderSemana(){
+  var monday=evGetMonday(new Date()); monday.setDate(monday.getDate()+evSemOff*7);
+  var sunday=new Date(monday); sunday.setDate(monday.getDate()+6);
+  document.getElementById('ev-nav-label').textContent = monday.getDate()+' '+evMeses[monday.getMonth()]+' – '+sunday.getDate()+' '+evMeses[sunday.getMonth()];
+  var bars='', circles='', totalH=0, countH=0, gymDays=0, temH=false, temG=false;
+  for(var i=0;i<7;i++){
+    var d=new Date(monday); d.setDate(monday.getDate()+i);
+    var fut=d>new Date();
+    var ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    var row=evGetDayData(ds);
+    var h=row&&row.humor?row.humor:0;
+    var diasGym=row&&row.exercicio?row.exercicio.split(','):[];
+    var diaNome=evDiasSem[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    var g=diasGym.some(function(x){ return x.trim()===diaNome.substr(0,3); })?1:0;
+    if(!fut&&h){totalH+=h;countH++;temH=true;}
+    if(!fut&&g){gymDays++;temG=true;}
+    bars+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px"><div style="font-size:11px">'+(h&&!fut?evHumorEmoji[h]:(fut?'':''))+'</div><div style="width:100%;border-radius:3px 3px 0 0;height:'+(h&&!fut?evHumorBarH[h]:4)+'px;background:'+(h&&!fut?'#d8f3dc':'var(--border)')+'"></div><div style="font-size:9px;color:var(--muted)">'+evDiasSem[i]+'</div></div>';
+    circles+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;'+(g&&!fut?'background:var(--green);border-color:var(--green);color:#fff;':'color:var(--muted);')+'">' +evDiasSem[i][0]+'</div><div style="font-size:9px;color:var(--muted)">'+evDiasSem[i]+'</div></div>';
+  }
+  var media=countH?Math.round(totalH/countH):0;
+  var html='';
+  html+=temH?'<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div><div class="card-title">Humor</div><div class="meal-time">'+(media?'Média: '+evHumorLabels[media]+' '+evHumorEmoji[media]:'Sem registros')+'</div></div></div></div><div style="display:flex;gap:3px;align-items:flex-end;height:80px;margin-bottom:4px">'+bars+'</div></div>':evEmptyCard('😊','#fff3cd','Humor','Nenhum humor registrado nesta semana');
+  html+=temG?'<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div><div class="card-title">Academia</div><div class="meal-time">'+gymDays+' de 7 dias</div></div></div></div><div style="display:flex;gap:4px;justify-content:space-between">'+circles+'</div></div>':evEmptyCard('🏋️','#d8f3dc','Academia','Nenhum treino registrado nesta semana');
+  var med=evGetMedidas(sunday);
+  html+=med.atual?evMedCard(med,'Registro de '+evFmtDate(med.atual.data),null):evEmptyCard('📏','#eff6ff','Medidas','Nenhuma medida registrada — registre acima');
+  document.getElementById('ev-hist-content').innerHTML=html;
 }
 
-async function loadMedidasHistorico() {
-  var container = document.getElementById('medidas-historico');
-  try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?user_id=eq.' + currentUser.id + '&select=*&order=data.desc&limit=12', { headers: authHeaders() });
-    var rows = await res.json();
-    var comMedidas = rows.filter(function(r){ return r.peso || r.gordura || r.massa || r.medidas; });
-    if(!comMedidas.length) { container.innerHTML = '<div class="summary-empty">Nenhum registro ainda.</div>'; return; }
-    var days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-    var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-    var html = '';
-    comMedidas.forEach(function(row) {
-      var parts = row.data.split('-');
-      var d = new Date(parts[0], parts[1]-1, parts[2]);
-      html += '<div style="margin-bottom:14px"><div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:6px">' + days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + '</div>';
-      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">';
-      if(row.peso) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Peso:</span> <strong>' + row.peso + ' kg</strong></div>';
-      if(row.gordura) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Gordura:</span> <strong>' + row.gordura + '%</strong></div>';
-      if(row.massa) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Massa:</span> <strong>' + row.massa + '%</strong></div>';
-      var m = row.medidas || {};
-      if(m.cintura) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Cintura:</span> <strong>' + m.cintura + ' cm</strong></div>';
-      if(m.quadril) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Quadril:</span> <strong>' + m.quadril + ' cm</strong></div>';
-      if(m.braco) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Braço:</span> <strong>' + m.braco + ' cm</strong></div>';
-      if(m.coxa) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Coxa:</span> <strong>' + m.coxa + ' cm</strong></div>';
-      html += '</div></div><hr style="border:none;border-top:1px solid var(--border);margin-bottom:14px">';
-    });
-    container.innerHTML = html;
-  } catch(e) { container.innerHTML = '<div class="summary-empty">Erro ao carregar.</div>'; }
+function evRenderMes(){
+  var now=new Date(); var ano=now.getFullYear(); var mes=now.getMonth()+evMesOff;
+  while(mes<0){mes+=12;ano--;} while(mes>11){mes-=12;ano++;}
+  document.getElementById('ev-nav-label').textContent=evMesesFull[mes]+' '+ano;
+  var diasNoMes=new Date(ano,mes+1,0).getDate();
+  var fimMes=new Date(ano,mes,diasNoMes);
+  var primeiroDia=new Date(ano,mes,1).getDay();
+  var offset=primeiroDia===0?6:primeiroDia-1;
+  var hCells='',gCells='',totalH=0,countH=0,gymTotal=0;
+  var dow='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px">'+evDiasSem.map(function(d){return '<div style="font-size:9px;color:var(--muted);text-align:center">'+d[0]+'</div>';}).join('')+'</div>';
+  for(var e=0;e<offset;e++){hCells+='<div></div>';gCells+='<div></div>';}
+  for(var d=1;d<=diasNoMes;d++){
+    var date=new Date(ano,mes,d);
+    var fut=date>new Date();
+    var ds=ano+'-'+String(mes+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var row=evGetDayData(ds);
+    var h=row&&row.humor&&!fut?row.humor:0;
+    var diasGym=row&&row.exercicio?row.exercicio.split(','):[];
+    var diaSemana=date.getDay();
+    var nomeDia=['dom','seg','ter','qua','qui','sex','sab'][diaSemana];
+    var g=diasGym.some(function(x){return x.trim()===nomeDia;})?1:0;
+    if(h){totalH+=h;countH++;}
+    if(g&&!fut)gymTotal++;
+    hCells+='<div style="aspect-ratio:1;border-radius:50%;background:'+(h?evHumorColor[h]:'var(--border)')+';display:flex;align-items:center;justify-content:center;font-size:11px;opacity:'+(fut?'0.3':'1')+'">'+(h?evHumorEmoji[h]:'')+'</div>';
+    gCells+='<div style="aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;background:'+(g&&!fut?'var(--green)':'var(--border)')+';color:'+(g&&!fut?'#fff':'var(--muted)')+';opacity:'+(fut?'0.3':'1')+'">'+d+'</div>';
+  }
+  var mediaH=countH?Math.round(totalH/countH):0;
+  var html='';
+  html+='<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div><div class="card-title">Humor</div><div class="meal-time">'+(mediaH?'Média: '+evHumorLabels[mediaH]+' '+evHumorEmoji[mediaH]:'Sem registros')+'</div></div></div></div>'+dow+'<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+hCells+'</div></div>';
+  html+='<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div><div class="card-title">Academia</div><div class="meal-time">'+gymTotal+' de '+diasNoMes+' dias</div></div></div></div>'+dow+'<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+gCells+'</div></div>';
+  var med=evGetMedidas(fimMes);
+  var regDoMes=evDadosCache.filter(function(r){ var dd=evParseDate(r.data); return dd.getMonth()===mes&&dd.getFullYear()===ano&&(r.peso||r.gordura||r.massa); });
+  html+=med.atual?evMedCard(med,'Vs último registro anterior',regDoMes):evEmptyCard('📏','#eff6ff','Medidas','Nenhuma medida registrada neste mês');
+  document.getElementById('ev-hist-content').innerHTML=html;
 }
+
+function evSetView(v, el){
+  evView=v;
+  document.getElementById('ev-tab-semana').classList.toggle('selected', v==='semana');
+  document.getElementById('ev-tab-mes').classList.toggle('selected', v==='mes');
+  evRender();
+}
+function evNav(dir){ if(evView==='semana') evSemOff+=dir; else evMesOff+=dir; evRender(); }
+function evRender(){ if(evView==='semana') evRenderSemana(); else evRenderMes(); }
 
 async function loadEvolucao() {
-  await loadMedidasHistorico();
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=*', { headers: authHeaders() });
+    var res = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?user_id=eq.' + currentUser.id + '&select=*&order=data.asc', { headers: authHeaders() });
+    if(res.status===401){handleAuthExpired();return;}
     var rows = await res.json();
-    if(!rows || !rows.length) return;
-    var row = rows[0];
-    if(row.humor && humorRevMap[row.humor]) {
-      var label = humorRevMap[row.humor].label;
-      document.querySelectorAll('.humor-opt').forEach(function(el) {
-        if(el.querySelector('.humor-label').textContent === label) el.classList.add('selected');
-      });
+    evDadosCache = rows || [];
+  } catch(e){ evDadosCache=[]; }
+  evSemOff=0; evMesOff=0; evView='semana';
+  document.getElementById('ev-tab-semana').classList.add('selected');
+  document.getElementById('ev-tab-mes').classList.remove('selected');
+  evRender();
+  // Restaura humor e academia de hoje
+  var todayRow = evDadosCache.find(function(r){ return r.data===todayKey(); });
+  if(todayRow){
+    if(todayRow.humor && humorRevMap[todayRow.humor]){
+      var label=humorRevMap[todayRow.humor].label;
+      document.querySelectorAll('.humor-opt').forEach(function(el){ if(el.querySelector('.humor-label').textContent===label) el.classList.add('selected'); });
     }
-    if(row.exercicio) {
-      row.exercicio.split(',').forEach(function(dia) {
-        var el = document.querySelector('[data-dia="' + dia.trim() + '"]');
+    if(todayRow.exercicio){
+      todayRow.exercicio.split(',').forEach(function(dia){
+        var el=document.querySelector('[data-dia="'+dia.trim()+'"]');
         if(el) el.classList.add('active');
       });
     }
-  } catch(e) {}
+    if(todayRow.peso)    document.getElementById('med-peso').value=todayRow.peso;
+    if(todayRow.gordura) document.getElementById('med-gordura').value=todayRow.gordura;
+    if(todayRow.massa)   document.getElementById('med-massa').value=todayRow.massa;
+    var m=todayRow.medidas||{};
+    if(m.cintura)  document.getElementById('med-cintura').value=m.cintura;
+    if(m.quadril)  document.getElementById('med-quadril').value=m.quadril;
+    if(m.braco)    document.getElementById('med-braco').value=m.braco;
+    if(m.coxa)     document.getElementById('med-coxa').value=m.coxa;
+  }
 }
+// ─────────────────────────────────────────────────────────────────────────────
 
 async function init() {
   renderDate();
