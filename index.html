@@ -518,9 +518,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="group-label">Ingredientes</div>
     <ul class="ingredient-list">
       <li>2 fatias de pão integral</li>
-      <li>Proteína (escolha uma): frango desfiado 2 col. sopa (40 g) <em>ou</em> atum 2 col. sopa (40 g) <em>ou</em> ovo cozido 1 unidade</li>
+      <li>Proteína: frango desfiado 2 col. (40 g) <em>ou</em> atum 2 col. (40 g) <em>ou</em> ovo cozido 1 un.</li>
       <li>Ricota: 2 col. sopa (40 g)</li>
-      <li>1 porção de fruta (ver aba Dicas para quantidades)</li>
+      <li>1 porção de fruta</li>
     </ul>
     <div class="group-label">Montagem</div>
     <ol class="recipe-steps">
@@ -587,8 +587,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="note" style="margin-bottom:12px">Opção de jantar</div>
     <div class="group-label">Ingredientes</div>
     <ul class="ingredient-list">
-      <li>3 ovos</li>
-      <li>Sal, pimenta e ervas a gosto (salsinha, orégano…)</li>
+      <li>3 ovos</li><li>Sal, pimenta e ervas a gosto</li>
       <li>1 col. sopa de azeite extra virgem</li>
     </ul>
     <div class="group-label">Para acompanhar</div>
@@ -609,15 +608,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="note" style="margin-bottom:12px">Opção de jantar</div>
     <div class="group-label">Ingredientes</div>
     <ul class="ingredient-list">
-      <li>3 col. sopa de tapioca (30 g)</li>
-      <li>2 ovos</li>
-      <li>Queijo (muçarela ou minas): 1 fatia (20 g)</li>
-      <li>Sal a gosto</li>
+      <li>3 col. sopa de tapioca (30 g)</li><li>2 ovos</li>
+      <li>Queijo (muçarela ou minas): 1 fatia (20 g)</li><li>Sal a gosto</li>
     </ul>
     <div class="group-label">Para acompanhar</div>
     <ul class="ingredient-list">
-      <li>Tomate fatiado</li>
-      <li>Folhas à vontade (alface, rúcula…)</li>
+      <li>Tomate fatiado</li><li>Folhas à vontade (alface, rúcula…)</li>
     </ul>
     <div class="group-label">Preparo</div>
     <ol class="recipe-steps">
@@ -723,7 +719,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       </div>
       <button onclick="salvarLista()" style="background:var(--green);color:#fff;border:none;border-radius:20px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Salvar lista</button>
     </div>
-
     <div class="group-label" style="margin-top:0">Proteínas</div>
     <div id="lista-proteinas" class="lista-grupo"></div>
     <div class="group-label">Laticínios</div>
@@ -736,7 +731,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div id="lista-frutas" class="lista-grupo"></div>
     <div class="group-label">Outros</div>
     <div id="lista-outros" class="lista-grupo"></div>
-
     <div class="section-divider"></div>
     <button onclick="limparComprados()" style="width:100%;padding:9px;background:none;border:0.5px solid var(--border);border-radius:var(--radius-sm);font-size:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">🗑️ Limpar itens comprados</button>
     <div id="lista-msg" style="font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)"></div>
@@ -754,6 +748,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div id="historico-compras-content"><div class="summary-empty">Nenhuma lista salva ainda.</div></div>
   </div>
 </section>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -763,6 +758,109 @@ var state = { choices: {}, water: 0 };
 var saveTimer = null;
 var currentUser = null;
 var currentToken = null;
+
+// ─── Lista de compras ───────────────────────────────────────────────────────
+var listaItens = {
+  proteinas: ['Frango (filé)','Patinho moído','Peixe (filé)','Ovo','Atum (lata)'],
+  laticinios: ['Leite','Iogurte natural','Queijo fresco / minas','Muçarela','Ricota','Requeijão'],
+  legumes: ['Alface','Repolho','Couve','Cenoura','Abobrinha','Beterraba','Pepino','Tomate','Vagem','Ervilha','Milho','Couve-flor','Brócolis','Palmito'],
+  carboidratos: ['Pão de forma integral','Torrada integral','Tapioca','Arroz','Batata','Batata doce','Macarrão','Abóbora','Mandioca','Aveia (farelo)','Wrap Rap 10'],
+  frutas: ['Banana prata','Morango','Maçã','Pera','Laranja','Tangerina','Kiwi','Mamão','Abacaxi','Melão','Melancia','Uvas','Frutas vermelhas'],
+  outros: ['Feijão','Lentilha','Grão de bico','Chia','Mel','Geleia','Eritritol','Azeite extra virgem','Camomila (chá)','Mulungu (chá)','Erva-cidreira (chá)','Melissa (chá)','Chocolate 50–70%']
+};
+
+function listaStateKey() { return 'lista_compras_' + (currentUser ? currentUser.id : 'guest'); }
+
+function getListaState() {
+  try { var s = localStorage.getItem(listaStateKey()); return s ? JSON.parse(s) : {}; } catch(e) { return {}; }
+}
+
+function setListaState(s) {
+  try { localStorage.setItem(listaStateKey(), JSON.stringify(s)); } catch(e) {}
+}
+
+function initLista() {
+  var listaState = getListaState();
+  Object.keys(listaItens).forEach(function(grupo) {
+    var container = document.getElementById('lista-' + grupo);
+    if (!container) return;
+    container.innerHTML = '';
+    listaItens[grupo].forEach(function(nome) {
+      var comprado = listaState[nome] === true;
+      var div = document.createElement('div');
+      div.className = 'lista-item' + (comprado ? ' comprado' : '');
+      div.innerHTML = '<div class="lista-check"></div><span class="lista-item-nome">' + nome + '</span>';
+      div.onclick = function() {
+        div.classList.toggle('comprado');
+        var s = getListaState();
+        s[nome] = div.classList.contains('comprado');
+        setListaState(s);
+      };
+      container.appendChild(div);
+    });
+  });
+}
+
+async function salvarLista() {
+  var listaState = getListaState();
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/listas_compras', {
+      method: 'POST',
+      headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+      body: JSON.stringify({ user_id: currentUser.id, data: todayKey(), itens: listaState, created_at: new Date().toISOString() })
+    });
+    if (res.ok || res.status === 201) {
+      document.getElementById('lista-msg').textContent = 'Lista salva ✓';
+      setTimeout(function() { document.getElementById('lista-msg').textContent = ''; }, 3000);
+    } else {
+      document.getElementById('lista-msg').textContent = 'Erro ao salvar lista.';
+    }
+  } catch(e) {
+    document.getElementById('lista-msg').textContent = 'Erro de conexão.';
+  }
+}
+
+function limparComprados() {
+  var s = getListaState();
+  Object.keys(s).forEach(function(k) { s[k] = false; });
+  setListaState(s);
+  initLista();
+  showToast('Itens comprados removidos ✓');
+}
+
+async function loadHistoricoCompras() {
+  var container = document.getElementById('historico-compras-content');
+  container.innerHTML = '<div class="summary-empty">Carregando...</div>';
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/listas_compras?user_id=eq.' + currentUser.id + '&select=*&order=created_at.desc&limit=10', { headers: authHeaders() });
+    if (res.status === 401) { handleAuthExpired(); return; }
+    var rows = await res.json();
+    if (!rows || !rows.length) { container.innerHTML = '<div class="summary-empty">Nenhuma lista salva ainda.</div>'; return; }
+    var days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+    var html = '';
+    rows.forEach(function(row) {
+      var parts = row.data.split('-');
+      var d = new Date(parts[0], parts[1]-1, parts[2]);
+      var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
+      var itens = row.itens || {};
+      var comprados = Object.keys(itens).filter(function(k) { return itens[k]; });
+      var pendentes = Object.keys(itens).filter(function(k) { return !itens[k]; });
+      html += '<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:8px">' + dateStr + '</div>';
+      if (comprados.length) {
+        html += '<div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Comprados (' + comprados.length + ')</div>';
+        comprados.forEach(function(item) { html += '<div style="font-size:12px;color:var(--muted);text-decoration:line-through;padding:2px 0">✓ ' + item + '</div>'; });
+      }
+      if (pendentes.length) {
+        html += '<div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);margin:8px 0 4px">Pendentes (' + pendentes.length + ')</div>';
+        pendentes.forEach(function(item) { html += '<div style="font-size:12px;color:var(--text);padding:2px 0">• ' + item + '</div>'; });
+      }
+      html += '</div><hr style="border:none;border-top:1px solid var(--border);margin-bottom:14px">';
+    });
+    container.innerHTML = html;
+  } catch(e) { container.innerHTML = '<div class="summary-empty">Erro ao carregar histórico.</div>'; }
+}
+// ───────────────────────────────────────────────────────────────────────────
 
 function todayKey() {
   var d = new Date();
@@ -912,7 +1010,6 @@ function renderDate() {
   document.getElementById('date-display').textContent = days[d.getDay()] + ', ' + d.getDate() + ' de ' + months[d.getMonth()];
 }
 
-// Seleciona uma opção radio
 function pickOpt(group, el, label, qty) {
   el.closest('.option-list').querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
   el.classList.add('selected');
@@ -920,7 +1017,6 @@ function pickOpt(group, el, label, qty) {
   scheduleSave(); showToast('Salvo ✓');
 }
 
-// Seleciona múltiplas opções (.opt)
 function toggleOpt(group, el, label) {
   el.classList.toggle('selected');
   var selected = [];
@@ -933,7 +1029,6 @@ function toggleOpt(group, el, label) {
   scheduleSave(); showToast('Salvo ✓');
 }
 
-// Seleciona uma pílula radio
 function pickPill(group, el) {
   el.closest('.fruit-pills').querySelectorAll('.fruit-pill').forEach(function(p){ p.classList.remove('selected'); });
   el.classList.add('selected');
@@ -941,7 +1036,6 @@ function pickPill(group, el) {
   scheduleSave(); showToast('Salvo ✓');
 }
 
-// Alterna pílula multi
 function togglePill(group, el) {
   el.classList.toggle('selected');
   var selected = [];
@@ -1008,14 +1102,8 @@ function clearRefeicao(grupos, ref) {
     var container = document.getElementById('g-' + g);
     if(container) container.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
   });
-  if(ref === 'alm') {
-    var md = document.getElementById('marmita-desc');
-    if(md) { md.style.display = 'none'; md.value = ''; }
-  }
-  if(ref === 'jantar') {
-    var jd = document.getElementById('jantar-marmita-desc');
-    if(jd) { jd.style.display = 'none'; jd.value = ''; }
-  }
+  if(ref === 'alm') { var md = document.getElementById('marmita-desc'); if(md) { md.style.display = 'none'; md.value = ''; } }
+  if(ref === 'jantar') { var jd = document.getElementById('jantar-marmita-desc'); if(jd) { jd.style.display = 'none'; jd.value = ''; } }
   if(ref) {
     delete state.choices['fora-dieta-' + ref];
     delete state.choices['fora-dieta-' + ref + '-comeu'];
@@ -1096,21 +1184,18 @@ function restoreChoices() {
       if(text === labelPart || labelPart.indexOf(text) === 0 || text.indexOf(labelPart) === 0) o.classList.add('selected');
     });
   });
-  // cafe-prot (multi opt)
   if(state.choices['cafe-prot']) {
     var prots = state.choices['cafe-prot'].split(', ');
     document.querySelectorAll('#g-cafe-prot .opt').forEach(function(o) {
       if(prots.indexOf(o.getAttribute('data-label')) > -1) o.classList.add('selected');
     });
   }
-  // Pílulas radio
   ['cafe-fruta','alm-bebida','lanche-bebida','jantar-bebida','ceia'].forEach(function(g) {
     if(!state.choices[g]) return;
     document.querySelectorAll('#g-' + g + ' .fruit-pill').forEach(function(p) {
       if(p.getAttribute('data-label') === state.choices[g]) p.classList.add('selected');
     });
   });
-  // Pílulas multi
   ['alm-folhas','alm-leg'].forEach(function(g) {
     if(!state.choices[g]) return;
     var labels = state.choices[g].split(', ');
@@ -1118,26 +1203,22 @@ function restoreChoices() {
       if(labels.indexOf(p.getAttribute('data-label')) > -1) p.classList.add('selected');
     });
   });
-  // Marmita almoço
   if(state.choices['alm-marmita']) {
     var mOpt = document.querySelector('#g-alm-marmita .opt');
     if(mOpt) mOpt.classList.add('selected');
     var desc = document.getElementById('marmita-desc');
     if(desc) { desc.style.display = 'block'; var v = state.choices['alm-marmita']; desc.value = v.startsWith('Marmita: ') ? v.replace('Marmita: ','') : ''; }
   }
-  // Marmita jantar
   if(state.choices['jantar-marmita']) {
     var jmOpt = document.querySelector('#g-jantar-marmita .opt');
     if(jmOpt) jmOpt.classList.add('selected');
     var jdesc = document.getElementById('jantar-marmita-desc');
     if(jdesc) { jdesc.style.display = 'block'; var jv = state.choices['jantar-marmita']; jdesc.value = jv.startsWith('Marmita: ') ? jv.replace('Marmita: ','') : ''; }
   }
-  // Lanche café
   if(state.choices['lanche-cafe']) {
     var lcOpt = document.querySelector('#g-lanche-cafe .opt');
     if(lcOpt) lcOpt.classList.add('selected');
   }
-  // Fora da dieta
   ['pretreino','cafe','alm','lanche','jantar'].forEach(function(ref) {
     if(!state.choices['fora-dieta-' + ref]) return;
     document.querySelectorAll('.fora-dieta-opt').forEach(function(opt) {
@@ -1187,6 +1268,7 @@ function showTab(id, title, navEl) {
   if(id === 'historico') loadHistorico();
   if(id === 'lista') initLista();
   if(id === 'historico-compras') loadHistoricoCompras();
+  if(id === 'evolucao') loadEvolucao();
   closeSidebar();
 }
 
@@ -1210,7 +1292,7 @@ function toggleAcademia(el, dia) {
 
 async function salvarAcompanhamento(campos) {
   try {
-    var patch = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
+    await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
       method: 'PATCH', headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
       body: JSON.stringify(Object.assign({}, campos, { updated_at: new Date().toISOString() }))
     });
