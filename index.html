@@ -931,7 +931,7 @@ function saveMarmitaDesc() {
 
 function restoreChoices() {
   // Grupos com .opt (radio)
-  var optGroups = ['pretreino','cafe-carb','cafe-chia','alm-carb','alm-legu','alm-prot','lanche','jantar'];
+  var optGroups = ['pretreino','cafe-carb','cafe-chia','doce','alm-carb','alm-legu','alm-prot','lanche','jantar'];
   optGroups.forEach(function(g) {
     var val = state.choices[g]; if(!val) return;
     var container = document.getElementById('g-' + g); if(!container) return;
@@ -1028,8 +1028,8 @@ var refeicoes = [
   { label: '🍽️ Almoço', keys: ['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot','fora-dieta-alm','fora-dieta-alm-comeu','fora-dieta-alm-motivo'] },
   { label: '🍎 Lanche da tarde', keys: ['lanche-bebida','lanche','lanche-cafe','fora-dieta-lanche','fora-dieta-lanche-comeu','fora-dieta-lanche-motivo'] },
   { label: '🌙 Jantar', keys: ['jantar-bebida','jantar','fora-dieta-jantar','fora-dieta-jantar-comeu','fora-dieta-jantar-motivo'] },
-  { label: '🍵 Ceia', keys: ['ceia'] },
-  { label: '🚫 Fora da dieta', keys: ['fora-dieta','fora-dieta-comeu','fora-dieta-motivo'] }
+  { label: '🍫 Doce do dia', keys: ['doce'] },
+  { label: '🍵 Ceia', keys: ['ceia'] }
 ];
 
 function renderChoicesAgrupado(choices, incluirAgua, water) {
