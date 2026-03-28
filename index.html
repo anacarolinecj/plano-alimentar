@@ -795,6 +795,7 @@ function initLista() {
         var s = getListaState();
         s[nome] = div.classList.contains('comprado');
         setListaState(s);
+        salvarLista();
       };
       container.appendChild(div);
     });
