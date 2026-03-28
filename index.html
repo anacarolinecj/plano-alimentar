@@ -233,10 +233,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       </div>
       <div class="group-label">Proteína</div>
       <div class="option-list" id="g-cafe-prot">
-        <div class="opt" onclick="pickOpt('cafe-prot',this,'Ovo mexido','2 unidades')"><div class="opt-check"></div><span class="opt-text">Ovo mexido</span><span class="opt-qty">2 unidades</span></div>
-        <div class="opt" onclick="pickOpt('cafe-prot',this,'Frango desfiado','3 col. (60 g)')"><div class="opt-check"></div><span class="opt-text">Frango desfiado</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="pickOpt('cafe-prot',this,'Atum','3 col. (60 g)')"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="pickOpt('cafe-prot',this,'Queijo fresco / minas / muçarela','2 fatias (20 g cada)')"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
+        <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Ovo mexido"><div class="opt-check"></div><span class="opt-text">Ovo mexido</span><span class="opt-qty">2 unidades</span></div>
+        <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Frango desfiado"><div class="opt-check"></div><span class="opt-text">Frango desfiado</span><span class="opt-qty">3 col. (60 g)</span></div>
+        <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Atum"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
+        <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Queijo fresco / minas / muçarela"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
       </div>
       <div class="group-label">Fruta + chia (1 col. sobremesa)</div>
       <div class="fruit-pills" id="g-cafe-fruta">
@@ -254,7 +254,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="fruit-pill" data-label="Uvas" onclick="pickPill('cafe-fruta',this)">🍇 Uvas <span>15 un.</span></div>
         <div class="fruit-pill" data-label="Frutas vermelhas" onclick="pickPill('cafe-fruta',this)">🫐 Frutas vermelhas <span>1 xícara</span></div>
       </div>
-      <div class="note">Pode combinar: ex. tapioca + 2 col. frango + queijo</div>
+
       <div class="fora-dieta-section">
         <div class="fora-dieta-label">Fora da dieta?</div>
         <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'cafe')">
@@ -911,7 +911,7 @@ function saveMarmitaDesc() {
 
 function restoreChoices() {
   // Grupos com .opt (radio)
-  var optGroups = ['pretreino','cafe-carb','cafe-prot','alm-carb','alm-legu','alm-prot','lanche','jantar'];
+  var optGroups = ['pretreino','cafe-carb','alm-carb','alm-legu','alm-prot','lanche','jantar'];
   optGroups.forEach(function(g) {
     var val = state.choices[g]; if(!val) return;
     var container = document.getElementById('g-' + g); if(!container) return;
@@ -927,6 +927,14 @@ function restoreChoices() {
     var frutaLabel = state.choices['cafe-fruta'];
     document.querySelectorAll('#g-cafe-fruta .fruit-pill').forEach(function(p) {
       if(p.getAttribute('data-label') === frutaLabel) p.classList.add('selected');
+    });
+  }
+  // Proteína do café (multi)
+  if(state.choices['cafe-prot']) {
+    var prots = state.choices['cafe-prot'].split(', ');
+    document.querySelectorAll('#g-cafe-prot .opt').forEach(function(o) {
+      var lbl = o.getAttribute('data-label');
+      if(lbl && prots.indexOf(lbl) > -1) o.classList.add('selected');
     });
   }
   // Folhas (multi pill)
