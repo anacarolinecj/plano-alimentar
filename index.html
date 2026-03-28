@@ -131,6 +131,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .dia-opt.active .dia-sub { color:var(--green); }
 .med-input { width:100%; padding:9px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color 0.2s; }
 .med-input:focus { border-color:var(--green-light); }
+.lista-item { display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-sm);background:#f5f5f2;margin-bottom:4px;cursor:pointer;transition:all 0.15s; }
+.lista-item.comprado { opacity:0.5; }
+.lista-item.comprado .lista-item-nome { text-decoration:line-through; }
+.lista-check { width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;transition:all 0.15s; }
+.lista-item.comprado .lista-check { background:var(--green);border-color:var(--green); }
+.lista-item-nome { font-size:12px;color:var(--text);flex:1; }
 .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 998; gap: 12px; }
 .loading-overlay p { color: var(--muted); font-size: 14px; }
 .spinner { width: 32px; height: 32px; border: 3px solid var(--green-pale); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -175,6 +181,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="nav-item" id="nav-receitas" onclick="showTab('receitas','Receitas',this)"><span class="icon">👩‍🍳</span>Receitas</div>
     <div class="nav-item" id="nav-dicas" onclick="showTab('dicas','Dicas',this)"><span class="icon">✅</span>Dicas</div>
     <div class="nav-item" id="nav-historico" onclick="showTab('historico','Histórico',this)"><span class="icon">📅</span>Histórico</div>
+    <div class="nav-section-title" style="margin-top:8px">Compras</div>
+    <div class="nav-item" id="nav-lista" onclick="showTab('lista','Lista de compras',this)"><span class="icon">🛒</span>Lista atual</div>
+    <div class="nav-item" id="nav-historico-compras" onclick="showTab('historico-compras','Histórico de listas',this)"><span class="icon">📋</span>Histórico de listas</div>
     <div class="nav-section-title" style="margin-top:8px">Acompanhamento</div>
     <div class="nav-item" id="nav-evolucao" onclick="showTab('evolucao','Evolução',this)"><span class="icon">📊</span>Evolução</div>
   </nav>
@@ -705,7 +714,46 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   </div>
 </section>
 
-</main>
+<section id="lista" class="section">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="meal-icon" style="background:#d8f3dc">🛒</div>
+        <div><div class="card-title">Lista de compras</div></div>
+      </div>
+      <button onclick="salvarLista()" style="background:var(--green);color:#fff;border:none;border-radius:20px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Salvar lista</button>
+    </div>
+
+    <div class="group-label" style="margin-top:0">Proteínas</div>
+    <div id="lista-proteinas" class="lista-grupo"></div>
+    <div class="group-label">Laticínios</div>
+    <div id="lista-laticinios" class="lista-grupo"></div>
+    <div class="group-label">Legumes e verduras</div>
+    <div id="lista-legumes" class="lista-grupo"></div>
+    <div class="group-label">Carboidratos</div>
+    <div id="lista-carboidratos" class="lista-grupo"></div>
+    <div class="group-label">Frutas</div>
+    <div id="lista-frutas" class="lista-grupo"></div>
+    <div class="group-label">Outros</div>
+    <div id="lista-outros" class="lista-grupo"></div>
+
+    <div class="section-divider"></div>
+    <button onclick="limparComprados()" style="width:100%;padding:9px;background:none;border:0.5px solid var(--border);border-radius:var(--radius-sm);font-size:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">🗑️ Limpar itens comprados</button>
+    <div id="lista-msg" style="font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)"></div>
+  </div>
+</section>
+
+<section id="historico-compras" class="section">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="meal-icon" style="background:#d8f3dc">📋</div>
+        <div><div class="card-title">Histórico de listas</div></div>
+      </div>
+    </div>
+    <div id="historico-compras-content"><div class="summary-empty">Nenhuma lista salva ainda.</div></div>
+  </div>
+</section>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1137,7 +1185,8 @@ function showTab(id, title, navEl) {
   document.getElementById('header-title').textContent = title;
   if(id === 'resumo') renderSummary();
   if(id === 'historico') loadHistorico();
-  if(id === 'evolucao') loadEvolucao();
+  if(id === 'lista') initLista();
+  if(id === 'historico-compras') loadHistoricoCompras();
   closeSidebar();
 }
 
