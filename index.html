@@ -238,7 +238,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Atum"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
         <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Queijo fresco / minas / muçarela"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
       </div>
-      <div class="group-label">Fruta + chia (1 col. sobremesa)</div>
+      <div class="group-label">Fruta</div>
       <div class="fruit-pills" id="g-cafe-fruta">
         <div class="fruit-pill" data-label="Banana prata" onclick="pickPill('cafe-fruta',this)">🍌 Banana prata <span>1 média</span></div>
         <div class="fruit-pill" data-label="Morango" onclick="pickPill('cafe-fruta',this)">🍓 Morango <span>12–14 un.</span></div>
@@ -253,6 +253,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="fruit-pill" data-label="Melancia" onclick="pickPill('cafe-fruta',this)">🍉 Melancia <span>2 fatias</span></div>
         <div class="fruit-pill" data-label="Uvas" onclick="pickPill('cafe-fruta',this)">🍇 Uvas <span>15 un.</span></div>
         <div class="fruit-pill" data-label="Frutas vermelhas" onclick="pickPill('cafe-fruta',this)">🫐 Frutas vermelhas <span>1 xícara</span></div>
+      </div>
+      <div class="group-label">Chia</div>
+      <div class="option-list" id="g-cafe-chia">
+        <div class="opt" onclick="pickOpt('cafe-chia',this,'Chia','1 col. sobremesa')"><div class="opt-check"></div><span class="opt-text">Chia</span><span class="opt-qty">1 col. sobremesa</span></div>
       </div>
 
       <div class="fora-dieta-section">
@@ -911,7 +915,7 @@ function saveMarmitaDesc() {
 
 function restoreChoices() {
   // Grupos com .opt (radio)
-  var optGroups = ['pretreino','cafe-carb','alm-carb','alm-legu','alm-prot','lanche','jantar'];
+  var optGroups = ['pretreino','cafe-carb','cafe-chia','alm-carb','alm-legu','alm-prot','lanche','jantar'];
   optGroups.forEach(function(g) {
     var val = state.choices[g]; if(!val) return;
     var container = document.getElementById('g-' + g); if(!container) return;
@@ -1005,7 +1009,7 @@ function resetWater() { state.water = 0; renderWater(); scheduleSave(); }
 
 var refeicoes = [
   { label: '☕ Pré-treino', keys: ['pretreino'] },
-  { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot','cafe-fruta','fora-dieta-cafe','fora-dieta-cafe-comeu','fora-dieta-cafe-motivo'] },
+  { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot','cafe-fruta','cafe-chia','fora-dieta-cafe','fora-dieta-cafe-comeu','fora-dieta-cafe-motivo'] },
   { label: '🍽️ Almoço', keys: ['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot','fora-dieta-alm','fora-dieta-alm-comeu','fora-dieta-alm-motivo'] },
   { label: '🍎 Lanche da tarde', keys: ['lanche-bebida','lanche','lanche-cafe','fora-dieta-lanche','fora-dieta-lanche-comeu','fora-dieta-lanche-motivo'] },
   { label: '🌙 Jantar', keys: ['jantar-bebida','jantar','fora-dieta-jantar','fora-dieta-jantar-comeu','fora-dieta-jantar-motivo'] },
