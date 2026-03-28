@@ -131,6 +131,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .dia-opt.active .dia-sub { color:var(--green); }
 .med-input { width:100%; padding:9px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color 0.2s; }
 .med-input:focus { border-color:var(--green-light); }
+.meal-time { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.fruit-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.fruit-pill { padding: 6px 11px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.15s; -webkit-tap-highlight-color: transparent; user-select: none; }
+.fruit-pill span { font-size: 10px; color: var(--muted); }
+.fruit-pill.selected { background: var(--green-pale); border-color: var(--green-light); color: var(--green); font-weight: 500; }
+.fruit-pill.selected span { color: var(--green-light); }
 .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 998; gap: 12px; }
 .loading-overlay p { color: var(--muted); font-size: 14px; }
 .spinner { width: 32px; height: 32px; border: 3px solid var(--green-pale); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -205,13 +211,19 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <button onclick="clearDay()">Limpar dia</button>
     </div>
     <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">☕</div><div class="card-title">Pré-treino</div></div>
+      <div class="card-header">
+        <div class="meal-icon" style="background:#d8f3dc">☕</div>
+        <div><div class="card-title">Pré-treino</div><div class="meal-time">7h30</div></div>
+      </div>
       <div class="option-list" id="g-pretreino">
         <div class="opt" onclick="pick('pretreino',this,'Café com leite','1 xícara (250 ml)')"><div class="opt-check"></div><span class="opt-text">Café com leite</span><span class="opt-qty">1 xícara (250 ml)</span></div>
       </div>
     </div>
     <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fff3cd">🌅</div><div class="card-title">Café da manhã</div></div>
+      <div class="card-header">
+        <div class="meal-icon" style="background:#fff3cd">🌅</div>
+        <div><div class="card-title">Café da manhã</div><div class="meal-time">10h00</div></div>
+      </div>
       <div class="group-label">Carboidrato</div>
       <div class="option-list" id="g-cafe-carb">
         <div class="opt" onclick="pick('cafe-carb',this,'Pão de forma integral','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão de forma integral</span><span class="opt-qty">2 fatias</span></div>
@@ -226,12 +238,30 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="opt" onclick="pick('cafe-prot',this,'Atum','3 col. (60 g)')"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
         <div class="opt" onclick="pick('cafe-prot',this,'Queijo fresco / minas / muçarela','2 fatias (20 g cada)')"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
       </div>
-      <div class="group-label">Fruta + chia</div>
-      <div class="fixed-item">1 porção de fruta + chia (1 col. de sobremesa)</div>
+      <div class="group-label">Fruta + chia (1 col. sobremesa)</div>
+      <div class="fruit-pills" id="g-cafe-fruta">
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Banana prata','1 média (85 g)')">🍌 Banana prata <span>1 média</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Morango','12–14 un. (200 g)')">🍓 Morango <span>12–14 un.</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Maçã','1 pequena (130 g)')">🍎 Maçã <span>1 pequena</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Pera','1 pequena (130 g)')">🍐 Pera <span>1 pequena</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Laranja','1 pequena (150 g)')">🍊 Laranja <span>1 pequena</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Tangerina','1 média (120 g)')">🍊 Tangerina <span>1 média</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Kiwi','1½ un. (130 g)')">🥝 Kiwi <span>1½ un.</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Mamão','1 fatia (180 g)')">🍈 Mamão <span>1 fatia</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Abacaxi','2 fatias (200 g)')">🍍 Abacaxi <span>2 fatias</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Melão','3 fatias (250 g)')">🍈 Melão <span>3 fatias</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Melancia','2 fatias (180 g)')">🍉 Melancia <span>2 fatias</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Uvas','15 un. (100 g)')">🍇 Uvas <span>15 un.</span></div>
+        <div class="fruit-pill" onclick="pick('cafe-fruta',this,'Frutas vermelhas','1 xícara (150 g)')">🫐 Frutas vermelhas <span>1 xícara</span></div>
+      </div>
       <div class="note">Pode combinar: ex. tapioca + 2 col. frango + queijo</div>
     </div>
     <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">🍽️</div><div class="card-title">Almoço</div></div>
+      <div class="card-header">
+        <div class="meal-icon" style="background:#d8f3dc">🍽️</div>
+        <div><div class="card-title">Almoço</div><div class="meal-time">13h00</div></div>
+      </div>
+      <div class="note" style="margin-bottom:12px">Pode usar marmita pronta, ou montar:</div>
       <div class="option-list" id="g-alm-marmita" style="margin-bottom:10px">
         <div class="opt" onclick="pick('alm-marmita',this,'Marmita pronta','1 unidade')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span><span class="opt-qty">1 unidade</span></div>
       </div>
@@ -272,7 +302,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <div class="fixed-item" style="margin-top:10px">+ 1 col. sopa de azeite extra virgem</div>
     </div>
     <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fff3cd">🍎</div><div class="card-title">Lanche da tarde</div></div>
+      <div class="card-header">
+        <div class="meal-icon" style="background:#fff3cd">🍎</div>
+        <div><div class="card-title">Lanche da tarde</div><div class="meal-time">16h00</div></div>
+      </div>
       <div class="option-list" id="g-lanche">
         <div class="opt" onclick="pick('lanche',this,'Iogurte natural + fruta + aveia/granola','2 col. aveia')"><div class="opt-check"></div><span class="opt-text">Iogurte natural + fruta + aveia ou granola</span><span class="opt-qty">2 col. aveia</span></div>
         <div class="opt" onclick="pick('lanche',this,'Bolo de caneca','1 receita')"><div class="opt-check"></div><span class="opt-text">Bolo de caneca</span><span class="opt-qty">1 receita</span></div>
@@ -282,7 +315,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <div class="note">Pode acrescentar 1 xícara de café com leite</div>
     </div>
     <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#eff6ff">🌙</div><div class="card-title">Jantar</div></div>
+      <div class="card-header">
+        <div class="meal-icon" style="background:#eff6ff">🌙</div>
+        <div><div class="card-title">Jantar</div><div class="meal-time">19h00</div></div>
+      </div>
       <div class="option-list" id="g-jantar">
         <div class="opt" onclick="pick('jantar',this,'Marmita pronta','—')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span><span class="opt-qty">—</span></div>
         <div class="opt" onclick="pick('jantar',this,'Wrap + folhas + carne/frango + requeijão','5 col. proteína')"><div class="opt-check"></div><span class="opt-text">Wrap (Rap 10) + folhas + carne/frango + requeijão</span><span class="opt-qty">5 col. proteína</span></div>
@@ -705,19 +741,20 @@ function renderDate() {
 }
 
 function pick(group, el, label, qty) {
-  el.parentElement.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+  var parent = el.parentElement;
+  parent.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
   el.classList.add('selected');
   state.choices[group] = label + ' — ' + qty;
   scheduleSave(); showToast('Salvo ✓');
 }
 
 function restoreChoices() {
-  var groups = ['pretreino','cafe-carb','cafe-prot','alm-marmita','alm-leg','alm-carb','alm-legu','alm-prot','lanche','jantar'];
+  var groups = ['pretreino','cafe-carb','cafe-prot','cafe-fruta','alm-marmita','alm-leg','alm-carb','alm-legu','alm-prot','lanche','jantar'];
   groups.forEach(function(g) {
     var val = state.choices[g]; if(!val) return;
     var container = document.getElementById('g-' + g); if(!container) return;
     var labelPart = val.split(' — ')[0];
-    container.querySelectorAll('.opt').forEach(function(o) {
+    container.querySelectorAll('.opt, .fruit-pill').forEach(function(o) {
       var text = o.querySelector('.opt-text').textContent.trim();
       if(text === labelPart || labelPart.indexOf(text) === 0 || text.indexOf(labelPart) === 0) o.classList.add('selected');
     });
@@ -744,7 +781,7 @@ function resetWater() { state.water = 0; renderWater(); scheduleSave(); }
 
 var refeicoes = [
   { label: '☕ Pré-treino', keys: ['pretreino'] },
-  { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot'] },
+  { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot','cafe-fruta'] },
   { label: '🍽️ Almoço', keys: ['alm-marmita','alm-leg','alm-carb','alm-legu','alm-prot'] },
   { label: '🍎 Lanche da tarde', keys: ['lanche'] },
   { label: '🌙 Jantar', keys: ['jantar'] }
