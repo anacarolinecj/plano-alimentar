@@ -893,23 +893,84 @@ function evDiffStr(atual,anterior,campo,unit,maisEBom){
 
 function evEmptyCard(icon,bg,titulo,sub){return'<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:'+bg+'">'+icon+'</div><div class="card-title">'+titulo+'</div></div></div><div class="summary-empty">'+sub+'</div></div>';}
 
-function evMedCard(med,subLabel,regDoMes){
+function evMedTabela(registros, subLabel) {
+  if(!registros || !registros.length) return evEmptyCard('📏','#eff6ff','Medidas','Nenhuma medida registrada');
+  var dias=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
   var h='<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">📏</div><div><div class="card-title">Medidas</div><div class="meal-time">'+subLabel+'</div></div></div></div>';
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
-  if(med.atual.peso)h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Peso</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+med.atual.peso+' <span style="font-size:13px;font-weight:400;color:var(--muted)">kg</span></div>'+evDiffStr(med.atual,med.anterior,'peso','kg',false)+'</div>';
-  if(med.atual.gordura)h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Gordura</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+med.atual.gordura+' <span style="font-size:13px;font-weight:400;color:var(--muted)">%</span></div>'+evDiffStr(med.atual,med.anterior,'gordura','%',false)+'</div>';
-  if(med.atual.massa)h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Massa muscular</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+med.atual.massa+' <span style="font-size:13px;font-weight:400;color:var(--muted)">%</span></div>'+evDiffStr(med.atual,med.anterior,'massa','%',true)+'</div>';
-  var m=med.atual.medidas||{};
-  if(m.cintura){var antM=med.anterior&&med.anterior.medidas?med.anterior.medidas:{};h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Cintura</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+m.cintura+' <span style="font-size:13px;font-weight:400;color:var(--muted)">cm</span></div>'+evDiffStr({cintura:parseFloat(m.cintura)},antM.cintura?{cintura:parseFloat(antM.cintura)}:null,'cintura','cm',false)+'</div>';}
-  if(m.quadril)h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Quadril</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+m.quadril+' <span style="font-size:13px;font-weight:400;color:var(--muted)">cm</span></div></div>';
-  if(m.braco)h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Braço</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+m.braco+' <span style="font-size:13px;font-weight:400;color:var(--muted)">cm</span></div></div>';
-  if(m.coxa)h+='<div style="background:#f5f5f2;border-radius:var(--radius-sm);padding:10px 12px"><div style="font-size:11px;color:var(--muted)">Coxa</div><div style="font-size:20px;font-weight:600;color:var(--text)">'+m.coxa+' <span style="font-size:13px;font-weight:400;color:var(--muted)">cm</span></div></div>';
-  h+='</div>';
-  if(regDoMes&&regDoMes.length>1){
-    h+='<div class="group-label" style="margin-top:14px">Registros do mês</div>';
-    regDoMes.forEach(function(r){h+='<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--muted)">'+evFmtDate(r.data)+'</span><span style="font-size:12px;color:var(--text)">'+(r.peso?r.peso+' kg':'')+' '+(r.gordura?'· '+r.gordura+'% gord':'')+' '+(r.massa?'· '+r.massa+'% musc':'')+'</span></div>';});
-  }
-  h+='</div>';return h;
+  h+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -2px">';
+  h+='<table style="width:100%;min-width:380px;border-collapse:collapse">';
+  // cabeçalho
+  h+='<thead><tr>';
+  h+='<th style="position:sticky;left:0;background:var(--surface);z-index:2;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;text-align:left;border-bottom:1px solid var(--border)">Data</th>';
+  h+='<th style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;text-align:right;border-bottom:1px solid var(--border)">Peso<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">kg</span></th>';
+  h+='<th style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;text-align:right;border-bottom:1px solid var(--border)">Gordura<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">%</span></th>';
+  h+='<th style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;text-align:right;border-bottom:1px solid var(--border)">Massa<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">%</span></th>';
+  h+='<th style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;text-align:right;border-bottom:1px solid var(--border);border-left:1.5px dashed var(--border)">Cintura<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
+  h+='<th style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;text-align:right;border-bottom:1px solid var(--border)">Quadril<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
+  h+='<th style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;text-align:right;border-bottom:1px solid var(--border)">Braço<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
+  h+='<th style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;text-align:right;border-bottom:1px solid var(--border)">Coxa<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
+  h+='</tr></thead><tbody>';
+
+  registros.forEach(function(r, i) {
+    var prev = i > 0 ? registros[i-1] : null;
+    var d = evParseDate(r.data);
+    var dateStr = dias[d.getDay()]+', '+d.getDate();
+    var m = r.medidas || {};
+    var pm = prev && prev.medidas ? prev.medidas : {};
+    var isLast = i === registros.length - 1;
+    var border = isLast ? 'none' : '1px solid var(--border)';
+
+    function cell(val, prevVal, unit, maisEBom) {
+      var s = '<td style="padding:8px 8px;text-align:right;border-bottom:'+border+';font-size:12px;color:var(--text);vertical-align:top;white-space:nowrap">';
+      if(!val && val !== 0) return s+'<span style="color:var(--border)">—</span></td>';
+      s += val;
+      if(prevVal && prev) {
+        var diff = Math.round((parseFloat(val) - parseFloat(prevVal)) * 10) / 10;
+        if(diff !== 0) {
+          var bom = maisEBom ? diff > 0 : diff < 0;
+          var cor = bom ? '#2d6a4f' : '#c0392b';
+          s += '<span style="color:'+cor+';font-size:9px;display:block;line-height:1.3">'+(diff>0?'▲':'▼')+' '+Math.abs(diff)+'</span>';
+        }
+      }
+      return s+'</td>';
+    }
+
+    function cellSep(val, prevVal, unit, maisEBom) {
+      var s = '<td style="padding:8px 8px;text-align:right;border-bottom:'+border+';border-left:1.5px dashed var(--border);font-size:12px;color:var(--text);vertical-align:top;white-space:nowrap">';
+      if(!val && val !== 0) return s+'<span style="color:var(--border)">—</span></td>';
+      s += val;
+      if(prevVal && prev) {
+        var diff = Math.round((parseFloat(val) - parseFloat(prevVal)) * 10) / 10;
+        if(diff !== 0) {
+          var bom = maisEBom ? diff > 0 : diff < 0;
+          var cor = bom ? '#2d6a4f' : '#c0392b';
+          s += '<span style="color:'+cor+';font-size:9px;display:block;line-height:1.3">'+(diff>0?'▲':'▼')+' '+Math.abs(diff)+'</span>';
+        }
+      }
+      return s+'</td>';
+    }
+
+    h += '<tr>';
+    h += '<td style="position:sticky;left:0;background:var(--surface);z-index:1;padding:8px 8px;text-align:left;border-bottom:'+border+';font-size:10px;color:var(--muted);white-space:nowrap">'+dateStr+'</td>';
+    h += cell(r.peso, prev&&prev.peso, 'kg', false);
+    h += cell(r.gordura, prev&&prev.gordura, '%', false);
+    h += cell(r.massa, prev&&prev.massa, '%', true);
+    h += cellSep(m.cintura, pm.cintura, 'cm', false);
+    h += cell(m.quadril, pm.quadril, 'cm', false);
+    h += cell(m.braco, pm.braco, 'cm', false);
+    h += cell(m.coxa, pm.coxa, 'cm', false);
+    h += '</tr>';
+  });
+
+  h += '</tbody></table></div>';
+  h += '<div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:right">← arraste para ver cintura, quadril, braço e coxa</div>';
+  h += '</div>';
+  return h;
+}
+
+function evMedCard(med, subLabel, regDoMes) {
+  var registros = regDoMes && regDoMes.length ? regDoMes : (med && med.atual ? [med.atual] : []);
+  return evMedTabela(registros, subLabel);
 }
 
 function evNavDia(dir){
@@ -1123,7 +1184,11 @@ function evRenderSemana(){
   html+=temH?'<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div><div class="card-title">Humor</div><div class="meal-time">'+(media?'Média: '+evHumorLabels[media]+' '+evHumorEmoji[media]:'Sem registros')+'</div></div></div></div><div style="display:flex;gap:3px;align-items:flex-end;height:80px;margin-bottom:4px">'+bars+'</div></div>':evEmptyCard('😊','#fff3cd','Humor','Nenhum humor registrado nesta semana');
   html+=temG?'<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div><div class="card-title">Academia</div><div class="meal-time">'+gymDays+' de 7 dias</div></div></div></div><div style="display:flex;gap:4px;justify-content:space-between">'+circles+'</div></div>':evEmptyCard('🏋️','#d8f3dc','Academia','Nenhum treino registrado nesta semana');
   var med=evGetMedidas(sunday);
-  html+=med.atual?evMedCard(med,'Registro de '+evFmtDate(med.atual.data),null):evEmptyCard('📏','#eff6ff','Medidas','Nenhuma medida registrada');
+  var regSemana=evDadosCache.filter(function(r){
+    var d=evParseDate(r.data);
+    return d>=monday && d<=sunday && (r.peso||r.gordura||r.massa||r.medidas);
+  });
+  html+=regSemana.length?evMedTabela(regSemana, evFmtDate(monday.toISOString().slice(0,10))+' – '+evFmtDate(sunday.toISOString().slice(0,10))):evEmptyCard('📏','#eff6ff','Medidas','Nenhuma medida registrada');
   document.getElementById('ev-hist-content').innerHTML=html;
 }
 
@@ -1152,9 +1217,8 @@ function evRenderMes(){
   var html='';
   html+='<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div><div class="card-title">Humor</div><div class="meal-time">'+(mediaH?'Média: '+evHumorLabels[mediaH]+' '+evHumorEmoji[mediaH]:'Sem registros')+'</div></div></div></div>'+dow+'<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+hCells+'</div></div>';
   html+='<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div><div class="card-title">Academia</div><div class="meal-time">'+gymTotal+' de '+diasNoMes+' dias</div></div></div></div>'+dow+'<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">'+gCells+'</div></div>';
-  var med=evGetMedidas(fimMes);
-  var regDoMes=evDadosCache.filter(function(r){var dd=evParseDate(r.data);return dd.getMonth()===mes&&dd.getFullYear()===ano&&(r.peso||r.gordura||r.massa);});
-  html+=med.atual?evMedCard(med,'Vs último registro anterior',regDoMes):evEmptyCard('📏','#eff6ff','Medidas','Nenhuma medida registrada neste mês');
+  var regDoMes=evDadosCache.filter(function(r){var dd=evParseDate(r.data);return dd.getMonth()===mes&&dd.getFullYear()===ano&&(r.peso||r.gordura||r.massa||r.medidas);});
+  html+=regDoMes.length?evMedTabela(regDoMes,evMesesFull[mes]+' '+ano):evEmptyCard('📏','#eff6ff','Medidas','Nenhuma medida registrada neste mês');
   document.getElementById('ev-hist-content').innerHTML=html;
 }
 
