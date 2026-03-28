@@ -1394,7 +1394,8 @@ var humorMap = { '😞':1,'😕':2,'😐':3,'😊':4,'😄':5 };
 var humorRevMap = { 1:{label:'Péssimo'},2:{label:'Ruim'},3:{label:'Ok'},4:{label:'Bom'},5:{label:'Ótimo'} };
 
 function pickHumor(el, emoji, label) {
-  el.closest('div').querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
+  var container = document.getElementById('evolucao');
+  container.querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
   el.classList.add('selected');
   salvarAcompanhamento({ humor: humorMap[emoji] });
   showToast('Humor salvo ✓');
@@ -1403,30 +1404,36 @@ function pickHumor(el, emoji, label) {
 function toggleAcademia(el, dia) {
   el.classList.toggle('active');
   var dias = [];
-  document.querySelectorAll('.dia-opt.active').forEach(function(d){ dias.push(d.getAttribute('data-dia')); });
+  document.getElementById('evolucao').querySelectorAll('.dia-opt.active').forEach(function(d){ dias.push(d.getAttribute('data-dia')); });
   salvarAcompanhamento({ exercicio: dias.join(',') });
   showToast('Academia salvo ✓');
 }
 
 async function salvarAcompanhamento(campos) {
-  var payload = Object.assign({}, campos, { updated_at: new Date().toISOString() });
-  // Atualiza cache imediatamente para UI responsiva
+  // Merge com dados existentes do dia no cache
   var idx = evDadosCache.findIndex(function(r){ return r.data === todayKey(); });
-  if(idx >= 0) { evDadosCache[idx] = Object.assign({}, evDadosCache[idx], campos); }
-  else { evDadosCache.push(Object.assign({}, campos, { data: todayKey(), user_id: currentUser.id })); }
+  var existente = idx >= 0 ? evDadosCache[idx] : {};
+  var merged = Object.assign({}, existente, campos, { updated_at: new Date().toISOString() });
+
+  // Atualiza cache imediatamente
+  if(idx >= 0) { evDadosCache[idx] = merged; }
+  else { evDadosCache.push(Object.assign({}, merged, { data: todayKey(), user_id: currentUser.id })); }
   evRender();
+
   try {
     var checkRes = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=id', { headers: authHeaders() });
     var rows = await checkRes.json();
     if(rows && rows.length) {
       await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
-        method: 'PATCH', headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-        body: JSON.stringify(payload)
+        method: 'PATCH',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(campos)
       });
     } else {
       await fetch(SUPABASE_URL + '/rest/v1/acompanhamento', {
-        method: 'POST', headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-        body: JSON.stringify(Object.assign({}, payload, { data: todayKey(), user_id: currentUser.id }))
+        method: 'POST',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(Object.assign({}, campos, { data: todayKey(), user_id: currentUser.id, updated_at: new Date().toISOString() }))
       });
     }
   } catch(e) { console.error('Erro acompanhamento:', e); }
