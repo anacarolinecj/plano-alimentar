@@ -685,15 +685,16 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   </div>
 
   <div class="card">
-    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div class="card-title">Academia — esta semana</div></div></div>
-    <div style="display:flex;justify-content:space-between;gap:4px">
-      <div class="dia-opt" onclick="toggleAcademia(this,'seg')" data-dia="seg"><div class="dia-letra">S</div><div class="dia-sub">Seg</div></div>
-      <div class="dia-opt" onclick="toggleAcademia(this,'ter')" data-dia="ter"><div class="dia-letra">T</div><div class="dia-sub">Ter</div></div>
-      <div class="dia-opt" onclick="toggleAcademia(this,'qua')" data-dia="qua"><div class="dia-letra">Q</div><div class="dia-sub">Qua</div></div>
-      <div class="dia-opt" onclick="toggleAcademia(this,'qui')" data-dia="qui"><div class="dia-letra">Q</div><div class="dia-sub">Qui</div></div>
-      <div class="dia-opt" onclick="toggleAcademia(this,'sex')" data-dia="sex"><div class="dia-letra">S</div><div class="dia-sub">Sex</div></div>
-      <div class="dia-opt" onclick="toggleAcademia(this,'sab')" data-dia="sab"><div class="dia-letra">S</div><div class="dia-sub">Sáb</div></div>
-      <div class="dia-opt" onclick="toggleAcademia(this,'dom')" data-dia="dom"><div class="dia-letra">D</div><div class="dia-sub">Dom</div></div>
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div><div class="card-title">Academia hoje</div><div class="meal-time">Toque para registrar presença</div></div></div></div>
+    <div id="gym-toggle-btn" onclick="toggleAcademiaHoje()" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;background:#f5f5f2;transition:all 0.15s">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:22px">🏋️</span>
+        <div>
+          <div id="gym-toggle-label" style="font-size:14px;font-weight:600;color:var(--text)">Não fui hoje</div>
+          <div id="gym-toggle-sub" style="font-size:11px;color:var(--muted);margin-top:2px">Toque para marcar presença</div>
+        </div>
+      </div>
+      <div id="gym-toggle-check" style="width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface)"></div>
     </div>
   </div>
 
@@ -1403,14 +1404,42 @@ function pickHumor(el, emoji, label) {
   showToast(jaSelected ? 'Humor removido' : 'Humor salvo ✓');
 }
 
-function toggleAcademia(el, dia) {
-  el.classList.toggle('active');
-  var dias = [];
-  document.getElementById('evolucao').querySelectorAll('.dia-opt.active').forEach(function(d){
-    dias.push(d.getAttribute('data-dia'));
-  });
-  acompSalvar('exercicio', dias.length ? dias.join(',') : null);
-  showToast('Academia salvo ✓');
+function toggleAcademiaHoje() {
+  var idx = evDadosCache.findIndex(function(r){ return r.data === todayKey(); });
+  var atual = idx >= 0 ? evDadosCache[idx] : {};
+  var novoValor = atual.foi_academia ? 0 : 1;
+  acompSalvar('foi_academia', novoValor);
+  renderGymToggle(novoValor);
+  showToast(novoValor ? 'Academia registrada ✓' : 'Academia removida');
+}
+
+function renderGymToggle(foiAcademia) {
+  var btn = document.getElementById('gym-toggle-btn');
+  var lbl = document.getElementById('gym-toggle-label');
+  var sub = document.getElementById('gym-toggle-sub');
+  var chk = document.getElementById('gym-toggle-check');
+  if(!btn) return;
+  if(foiAcademia) {
+    btn.style.background = '#d8f3dc';
+    btn.style.borderColor = '#52b788';
+    lbl.textContent = 'Fui hoje! ✓';
+    lbl.style.color = '#1b4332';
+    sub.textContent = 'Toque para desmarcar';
+    sub.style.color = '#2d6a4f';
+    chk.style.background = '#2d6a4f';
+    chk.style.borderColor = '#2d6a4f';
+    chk.innerHTML = '<div style="width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translateY(-1px)"></div>';
+  } else {
+    btn.style.background = '#f5f5f2';
+    btn.style.borderColor = 'var(--border)';
+    lbl.textContent = 'Não fui hoje';
+    lbl.style.color = 'var(--text)';
+    sub.textContent = 'Toque para marcar presença';
+    sub.style.color = 'var(--muted)';
+    chk.style.background = 'var(--surface)';
+    chk.style.borderColor = 'var(--border)';
+    chk.innerHTML = '';
+  }
 }
 
 async function salvarMedidas() {
@@ -1563,9 +1592,8 @@ function evRenderSemana(){
     var ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     var row=evGetDayData(ds);
     var h=row&&row.humor?row.humor:0;
-    var diasGym = row && row.exercicio ? row.exercicio.split(',').map(function(x){ return x.trim(); }) : [];
-    var diaNomeSem = ['dom','seg','ter','qua','qui','sex','sab'][new Date(d.getFullYear(), d.getMonth(), d.getDate()+i).getDay()];
-    var g = diasGym.indexOf(diaNomeSem) >= 0 ? 1 : 0;
+    var diasGym = row && row.foi_academia ? 1 : 0;
+    var g = diasGym;
     if(!fut&&h){totalH+=h;countH++;temH=true;}
     if(!fut&&g){gymDays++;temG=true;}
     bars+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px"><div style="font-size:11px">'+(h&&!fut?evHumorEmoji[h]:(fut?'':''))+'</div><div style="width:100%;border-radius:3px 3px 0 0;height:'+(h&&!fut?evHumorBarH[h]:4)+'px;background:'+(h&&!fut?'#d8f3dc':'var(--border)')+'"></div><div style="font-size:9px;color:var(--muted)">'+evDiasSem[i]+'</div></div>';
@@ -1597,9 +1625,7 @@ function evRenderMes(){
     var ds=ano+'-'+String(mes+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     var row=evGetDayData(ds);
     var h=row&&row.humor&&!fut?row.humor:0;
-    var diasGym = row && row.exercicio ? row.exercicio.split(',').map(function(x){ return x.trim(); }) : [];
-    var diaNomeMes = ['dom','seg','ter','qua','qui','sex','sab'][date.getDay()];
-    var g = diasGym.indexOf(diaNomeMes) >= 0 ? 1 : 0;
+    var g = row && row.foi_academia ? 1 : 0;
     if(h){totalH+=h;countH++;}
     if(g&&!fut)gymTotal++;
     hCells+='<div style="aspect-ratio:1;border-radius:50%;background:'+(h?evHumorColor[h]:'var(--border)')+';display:flex;align-items:center;justify-content:center;font-size:11px;opacity:'+(fut?'0.3':'1')+'">'+(h?evHumorEmoji[h]:'')+'</div>';
@@ -1637,19 +1663,16 @@ async function loadEvolucao() {
   document.getElementById('ev-tab-semana').classList.add('selected','active');
   document.getElementById('ev-tab-mes').classList.remove('selected','active');
   evRender();
-  // Restaura humor e academia de hoje
+  // Restaura estado de hoje
   var todayRow = evDadosCache.find(function(r){ return r.data===todayKey(); });
   if(todayRow){
     if(todayRow.humor && humorRevMap[todayRow.humor]){
       var label=humorRevMap[todayRow.humor].label;
-      document.querySelectorAll('.humor-opt').forEach(function(el){ if(el.querySelector('.humor-label').textContent===label) el.classList.add('selected'); });
-    }
-    if(todayRow.exercicio){
-      todayRow.exercicio.split(',').forEach(function(dia){
-        var el=document.querySelector('[data-dia="'+dia.trim()+'"]');
-        if(el) el.classList.add('active');
+      document.getElementById('evolucao').querySelectorAll('.humor-opt').forEach(function(el){
+        if(el.querySelector('.humor-label').textContent===label) el.classList.add('selected');
       });
     }
+    renderGymToggle(todayRow.foi_academia);
     if(todayRow.peso)    document.getElementById('med-peso').value=todayRow.peso;
     if(todayRow.gordura) document.getElementById('med-gordura').value=todayRow.gordura;
     if(todayRow.massa)   document.getElementById('med-massa').value=todayRow.massa;
@@ -1658,6 +1681,8 @@ async function loadEvolucao() {
     if(m.quadril)  document.getElementById('med-quadril').value=m.quadril;
     if(m.braco)    document.getElementById('med-braco').value=m.braco;
     if(m.coxa)     document.getElementById('med-coxa').value=m.coxa;
+  } else {
+    renderGymToggle(0);
   }
 }
 // ─────────────────────────────────────────────────────────────────────────────
