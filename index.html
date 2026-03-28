@@ -233,10 +233,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       </div>
       <div class="group-label">Proteína</div>
       <div class="option-list" id="g-cafe-prot">
-        <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Ovo mexido"><div class="opt-check"></div><span class="opt-text">Ovo mexido</span><span class="opt-qty">2 unidades</span></div>
-        <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Frango desfiado"><div class="opt-check"></div><span class="opt-text">Frango desfiado</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Atum"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="togglePill('cafe-prot',this)" data-label="Queijo fresco / minas / muçarela"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
+        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Ovo mexido')" data-label="Ovo mexido"><div class="opt-check"></div><span class="opt-text">Ovo mexido</span><span class="opt-qty">2 unidades</span></div>
+        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Frango desfiado')" data-label="Frango desfiado"><div class="opt-check"></div><span class="opt-text">Frango desfiado</span><span class="opt-qty">3 col. (60 g)</span></div>
+        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Atum')" data-label="Atum"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
+        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Queijo fresco / minas / muçarela')" data-label="Queijo fresco / minas / muçarela"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
       </div>
       <div class="group-label">Fruta</div>
       <div class="fruit-pills" id="g-cafe-fruta">
@@ -857,7 +857,17 @@ function saveForaDieta(ref, input) {
   scheduleSave();
 }
 
-function toggleLancheCafe(el) {
+function toggleOpt(group, el, label) {
+  el.classList.toggle('selected');
+  var selected = [];
+  document.querySelectorAll('#g-' + group + ' .opt.selected').forEach(function(o) {
+    var lbl = o.getAttribute('data-label');
+    if(lbl) selected.push(lbl);
+  });
+  if(selected.length) state.choices[group] = selected.join(', ');
+  else delete state.choices[group];
+  scheduleSave(); showToast('Salvo ✓');
+}
   el.classList.toggle('selected');
   if(el.classList.contains('selected')) state.choices['lanche-cafe'] = 'Café com leite — 1 xícara';
   else delete state.choices['lanche-cafe'];
@@ -933,12 +943,11 @@ function restoreChoices() {
       if(p.getAttribute('data-label') === frutaLabel) p.classList.add('selected');
     });
   }
-  // Proteína do café (multi)
+  // Proteína do café (multi opt)
   if(state.choices['cafe-prot']) {
     var prots = state.choices['cafe-prot'].split(', ');
     document.querySelectorAll('#g-cafe-prot .opt').forEach(function(o) {
-      var lbl = o.getAttribute('data-label');
-      if(lbl && prots.indexOf(lbl) > -1) o.classList.add('selected');
+      if(prots.indexOf(o.getAttribute('data-label')) > -1) o.classList.add('selected');
     });
   }
   // Folhas (multi pill)
