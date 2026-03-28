@@ -835,12 +835,13 @@ async function salvarLista() {
   }
 }
 
-function limparComprados() {
+async function limparComprados() {
   var s = getListaState();
   Object.keys(s).forEach(function(k) { s[k] = false; });
   setListaState(s);
   initLista();
   showToast('Itens comprados removidos ✓');
+  await salvarLista();
 }
 
 async function loadHistoricoCompras() {
