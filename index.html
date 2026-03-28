@@ -1394,18 +1394,12 @@ var humorMap = { '😞':1,'😕':2,'😐':3,'😊':4,'😄':5 };
 var humorRevMap = { 1:{label:'Péssimo'},2:{label:'Ruim'},3:{label:'Ok'},4:{label:'Bom'},5:{label:'Ótimo'} };
 
 // Lê o estado atual do dia direto do cache (humor + exercicio + medidas)
-function getTodayAcomp() {
-  var idx = evDadosCache.findIndex(function(r){ return r.data === todayKey(); });
-  return idx >= 0 ? evDadosCache[idx] : null;
-}
-
 function pickHumor(el, emoji, label) {
   var secao = document.getElementById('evolucao');
   var jaSelected = el.classList.contains('selected');
   secao.querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
-  var novoHumor = jaSelected ? null : humorMap[emoji];
   if(!jaSelected) el.classList.add('selected');
-  salvarAcompanhamento({ humor: novoHumor });
+  acompSalvar('humor', jaSelected ? null : humorMap[emoji]);
   showToast(jaSelected ? 'Humor removido' : 'Humor salvo ✓');
 }
 
@@ -1415,46 +1409,8 @@ function toggleAcademia(el, dia) {
   document.getElementById('evolucao').querySelectorAll('.dia-opt.active').forEach(function(d){
     dias.push(d.getAttribute('data-dia'));
   });
-  salvarAcompanhamento({ exercicio: dias.length ? dias.join(',') : null });
+  acompSalvar('exercicio', dias.length ? dias.join(',') : null);
   showToast('Academia salvo ✓');
-}
-
-async function salvarAcompanhamento(campos) {
-  // 1. Pega tudo que já existe hoje no cache
-  var idx = evDadosCache.findIndex(function(r){ return r.data === todayKey(); });
-  var base = idx >= 0 ? Object.assign({}, evDadosCache[idx]) : {};
-
-  // 2. Aplica os novos campos por cima
-  Object.keys(campos).forEach(function(k){ base[k] = campos[k]; });
-  base.updated_at = new Date().toISOString();
-
-  // 3. Atualiza cache
-  if(idx >= 0) { evDadosCache[idx] = base; } else { evDadosCache.push(Object.assign({}, base, { data: todayKey(), user_id: currentUser.id })); }
-  evRender();
-
-  // 4. Monta payload limpo (sem id, sem user_id para o PATCH)
-  var payload = { updated_at: base.updated_at };
-  ['humor','exercicio','peso','gordura','massa','medidas'].forEach(function(k){
-    if(base[k] !== undefined) payload[k] = base[k];
-  });
-
-  try {
-    var checkRes = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=id', { headers: authHeaders() });
-    var rows = await checkRes.json();
-    if(rows && rows.length > 0) {
-      await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
-        method: 'PATCH',
-        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-        body: JSON.stringify(payload)
-      });
-    } else {
-      await fetch(SUPABASE_URL + '/rest/v1/acompanhamento', {
-        method: 'POST',
-        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-        body: JSON.stringify(Object.assign({}, payload, { data: todayKey(), user_id: currentUser.id }))
-      });
-    }
-  } catch(e) { console.error('Erro acompanhamento:', e); }
 }
 
 async function salvarMedidas() {
@@ -1467,15 +1423,53 @@ async function salvarMedidas() {
     braco:   document.getElementById('med-braco').value,
     coxa:    document.getElementById('med-coxa').value
   };
-  var hasAny = peso || gordura || massa || Object.values(medidas).some(function(v){ return v; });
+  var hasAny = peso || gordura || massa || Object.values(medidas).some(function(v){ return !!v; });
   if(!hasAny) { document.getElementById('medidas-msg').textContent = 'Preencha pelo menos um campo.'; return; }
-  var campos = { medidas: medidas };
-  if(peso)    campos.peso    = parseFloat(peso);
-  if(gordura) campos.gordura = parseFloat(gordura);
-  if(massa)   campos.massa   = parseFloat(massa);
-  await salvarAcompanhamento(campos);
+  if(peso)    acompSalvar('peso',    parseFloat(peso));
+  if(gordura) acompSalvar('gordura', parseFloat(gordura));
+  if(massa)   acompSalvar('massa',   parseFloat(massa));
+  await acompSalvar('medidas', medidas);
   document.getElementById('medidas-msg').textContent = 'Medidas salvas ✓';
   setTimeout(function(){ document.getElementById('medidas-msg').textContent = ''; }, 3000);
+}
+
+// Salva UM campo por vez — evita qualquer problema de merge
+async function acompSalvar(campo, valor) {
+  // 1. Atualiza cache local
+  var idx = evDadosCache.findIndex(function(r){ return r.data === todayKey(); });
+  if(idx >= 0) { evDadosCache[idx][campo] = valor; }
+  else { var novo = { data: todayKey(), user_id: currentUser.id }; novo[campo] = valor; evDadosCache.push(novo); idx = evDadosCache.length - 1; }
+  evRender();
+
+  // 2. Payload com só o campo alterado
+  var payload = {}; payload[campo] = valor;
+
+  try {
+    var checkRes = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=id', { headers: authHeaders() });
+    var rows = await checkRes.json();
+    if(rows && rows.length > 0) {
+      await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
+        method: 'PATCH',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(payload)
+      });
+    } else {
+      var inserir = { data: todayKey(), user_id: currentUser.id }; inserir[campo] = valor;
+      await fetch(SUPABASE_URL + '/rest/v1/acompanhamento', {
+        method: 'POST',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(inserir)
+      });
+    }
+  } catch(e) { console.error('Erro ao salvar ' + campo + ':', e); }
+}
+
+// Mantém compatibilidade com salvarAcompanhamento usado em outros lugares
+async function salvarAcompanhamento(campos) {
+  var keys = Object.keys(campos);
+  for(var i = 0; i < keys.length; i++) {
+    await acompSalvar(keys[i], campos[keys[i]]);
+  }
 }
 
 function showTab(id, title, navEl) {
@@ -1569,9 +1563,9 @@ function evRenderSemana(){
     var ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     var row=evGetDayData(ds);
     var h=row&&row.humor?row.humor:0;
-    var diasGym=row&&row.exercicio?row.exercicio.split(','):[];
-    var diaNome=evDiasSem[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    var g=diasGym.some(function(x){ return x.trim()===diaNome.substr(0,3); })?1:0;
+    var diasGym = row && row.exercicio ? row.exercicio.split(',').map(function(x){ return x.trim(); }) : [];
+    var diaNomeSem = ['dom','seg','ter','qua','qui','sex','sab'][new Date(d.getFullYear(), d.getMonth(), d.getDate()+i).getDay()];
+    var g = diasGym.indexOf(diaNomeSem) >= 0 ? 1 : 0;
     if(!fut&&h){totalH+=h;countH++;temH=true;}
     if(!fut&&g){gymDays++;temG=true;}
     bars+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px"><div style="font-size:11px">'+(h&&!fut?evHumorEmoji[h]:(fut?'':''))+'</div><div style="width:100%;border-radius:3px 3px 0 0;height:'+(h&&!fut?evHumorBarH[h]:4)+'px;background:'+(h&&!fut?'#d8f3dc':'var(--border)')+'"></div><div style="font-size:9px;color:var(--muted)">'+evDiasSem[i]+'</div></div>';
@@ -1603,10 +1597,9 @@ function evRenderMes(){
     var ds=ano+'-'+String(mes+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     var row=evGetDayData(ds);
     var h=row&&row.humor&&!fut?row.humor:0;
-    var diasGym=row&&row.exercicio?row.exercicio.split(','):[];
-    var diaSemana=date.getDay();
-    var nomeDia=['dom','seg','ter','qua','qui','sex','sab'][diaSemana];
-    var g=diasGym.some(function(x){return x.trim()===nomeDia;})?1:0;
+    var diasGym = row && row.exercicio ? row.exercicio.split(',').map(function(x){ return x.trim(); }) : [];
+    var diaNomeMes = ['dom','seg','ter','qua','qui','sex','sab'][date.getDay()];
+    var g = diasGym.indexOf(diaNomeMes) >= 0 ? 1 : 0;
     if(h){totalH+=h;countH++;}
     if(g&&!fut)gymTotal++;
     hCells+='<div style="aspect-ratio:1;border-radius:50%;background:'+(h?evHumorColor[h]:'var(--border)')+';display:flex;align-items:center;justify-content:center;font-size:11px;opacity:'+(fut?'0.3':'1')+'">'+(h?evHumorEmoji[h]:'')+'</div>';
