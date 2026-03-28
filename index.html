@@ -989,17 +989,116 @@ async function salvarMedidas(){
   evRender();
 }
 
-async function acompSalvarDia(dateKey,campo,valor){
-  var idx=evDadosCache.findIndex(function(r){return r.data===dateKey;});
-  if(idx>=0){evDadosCache[idx][campo]=valor;}
-  else{var novo={data:dateKey,user_id:currentUser.id};novo[campo]=valor;evDadosCache.push(novo);}
-  var payload={};payload[campo]=valor;
-  try{
-    var checkRes=await fetch(SUPABASE_URL+'/rest/v1/acompanhamento?data=eq.'+dateKey+'&user_id=eq.'+currentUser.id+'&select=id',{headers:authHeaders()});
-    var rows=await checkRes.json();
-    if(rows&&rows.length>0){await fetch(SUPABASE_URL+'/rest/v1/acompanhamento?data=eq.'+dateKey+'&user_id=eq.'+currentUser.id,{method:'PATCH',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify(payload)});}
-    else{var ins={data:dateKey,user_id:currentUser.id};ins[campo]=valor;await fetch(SUPABASE_URL+'/rest/v1/acompanhamento',{method:'POST',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify(ins)});}
-  }catch(e){console.error('Erro ao salvar '+campo+':',e);}
+async function acompSalvarDia(dateKey, campo, valor) {
+  // 1. Atualiza cache local imediatamente
+  var idx = evDadosCache.findIndex(function(r){ return r.data === dateKey; });
+  if(idx >= 0) {
+    evDadosCache[idx][campo] = valor;
+  } else {
+    var novo = { data: dateKey, user_id: currentUser.id };
+    novo[campo] = valor;
+    evDadosCache.push(novo);
+    idx = evDadosCache.length - 1;
+  }
+
+  // 2. Re-renderiza histórico imediatamente
+  evRender();
+
+  // 3. Persiste no Supabase
+  var payload = {};
+  payload[campo] = valor; // null é enviado explicitamente para apagar
+
+  try {
+    var checkRes = await fetch(
+      SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + dateKey + '&user_id=eq.' + currentUser.id + '&select=id',
+      { headers: authHeaders() }
+    );
+    var rows = await checkRes.json();
+
+    if (rows && rows.length > 0) {
+      await fetch(
+        SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + dateKey + '&user_id=eq.' + currentUser.id,
+        {
+          method: 'PATCH',
+          headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+          body: JSON.stringify(payload)
+        }
+      );
+    } else {
+      // Só cria se o valor não for null
+      if(valor !== null && valor !== undefined) {
+        var ins = { data: dateKey, user_id: currentUser.id };
+        ins[campo] = valor;
+        await fetch(SUPABASE_URL + '/rest/v1/acompanhamento', {
+          method: 'POST',
+          headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+          body: JSON.stringify(ins)
+        });
+      }
+    }
+  } catch(e) {
+    console.error('Erro ao salvar ' + campo + ':', e);
+  }
+}
+
+function pickHumor(el, emoji, label) {
+  var jaSelected = el.classList.contains('selected');
+  document.getElementById('evolucao').querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
+  if(!jaSelected) el.classList.add('selected');
+  var novoValor = jaSelected ? null : humorMap[emoji];
+  // Atualiza cache imediatamente
+  var key = evDiaKey();
+  var idx = evDadosCache.findIndex(function(r){ return r.data === key; });
+  if(idx >= 0) evDadosCache[idx].humor = novoValor;
+  acompSalvarDia(key, 'humor', novoValor);
+  showToast(jaSelected ? 'Humor removido' : 'Humor salvo ✓');
+}
+
+function toggleAcademiaHoje() {
+  var key = evDiaKey();
+  var idx = evDadosCache.findIndex(function(r){ return r.data === key; });
+  var row = idx >= 0 ? evDadosCache[idx] : {};
+  var novo = row.foi_academia ? 0 : 1;
+  // Atualiza cache imediatamente
+  if(idx >= 0) evDadosCache[idx].foi_academia = novo;
+  else { var n = { data: key, user_id: currentUser.id, foi_academia: novo }; evDadosCache.push(n); }
+  renderGymToggle(novo);
+  acompSalvarDia(key, 'foi_academia', novo);
+  showToast(novo ? 'Academia registrada ✓' : 'Academia removida');
+}
+
+async function salvarMedidas() {
+  var peso    = document.getElementById('med-peso').value;
+  var gordura = document.getElementById('med-gordura').value;
+  var massa   = document.getElementById('med-massa').value;
+  var medidas = {
+    cintura: document.getElementById('med-cintura').value,
+    quadril: document.getElementById('med-quadril').value,
+    braco:   document.getElementById('med-braco').value,
+    coxa:    document.getElementById('med-coxa').value
+  };
+  var hasAny = peso || gordura || massa || Object.values(medidas).some(function(v){ return !!v; });
+  if(!hasAny) { document.getElementById('medidas-msg').textContent = 'Preencha pelo menos um campo.'; return; }
+
+  var key = evDiaKey();
+
+  // Atualiza cache de todos os campos de uma vez antes de salvar
+  var idx = evDadosCache.findIndex(function(r){ return r.data === key; });
+  if(idx < 0) { evDadosCache.push({ data: key, user_id: currentUser.id }); idx = evDadosCache.length - 1; }
+  if(peso)    evDadosCache[idx].peso    = parseFloat(peso);
+  if(gordura) evDadosCache[idx].gordura = parseFloat(gordura);
+  if(massa)   evDadosCache[idx].massa   = parseFloat(massa);
+  evDadosCache[idx].medidas = medidas;
+  evRender();
+
+  // Salva no Supabase
+  if(peso)    await acompSalvarDia(key, 'peso',    parseFloat(peso));
+  if(gordura) await acompSalvarDia(key, 'gordura', parseFloat(gordura));
+  if(massa)   await acompSalvarDia(key, 'massa',   parseFloat(massa));
+  await acompSalvarDia(key, 'medidas', medidas);
+
+  document.getElementById('medidas-msg').textContent = 'Medidas salvas ✓';
+  setTimeout(function(){ document.getElementById('medidas-msg').textContent = ''; }, 3000);
 }
 
 function evRenderSemana(){
