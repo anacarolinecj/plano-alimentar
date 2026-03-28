@@ -1393,63 +1393,86 @@ function toggleHistRef(id) {
 var humorMap = { '😞':1,'😕':2,'😐':3,'😊':4,'😄':5 };
 var humorRevMap = { 1:{label:'Péssimo'},2:{label:'Ruim'},3:{label:'Ok'},4:{label:'Bom'},5:{label:'Ótimo'} };
 
+// Lê o estado atual do dia direto do cache (humor + exercicio + medidas)
+function getTodayAcomp() {
+  var idx = evDadosCache.findIndex(function(r){ return r.data === todayKey(); });
+  return idx >= 0 ? evDadosCache[idx] : null;
+}
+
 function pickHumor(el, emoji, label) {
-  var container = document.getElementById('evolucao');
-  container.querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
-  el.classList.add('selected');
-  salvarAcompanhamento({ humor: humorMap[emoji] });
-  showToast('Humor salvo ✓');
+  var secao = document.getElementById('evolucao');
+  var jaSelected = el.classList.contains('selected');
+  secao.querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
+  var novoHumor = jaSelected ? null : humorMap[emoji];
+  if(!jaSelected) el.classList.add('selected');
+  salvarAcompanhamento({ humor: novoHumor });
+  showToast(jaSelected ? 'Humor removido' : 'Humor salvo ✓');
 }
 
 function toggleAcademia(el, dia) {
   el.classList.toggle('active');
   var dias = [];
-  document.getElementById('evolucao').querySelectorAll('.dia-opt.active').forEach(function(d){ dias.push(d.getAttribute('data-dia')); });
-  salvarAcompanhamento({ exercicio: dias.join(',') });
+  document.getElementById('evolucao').querySelectorAll('.dia-opt.active').forEach(function(d){
+    dias.push(d.getAttribute('data-dia'));
+  });
+  salvarAcompanhamento({ exercicio: dias.length ? dias.join(',') : null });
   showToast('Academia salvo ✓');
 }
 
 async function salvarAcompanhamento(campos) {
-  // Merge com dados existentes do dia no cache
+  // 1. Pega tudo que já existe hoje no cache
   var idx = evDadosCache.findIndex(function(r){ return r.data === todayKey(); });
-  var existente = idx >= 0 ? evDadosCache[idx] : {};
-  var merged = Object.assign({}, existente, campos, { updated_at: new Date().toISOString() });
+  var base = idx >= 0 ? Object.assign({}, evDadosCache[idx]) : {};
 
-  // Atualiza cache imediatamente
-  if(idx >= 0) { evDadosCache[idx] = merged; }
-  else { evDadosCache.push(Object.assign({}, merged, { data: todayKey(), user_id: currentUser.id })); }
+  // 2. Aplica os novos campos por cima
+  Object.keys(campos).forEach(function(k){ base[k] = campos[k]; });
+  base.updated_at = new Date().toISOString();
+
+  // 3. Atualiza cache
+  if(idx >= 0) { evDadosCache[idx] = base; } else { evDadosCache.push(Object.assign({}, base, { data: todayKey(), user_id: currentUser.id })); }
   evRender();
+
+  // 4. Monta payload limpo (sem id, sem user_id para o PATCH)
+  var payload = { updated_at: base.updated_at };
+  ['humor','exercicio','peso','gordura','massa','medidas'].forEach(function(k){
+    if(base[k] !== undefined) payload[k] = base[k];
+  });
 
   try {
     var checkRes = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id + '&select=id', { headers: authHeaders() });
     var rows = await checkRes.json();
-    if(rows && rows.length) {
+    if(rows && rows.length > 0) {
       await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + todayKey() + '&user_id=eq.' + currentUser.id, {
         method: 'PATCH',
         headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-        body: JSON.stringify(campos)
+        body: JSON.stringify(payload)
       });
     } else {
       await fetch(SUPABASE_URL + '/rest/v1/acompanhamento', {
         method: 'POST',
         headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-        body: JSON.stringify(Object.assign({}, campos, { data: todayKey(), user_id: currentUser.id, updated_at: new Date().toISOString() }))
+        body: JSON.stringify(Object.assign({}, payload, { data: todayKey(), user_id: currentUser.id }))
       });
     }
   } catch(e) { console.error('Erro acompanhamento:', e); }
 }
 
 async function salvarMedidas() {
-  var peso = document.getElementById('med-peso').value;
+  var peso    = document.getElementById('med-peso').value;
   var gordura = document.getElementById('med-gordura').value;
-  var massa = document.getElementById('med-massa').value;
-  var medidas = { cintura: document.getElementById('med-cintura').value, quadril: document.getElementById('med-quadril').value, braco: document.getElementById('med-braco').value, coxa: document.getElementById('med-coxa').value };
+  var massa   = document.getElementById('med-massa').value;
+  var medidas = {
+    cintura: document.getElementById('med-cintura').value,
+    quadril: document.getElementById('med-quadril').value,
+    braco:   document.getElementById('med-braco').value,
+    coxa:    document.getElementById('med-coxa').value
+  };
   var hasAny = peso || gordura || massa || Object.values(medidas).some(function(v){ return v; });
   if(!hasAny) { document.getElementById('medidas-msg').textContent = 'Preencha pelo menos um campo.'; return; }
   var campos = { medidas: medidas };
-  if(peso) campos.peso = parseFloat(peso);
+  if(peso)    campos.peso    = parseFloat(peso);
   if(gordura) campos.gordura = parseFloat(gordura);
-  if(massa) campos.massa = parseFloat(massa);
+  if(massa)   campos.massa   = parseFloat(massa);
   await salvarAcompanhamento(campos);
   document.getElementById('medidas-msg').textContent = 'Medidas salvas ✓';
   setTimeout(function(){ document.getElementById('medidas-msg').textContent = ''; }, 3000);
