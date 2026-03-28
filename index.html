@@ -225,8 +225,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="fora-dieta-section">
       <div class="fora-dieta-label">Fora da dieta?</div>
       <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'pretreino')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
-      <input type="text" class="fora-dieta-input" data-ref="pretreino-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
-      <input type="text" class="fora-dieta-input" data-ref="pretreino-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="pretreino-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="pretreino-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)" />
     </div>
   </div>
 
@@ -276,8 +276,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="fora-dieta-section">
       <div class="fora-dieta-label">Fora da dieta?</div>
       <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'cafe')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
-      <input type="text" class="fora-dieta-input" data-ref="cafe-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
-      <input type="text" class="fora-dieta-input" data-ref="cafe-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="cafe-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="cafe-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)" />
     </div>
   </div>
 
@@ -352,8 +352,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="fora-dieta-section">
       <div class="fora-dieta-label">Fora da dieta?</div>
       <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'alm')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
-      <input type="text" class="fora-dieta-input" data-ref="alm-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
-      <input type="text" class="fora-dieta-input" data-ref="alm-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="alm-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="alm-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)" />
     </div>
   </div>
 
@@ -388,8 +388,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="fora-dieta-section">
       <div class="fora-dieta-label">Fora da dieta?</div>
       <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'lanche')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
-      <input type="text" class="fora-dieta-input" data-ref="lanche-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
-      <input type="text" class="fora-dieta-input" data-ref="lanche-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="lanche-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="lanche-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)" />
     </div>
   </div>
 
@@ -425,8 +425,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="fora-dieta-section">
       <div class="fora-dieta-label">Fora da dieta?</div>
       <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'jantar')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
-      <input type="text" class="fora-dieta-input" data-ref="jantar-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
-      <input type="text" class="fora-dieta-input" data-ref="jantar-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="jantar-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="jantar-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)" />
     </div>
   </div>
 
@@ -1306,17 +1306,70 @@ async function loadHistorico() {
     var days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
     var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
     var html = '';
-    rows.forEach(function(row) {
+    rows.forEach(function(row, idx) {
       var parts = row.data.split('-');
       var d = new Date(parts[0], parts[1]-1, parts[2]);
-      var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
-      var result = renderChoicesAgrupado(row.choices||{}, true, row.water);
-      html += '<div style="margin-bottom:16px"><div style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:10px">' + dateStr + (row.data===todayKey()?' — hoje':'') + '</div>';
-      html += result.hasAny ? result.html : '<div style="font-size:12px;color:var(--muted)">Nenhuma escolha registrada</div>';
-      html += '</div><hr style="border:none;border-top:1px solid var(--border);margin-bottom:16px">';
+      var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + (row.data === todayKey() ? ' — hoje' : '');
+      var choices = row.choices || {};
+      var refeicoesTitles = refeicoes.filter(function(r) {
+        return r.keys.some(function(k) { return choices[k]; });
+      }).map(function(r) { return r.label.split(' ').slice(1).join(' '); });
+      var subTitle = refeicoesTitles.length ? refeicoesTitles.join(' · ') : 'Nenhuma escolha';
+      var rowId = 'hist-ref-' + idx;
+      html += '<div style="border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:8px">';
+      html += '<div onclick="toggleHistRef(\'' + rowId + '\')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:#f5f5f2">';
+      html += '<div><div style="font-size:13px;font-weight:600;color:var(--text)">' + dateStr + '</div>';
+      html += '<div style="font-size:11px;color:var(--muted);margin-top:2px">' + subTitle + '</div></div>';
+      html += '<span id="chevref-' + rowId + '" style="font-size:11px;color:var(--muted);transition:transform 0.2s">▼</span></div>';
+      html += '<div id="' + rowId + '" style="display:none;padding:12px 14px;border-top:1px solid var(--border)">';
+      var hasAny = false;
+      refeicoes.forEach(function(r) {
+        var items = [];
+        var foraRef = null;
+        var foraComeu = null;
+        var foraMotivo = null;
+        r.keys.forEach(function(k) {
+          if(k.startsWith('fora-dieta-') && !k.includes('-comeu') && !k.includes('-motivo') && choices[k]) foraRef = k;
+          else if(k.endsWith('-comeu') && choices[k]) foraComeu = choices[k];
+          else if(k.endsWith('-motivo') && choices[k]) foraMotivo = choices[k];
+          else if(choices[k]) items.push(choices[k]);
+        });
+        if(!items.length && !foraRef) return;
+        hasAny = true;
+        html += '<div style="margin-bottom:10px">';
+        html += '<div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px">' + r.label + '</div>';
+        items.forEach(function(item) {
+          html += '<div style="font-size:13px;color:var(--green);font-weight:500;padding:2px 0">' + item + '</div>';
+        });
+        if(foraRef) {
+          html += '<div style="display:inline-block;background:#fdecea;color:#c0392b;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin:4px 0">Fora da dieta</div>';
+          if(foraComeu || foraMotivo) {
+            html += '<div style="background:#fdecea;border-radius:var(--radius-sm);padding:8px 10px;margin-top:4px">';
+            if(foraComeu) html += '<div style="font-size:12px;color:#7b241c;padding:2px 0"><span style="font-weight:600">Alimento:</span> ' + foraComeu + '</div>';
+            if(foraMotivo) html += '<div style="font-size:12px;color:#7b241c;padding:2px 0"><span style="font-weight:600">Motivo:</span> ' + foraMotivo + '</div>';
+            html += '</div>';
+          }
+        }
+        html += '</div><hr style="border:none;border-top:1px solid var(--border);margin-bottom:10px">';
+      });
+      if(row.water) {
+        html += '<div style="font-size:13px;color:var(--blue);font-weight:500">💧 ' + row.water + ' ml</div>';
+      }
+      if(!hasAny && !row.water) {
+        html += '<div style="font-size:12px;color:var(--muted)">Nenhuma escolha registrada</div>';
+      }
+      html += '</div></div>';
     });
     container.innerHTML = html;
   } catch(e) { container.innerHTML = '<div class="summary-empty">Erro ao carregar histórico.</div>'; }
+}
+
+function toggleHistRef(id) {
+  var body = document.getElementById(id);
+  var chev = document.getElementById('chevref-' + id);
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  chev.style.transform = isOpen ? '' : 'rotate(180deg)';
 }
 
 function showTab(id, title, navEl) {
