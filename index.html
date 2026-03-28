@@ -210,9 +210,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <div class="meal-icon" style="background:#d8f3dc">☕</div>
-        <div><div class="card-title">Pré-treino</div><div class="meal-time">7h30</div></div>
+      <div class="card-header" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="meal-icon" style="background:#d8f3dc">☕</div>
+          <div><div class="card-title">Pré-treino</div><div class="meal-time">7h30</div></div>
+        </div>
+        <button onclick="clearRefeicao(['pretreino'],'pretreino')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
       </div>
       <div class="option-list" id="g-pretreino">
         <div class="opt" onclick="pickOpt('pretreino',this,'Café com leite','1 xícara (250 ml)')"><div class="opt-check"></div><span class="opt-text">Café com leite</span><span class="opt-qty">1 xícara (250 ml)</span></div>
@@ -220,9 +223,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <div class="meal-icon" style="background:#fff3cd">🌅</div>
-        <div><div class="card-title">Café da manhã</div><div class="meal-time">10h00</div></div>
+      <div class="card-header" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="meal-icon" style="background:#fff3cd">🌅</div>
+          <div><div class="card-title">Café da manhã</div><div class="meal-time">10h00</div></div>
+        </div>
+        <button onclick="clearRefeicao(['cafe-carb','cafe-prot','cafe-fruta','cafe-chia'],'cafe')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
       </div>
       <div class="group-label" style="margin-top:0">Carboidrato</div>
       <div class="option-list" id="g-cafe-carb">
@@ -271,9 +277,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <div class="meal-icon" style="background:#d8f3dc">🍽️</div>
-        <div><div class="card-title">Almoço</div><div class="meal-time">13h00</div></div>
+      <div class="card-header" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="meal-icon" style="background:#d8f3dc">🍽️</div>
+          <div><div class="card-title">Almoço</div><div class="meal-time">13h00</div></div>
+        </div>
+        <button onclick="clearRefeicao(['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot'],'alm')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
       </div>
       <div class="group-label" style="margin-top:0">Bebida</div>
       <div class="fruit-pills" id="g-alm-bebida" style="margin-bottom:14px">
@@ -346,9 +355,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <div class="meal-icon" style="background:#fff3cd">🍎</div>
-        <div><div class="card-title">Lanche da tarde</div><div class="meal-time">16h00</div></div>
+      <div class="card-header" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="meal-icon" style="background:#fff3cd">🍎</div>
+          <div><div class="card-title">Lanche da tarde</div><div class="meal-time">16h00</div></div>
+        </div>
+        <button onclick="clearRefeicao(['lanche-bebida','lanche','lanche-cafe'],'lanche')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
       </div>
       <div class="group-label" style="margin-top:0">Bebida</div>
       <div class="fruit-pills" id="g-lanche-bebida" style="margin-bottom:14px">
@@ -381,9 +393,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <div class="meal-icon" style="background:#eff6ff">🌙</div>
-        <div><div class="card-title">Jantar</div><div class="meal-time">19h00</div></div>
+      <div class="card-header" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="meal-icon" style="background:#eff6ff">🌙</div>
+          <div><div class="card-title">Jantar</div><div class="meal-time">19h00</div></div>
+        </div>
+        <button onclick="clearRefeicao(['jantar-bebida','jantar-marmita','jantar'],'jantar')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
       </div>
       <div class="group-label" style="margin-top:0">Bebida</div>
       <div class="fruit-pills" id="g-jantar-bebida" style="margin-bottom:14px">
@@ -392,6 +407,13 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="fruit-pill" data-label="Suco" onclick="pickPill('jantar-bebida',this)">🧃 Suco</div>
         <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('jantar-bebida',this)">🥤 Refri zero</div>
       </div>
+      <div class="group-label">Marmita pronta</div>
+      <div class="option-list" id="g-jantar-marmita">
+        <div class="opt" onclick="pickJantarMarmita(this)"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div>
+      </div>
+      <input type="text" id="jantar-marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveJantarMarmitaDesc()" />
+      <div style="height:1px;background:var(--border);margin:12px 0"></div>
+      <div class="group-label" style="margin-top:0">Escolha uma opção</div>
       <div class="option-list" id="g-jantar">
         <div class="opt" onclick="pickOpt('jantar',this,'Marmita pronta','—')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span><span class="opt-qty">—</span></div>
         <div class="opt" onclick="pickOpt('jantar',this,'Wrap + folhas + carne/frango + requeijão','5 col. proteína')"><div class="opt-check"></div><span class="opt-text">Wrap (Rap 10) + folhas + carne/frango + requeijão</span><span class="opt-qty">5 col. proteína</span></div>
@@ -873,7 +895,33 @@ function toggleOpt(group, el, label) {
   scheduleSave(); showToast('Salvo ✓');
 }
 
-function toggleLancheCafe(el) {
+function clearRefeicao(grupos, ref) {
+  grupos.forEach(function(g) { delete state.choices[g]; });
+  // Limpa opts
+  grupos.forEach(function(g) {
+    var container = document.getElementById('g-' + g);
+    if(container) container.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
+  });
+  // Limpa inputs marmita/fora da dieta
+  var inputs = ['marmita-desc','jantar-marmita-desc','fora-dieta-' + ref + '-comeu','fora-dieta-' + ref + '-motivo'];
+  inputs.forEach(function(id) {
+    var el = document.getElementById(id); if(!el) return;
+    el.style.display = 'none'; el.value = '';
+  });
+  // Limpa fora da dieta opt
+  if(ref) {
+    delete state.choices['fora-dieta-' + ref];
+    delete state.choices['fora-dieta-' + ref + '-comeu'];
+    delete state.choices['fora-dieta-' + ref + '-motivo'];
+    document.querySelectorAll('.fora-dieta-opt').forEach(function(opt) {
+      if(opt.getAttribute('onclick') && opt.getAttribute('onclick').indexOf("'" + ref + "'") > -1) {
+        opt.classList.remove('selected');
+        opt.parentElement.querySelectorAll('.fora-dieta-input').forEach(function(i){ i.style.display='none'; i.value=''; });
+      }
+    });
+  }
+  scheduleSave(); showToast('Limpo ✓');
+}
   el.classList.toggle('selected');
   if(el.classList.contains('selected')) state.choices['lanche-cafe'] = 'Café com leite — 1 xícara';
   else delete state.choices['lanche-cafe'];
@@ -932,6 +980,17 @@ function saveMarmitaDesc() {
 function restoreChoices() {
   // Grupos com .opt (radio)
   var optGroups = ['pretreino','cafe-carb','cafe-chia','doce','alm-carb','alm-legu','alm-prot','lanche','jantar'];
+  // Jantar marmita
+  if(state.choices['jantar-marmita']) {
+    var jmOpt = document.querySelector('#g-jantar-marmita .opt');
+    if(jmOpt) jmOpt.classList.add('selected');
+    var jdesc = document.getElementById('jantar-marmita-desc');
+    if(jdesc) {
+      jdesc.style.display = 'block';
+      var jval = state.choices['jantar-marmita'];
+      jdesc.value = jval.startsWith('Marmita: ') ? jval.replace('Marmita: ','') : '';
+    }
+  }
   optGroups.forEach(function(g) {
     var val = state.choices[g]; if(!val) return;
     var container = document.getElementById('g-' + g); if(!container) return;
@@ -1027,7 +1086,7 @@ var refeicoes = [
   { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot','cafe-fruta','cafe-chia','fora-dieta-cafe','fora-dieta-cafe-comeu','fora-dieta-cafe-motivo'] },
   { label: '🍽️ Almoço', keys: ['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot','fora-dieta-alm','fora-dieta-alm-comeu','fora-dieta-alm-motivo'] },
   { label: '🍎 Lanche da tarde', keys: ['lanche-bebida','lanche','lanche-cafe','fora-dieta-lanche','fora-dieta-lanche-comeu','fora-dieta-lanche-motivo'] },
-  { label: '🌙 Jantar', keys: ['jantar-bebida','jantar','fora-dieta-jantar','fora-dieta-jantar-comeu','fora-dieta-jantar-motivo'] },
+  { label: '🌙 Jantar', keys: ['jantar-bebida','jantar-marmita','jantar','fora-dieta-jantar','fora-dieta-jantar-comeu','fora-dieta-jantar-motivo'] },
   { label: '🍫 Doce do dia', keys: ['doce'] },
   { label: '🍵 Ceia', keys: ['ceia'] }
 ];
@@ -1093,10 +1152,9 @@ function showTab(id, title, navEl) {
 function clearDay() {
   if(!confirm('Limpar todas as escolhas de hoje?')) return;
   state.choices = {}; state.water = 0;
-  document.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
-  document.querySelectorAll('.fruit-pill').forEach(function(p){ p.classList.remove('selected'); });
-  var desc = document.getElementById('marmita-desc');
-  if(desc) { desc.style.display = 'none'; desc.value = ''; }
+  document.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
+  document.querySelectorAll('.fora-dieta-opt').forEach(function(o){ o.classList.remove('selected'); });
+  document.querySelectorAll('.fora-dieta-input, .marmita-input').forEach(function(i){ i.style.display='none'; i.value=''; });
   renderWater(); scheduleSave(); showToast('Escolhas apagadas');
 }
 
