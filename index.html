@@ -49,24 +49,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .content{max-width:600px;margin:0 auto;padding:20px 16px 100px}
 .section{display:none}
 .section.active{display:block}
-.date-badge{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;background:var(--green-pale);border-radius:var(--radius-sm);padding:10px 14px}
+.date-badge{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;background:var(--green-pale);border-radius:var(--radius-sm);padding:10px 14px}
 .date-badge span{font-size:13px;color:var(--green);font-weight:500}
 .date-badge button{background:none;border:1px solid var(--green-light);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif}
-.card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:18px;margin-bottom:10px;box-shadow:var(--shadow)}
-.meal-card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden}
-.meal-acc-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none}
-.meal-acc-hdr:hover{background:#f5f5f2}
-.meal-acc-body{display:none;padding:4px 18px 16px;border-top:1px solid var(--border)}
-.meal-acc-chev{font-size:11px;color:var(--muted);transition:transform 0.2s;flex-shrink:0}
-.meal-acc-sum{font-size:11px;color:var(--muted);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
-.meal-acc-sum.filled{color:var(--green);font-weight:500}
+.card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
 .card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;justify-content:space-between}
 .card-header-left{display:flex;align-items:center;gap:10px}
 .meal-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .card-title{font-size:15px;font-weight:600;color:var(--text)}
 .meal-time{font-size:11px;color:var(--muted);margin-top:1px}
 .clear-btn{background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;flex-shrink:0}
-.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin:12px 0 6px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin:14px 0 6px}
+.group-label:first-child{margin-top:0}
 .option-list{display:flex;flex-direction:column;gap:5px}
 .opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;background:var(--bg);-webkit-tap-highlight-color:transparent;user-select:none}
 .opt:active{transform:scale(0.98)}
@@ -87,8 +81,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .fruit-pill.selected span{color:var(--green-light)}
 .marmita-input{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);outline:none;margin-top:8px;display:none}
 .marmita-input:focus{border-color:var(--green-light)}
-.section-divider{height:1px;background:var(--border);margin:12px 0}
-.fora-dieta-section{margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.section-divider{height:1px;background:var(--border);margin:14px 0}
+.fora-dieta-section{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
 .fora-dieta-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#e05252;margin-bottom:6px}
 .fora-dieta-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;background:var(--bg);transition:all 0.15s}
 .fora-dieta-opt.selected{background:#fdecea;border-color:#e05252}
@@ -188,272 +182,185 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <main class="content" id="main-content" style="display:none">
 
-<!-- REFEIÇÕES -->
 <section id="refeicoes" class="section active">
   <div class="date-badge"><span id="date-display">—</span><button onclick="clearDay()">Limpar tudo</button></div>
 
-  <!-- helper macro para cada refeição accordion -->
-  <!-- PRÉ-TREINO -->
-  <div class="meal-card">
-    <div class="meal-acc-hdr" onclick="toggleMeal(this)">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <div class="meal-icon" style="background:#d8f3dc;flex-shrink:0">☕</div>
-        <div style="min-width:0"><div class="card-title">Pré-treino</div><div id="sum-pretreino" class="meal-acc-sum">7h30</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <button class="clear-btn" onclick="event.stopPropagation();clearRefeicao(['pretreino'],'pretreino')">Limpar</button>
-        <span class="meal-acc-chev">▼</span>
-      </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">☕</div><div><div class="card-title">Pré-treino</div><div class="meal-time">7h30</div></div></div><button class="clear-btn" onclick="clearRefeicao(['pretreino'],'pretreino')">Limpar</button></div>
+    <div class="option-list" id="g-pretreino"><div class="opt" onclick="pickOpt('pretreino',this,'Café com leite','1 xícara (250 ml)')"><div class="opt-check"></div><span class="opt-text">Café com leite</span><span class="opt-qty">1 xícara (250 ml)</span></div></div>
+    <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'pretreino')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="pretreino-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="pretreino-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🌅</div><div><div class="card-title">Café da manhã</div><div class="meal-time">10h00</div></div></div><button class="clear-btn" onclick="clearRefeicao(['cafe-carb','cafe-prot','cafe-fruta','cafe-chia'],'cafe')">Limpar</button></div>
+    <div class="group-label" style="margin-top:0">Carboidrato</div>
+    <div class="option-list" id="g-cafe-carb">
+      <div class="opt" onclick="pickOpt('cafe-carb',this,'Pão de forma integral','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão de forma integral</span><span class="opt-qty">2 fatias</span></div>
+      <div class="opt" onclick="pickOpt('cafe-carb',this,'Pão francês','1 unidade')"><div class="opt-check"></div><span class="opt-text">Pão francês</span><span class="opt-qty">1 unidade</span></div>
+      <div class="opt" onclick="pickOpt('cafe-carb',this,'Torrada integral','4 unidades')"><div class="opt-check"></div><span class="opt-text">Torrada integral</span><span class="opt-qty">4 unidades</span></div>
+      <div class="opt" onclick="pickOpt('cafe-carb',this,'Tapioca / cuscuz','3 col. sopa')"><div class="opt-check"></div><span class="opt-text">Tapioca / cuscuz</span><span class="opt-qty">3 col. sopa</span></div>
     </div>
-    <div class="meal-acc-body">
-      <div class="option-list" id="g-pretreino" style="margin-top:8px"><div class="opt" onclick="pickOpt('pretreino',this,'Café com leite','1 xícara (250 ml)')"><div class="opt-check"></div><span class="opt-text">Café com leite</span><span class="opt-qty">1 xícara (250 ml)</span></div></div>
-      <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'pretreino')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="pretreino-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="pretreino-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
+    <div class="group-label">Proteína</div>
+    <div class="option-list" id="g-cafe-prot">
+      <div class="opt" onclick="toggleOpt('cafe-prot',this,'Ovo mexido')" data-label="Ovo mexido"><div class="opt-check"></div><span class="opt-text">Ovo mexido</span><span class="opt-qty">2 unidades</span></div>
+      <div class="opt" onclick="toggleOpt('cafe-prot',this,'Frango desfiado')" data-label="Frango desfiado"><div class="opt-check"></div><span class="opt-text">Frango desfiado</span><span class="opt-qty">3 col. (60 g)</span></div>
+      <div class="opt" onclick="toggleOpt('cafe-prot',this,'Atum')" data-label="Atum"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
+      <div class="opt" onclick="toggleOpt('cafe-prot',this,'Queijo fresco / minas / muçarela')" data-label="Queijo fresco / minas / muçarela"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
+    </div>
+    <div class="group-label">Fruta</div>
+    <div class="fruit-pills" id="g-cafe-fruta">
+      <div class="fruit-pill" data-label="Banana prata" onclick="pickPill('cafe-fruta',this)">🍌 Banana prata <span>1 média</span></div>
+      <div class="fruit-pill" data-label="Morango" onclick="pickPill('cafe-fruta',this)">🍓 Morango <span>12–14 un.</span></div>
+      <div class="fruit-pill" data-label="Maçã" onclick="pickPill('cafe-fruta',this)">🍎 Maçã <span>1 pequena</span></div>
+      <div class="fruit-pill" data-label="Pera" onclick="pickPill('cafe-fruta',this)">🍐 Pera <span>1 pequena</span></div>
+      <div class="fruit-pill" data-label="Laranja" onclick="pickPill('cafe-fruta',this)">🍊 Laranja <span>1 pequena</span></div>
+      <div class="fruit-pill" data-label="Tangerina" onclick="pickPill('cafe-fruta',this)">🍊 Tangerina <span>1 média</span></div>
+      <div class="fruit-pill" data-label="Kiwi" onclick="pickPill('cafe-fruta',this)">🥝 Kiwi <span>1½ un.</span></div>
+      <div class="fruit-pill" data-label="Mamão" onclick="pickPill('cafe-fruta',this)">🍈 Mamão <span>1 fatia</span></div>
+      <div class="fruit-pill" data-label="Abacaxi" onclick="pickPill('cafe-fruta',this)">🍍 Abacaxi <span>2 fatias</span></div>
+      <div class="fruit-pill" data-label="Melão" onclick="pickPill('cafe-fruta',this)">🍈 Melão <span>3 fatias</span></div>
+      <div class="fruit-pill" data-label="Melancia" onclick="pickPill('cafe-fruta',this)">🍉 Melancia <span>2 fatias</span></div>
+      <div class="fruit-pill" data-label="Uvas" onclick="pickPill('cafe-fruta',this)">🍇 Uvas <span>15 un.</span></div>
+      <div class="fruit-pill" data-label="Frutas vermelhas" onclick="pickPill('cafe-fruta',this)">🫐 Frutas vermelhas <span>1 xícara</span></div>
+    </div>
+    <div class="group-label">Chia</div>
+    <div class="option-list" id="g-cafe-chia"><div class="opt" onclick="pickOpt('cafe-chia',this,'Chia','1 col. sobremesa')"><div class="opt-check"></div><span class="opt-text">Chia</span><span class="opt-qty">1 col. sobremesa</span></div></div>
+    <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'cafe')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="cafe-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="cafe-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🍽️</div><div><div class="card-title">Almoço</div><div class="meal-time">13h00</div></div></div><button class="clear-btn" onclick="clearRefeicao(['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot'],'alm')">Limpar</button></div>
+    <div class="group-label" style="margin-top:0">Bebida</div>
+    <div class="fruit-pills" id="g-alm-bebida" style="margin-bottom:14px">
+      <div class="fruit-pill" data-label="Água" onclick="pickPill('alm-bebida',this)">💧 Água</div>
+      <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('alm-bebida',this)">🫧 Água com gás</div>
+      <div class="fruit-pill" data-label="Suco" onclick="pickPill('alm-bebida',this)">🧃 Suco</div>
+      <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('alm-bebida',this)">🥤 Refri zero</div>
+    </div>
+    <div class="group-label">Marmita pronta</div>
+    <div class="option-list" id="g-alm-marmita"><div class="opt" onclick="pickMarmita(this,'marmita-desc','alm-marmita')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div></div>
+    <input type="text" id="marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveMarmitaDesc(this,'alm-marmita')"/>
+    <div class="section-divider"></div>
+    <div class="group-label" style="margin-top:0">Folhas — à vontade</div>
+    <div class="fruit-pills" id="g-alm-folhas">
+      <div class="fruit-pill" data-label="Alface" onclick="togglePill('alm-folhas',this)">🥬 Alface</div>
+      <div class="fruit-pill" data-label="Repolho" onclick="togglePill('alm-folhas',this)">🥬 Repolho</div>
+      <div class="fruit-pill" data-label="Couve" onclick="togglePill('alm-folhas',this)">🥬 Couve</div>
+      <div class="fruit-pill" data-label="Salada pronta" onclick="togglePill('alm-folhas',this)">🥗 Salada pronta</div>
+    </div>
+    <div class="group-label">Legume — 5 col. (100 g)</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:6px">2 legumes? 2,5 col. de cada</div>
+    <div class="fruit-pills" id="g-alm-leg">
+      <div class="fruit-pill" data-label="Cenoura" onclick="togglePill('alm-leg',this)">🥕 Cenoura</div>
+      <div class="fruit-pill" data-label="Abobrinha" onclick="togglePill('alm-leg',this)">🥒 Abobrinha</div>
+      <div class="fruit-pill" data-label="Beterraba" onclick="togglePill('alm-leg',this)">🫀 Beterraba</div>
+      <div class="fruit-pill" data-label="Pepino" onclick="togglePill('alm-leg',this)">🥒 Pepino</div>
+      <div class="fruit-pill" data-label="Tomate" onclick="togglePill('alm-leg',this)">🍅 Tomate</div>
+      <div class="fruit-pill" data-label="Vagem" onclick="togglePill('alm-leg',this)">🫘 Vagem</div>
+      <div class="fruit-pill" data-label="Ervilha" onclick="togglePill('alm-leg',this)">🫛 Ervilha</div>
+      <div class="fruit-pill" data-label="Milho" onclick="togglePill('alm-leg',this)">🌽 Milho</div>
+      <div class="fruit-pill" data-label="Couve-flor" onclick="togglePill('alm-leg',this)">🥦 Couve-flor</div>
+      <div class="fruit-pill" data-label="Brócolis" onclick="togglePill('alm-leg',this)">🥦 Brócolis</div>
+      <div class="fruit-pill" data-label="Palmito" onclick="togglePill('alm-leg',this)">🌴 Palmito</div>
+    </div>
+    <div class="group-label">Carboidrato</div>
+    <div class="option-list" id="g-alm-carb">
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Arroz branco ou integral','6 col. (100 g)')"><div class="opt-check"></div><span class="opt-text">Arroz branco ou integral</span><span class="opt-qty">6 col. (100 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Batata / purê','6 col. (170 g)')"><div class="opt-check"></div><span class="opt-text">Batata / purê</span><span class="opt-qty">6 col. (170 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Abóbora','7 col. (200 g)')"><div class="opt-check"></div><span class="opt-text">Abóbora</span><span class="opt-qty">7 col. (200 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Macarrão','1 prato (100 g)')"><div class="opt-check"></div><span class="opt-text">Macarrão</span><span class="opt-qty">1 prato (100 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Batata doce','4 rodelas (120 g)')"><div class="opt-check"></div><span class="opt-text">Batata doce</span><span class="opt-qty">4 rodelas (120 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Mandioca','110 g')"><div class="opt-check"></div><span class="opt-text">Mandioca</span><span class="opt-qty">110 g</span></div>
+    </div>
+    <div class="group-label">Leguminosa</div>
+    <div class="option-list" id="g-alm-legu">
+      <div class="opt" onclick="pickOpt('alm-legu',this,'Feijão','1 concha (80 g)')"><div class="opt-check"></div><span class="opt-text">Feijão</span><span class="opt-qty">1 concha (80 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-legu',this,'Ervilha / lentilha','3 col. (60 g)')"><div class="opt-check"></div><span class="opt-text">Ervilha / lentilha</span><span class="opt-qty">3 col. (60 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-legu',this,'Grão de bico','2 col. (50 g)')"><div class="opt-check"></div><span class="opt-text">Grão de bico</span><span class="opt-qty">2 col. (50 g)</span></div>
+    </div>
+    <div class="group-label">Proteína</div>
+    <div class="option-list" id="g-alm-prot">
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Frango grelhado / desfiado','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Frango grelhado / desfiado</span><span class="opt-qty">1 filé (120 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Peixe','1 filé (140 g)')"><div class="opt-check"></div><span class="opt-text">Peixe</span><span class="opt-qty">1 filé (140 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Ovos','3 unidades')"><div class="opt-check"></div><span class="opt-text">Ovos (mexido / cozido / omelete)</span><span class="opt-qty">3 unidades</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Carne moída','6 col. (120 g)')"><div class="opt-check"></div><span class="opt-text">Carne moída</span><span class="opt-qty">6 col. (120 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Filé de carne','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Filé de carne</span><span class="opt-qty">1 filé (120 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Molho à bolonhesa','1 concha')"><div class="opt-check"></div><span class="opt-text">Molho à bolonhesa</span><span class="opt-qty">1 concha</span></div>
+    </div>
+    <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'alm')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="alm-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="alm-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍎</div><div><div class="card-title">Lanche da tarde</div><div class="meal-time">16h00</div></div></div><button class="clear-btn" onclick="clearRefeicao(['lanche-bebida','lanche','lanche-cafe'],'lanche')">Limpar</button></div>
+    <div class="group-label" style="margin-top:0">Bebida</div>
+    <div class="fruit-pills" id="g-lanche-bebida" style="margin-bottom:14px">
+      <div class="fruit-pill" data-label="Água" onclick="pickPill('lanche-bebida',this)">💧 Água</div>
+      <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('lanche-bebida',this)">🫧 Água com gás</div>
+      <div class="fruit-pill" data-label="Suco" onclick="pickPill('lanche-bebida',this)">🧃 Suco</div>
+      <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('lanche-bebida',this)">🥤 Refri zero</div>
+    </div>
+    <div class="group-label">Escolha uma opção</div>
+    <div class="option-list" id="g-lanche">
+      <div class="opt" onclick="pickOpt('lanche',this,'Iogurte natural + fruta + aveia/granola','2 col. aveia')"><div class="opt-check"></div><span class="opt-text">Iogurte natural + fruta + aveia ou granola</span><span class="opt-qty">2 col. aveia</span></div>
+      <div class="opt" onclick="pickOpt('lanche',this,'Bolo de caneca','1 receita')"><div class="opt-check"></div><span class="opt-text">Bolo de caneca</span><span class="opt-qty">1 receita</span></div>
+      <div class="opt" onclick="pickOpt('lanche',this,'Panqueca de banana','banana + ovo + aveia')"><div class="opt-check"></div><span class="opt-text">Panqueca de banana</span><span class="opt-qty">banana + ovo + aveia</span></div>
+      <div class="opt" onclick="pickOpt('lanche',this,'Pão integral + proteína + ricota + fruta','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão integral + proteína + ricota + fruta</span><span class="opt-qty">2 fatias</span></div>
+    </div>
+    <div class="section-divider"></div>
+    <div class="group-label" style="margin-top:0">Adicionar</div>
+    <div class="option-list" id="g-lanche-cafe"><div class="opt" onclick="toggleLancheCafe(this)"><div class="opt-check"></div><span class="opt-text">☕ Café com leite</span><span class="opt-qty">1 xícara</span></div></div>
+    <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'lanche')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="lanche-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="lanche-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">🌙</div><div><div class="card-title">Jantar</div><div class="meal-time">19h00</div></div></div><button class="clear-btn" onclick="clearRefeicao(['jantar-bebida','jantar-marmita','jantar'],'jantar')">Limpar</button></div>
+    <div class="group-label" style="margin-top:0">Bebida</div>
+    <div class="fruit-pills" id="g-jantar-bebida" style="margin-bottom:14px">
+      <div class="fruit-pill" data-label="Água" onclick="pickPill('jantar-bebida',this)">💧 Água</div>
+      <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('jantar-bebida',this)">🫧 Água com gás</div>
+      <div class="fruit-pill" data-label="Suco" onclick="pickPill('jantar-bebida',this)">🧃 Suco</div>
+      <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('jantar-bebida',this)">🥤 Refri zero</div>
+    </div>
+    <div class="group-label">Marmita pronta</div>
+    <div class="option-list" id="g-jantar-marmita"><div class="opt" onclick="pickMarmita(this,'jantar-marmita-desc','jantar-marmita')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div></div>
+    <input type="text" id="jantar-marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveMarmitaDesc(this,'jantar-marmita')"/>
+    <div class="section-divider"></div>
+    <div class="group-label" style="margin-top:0">Escolha uma opção</div>
+    <div class="option-list" id="g-jantar">
+      <div class="opt" onclick="pickOpt('jantar',this,'Wrap + folhas + carne/frango + requeijão','5 col. proteína')"><div class="opt-check"></div><span class="opt-text">Wrap (Rap 10) + folhas + carne/frango + requeijão</span><span class="opt-qty">5 col. proteína</span></div>
+      <div class="opt" onclick="pickOpt('jantar',this,'Omelete + folhas + legumes','3 ovos')"><div class="opt-check"></div><span class="opt-text">Omelete + folhas + legumes</span><span class="opt-qty">3 ovos</span></div>
+      <div class="opt" onclick="pickOpt('jantar',this,'Crepioca com queijo + tomate + folhas','3 col. tapioca')"><div class="opt-check"></div><span class="opt-text">Crepioca com queijo + tomate + folhas</span><span class="opt-qty">3 col. tapioca</span></div>
+      <div class="opt" onclick="pickOpt('jantar',this,'Hambúrguer caseiro + pão + queijo + folhas','100 g')"><div class="opt-check"></div><span class="opt-text">Hambúrguer caseiro + pão + queijo + folhas</span><span class="opt-qty">100 g</span></div>
+    </div>
+    <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'jantar')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="jantar-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="jantar-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#f5f5f2">🍵</div><div><div class="card-title">Ceia</div><div class="meal-time">Antes de dormir</div></div></div><button class="clear-btn" onclick="clearRefeicao(['ceia'],'')">Limpar</button></div>
+    <div class="group-label" style="margin-top:0">Chá (escolha um)</div>
+    <div class="fruit-pills" id="g-ceia">
+      <div class="fruit-pill" data-label="Camomila" onclick="pickPill('ceia',this)">🌼 Camomila</div>
+      <div class="fruit-pill" data-label="Mulungu" onclick="pickPill('ceia',this)">🌿 Mulungu</div>
+      <div class="fruit-pill" data-label="Erva-cidreira" onclick="pickPill('ceia',this)">🍋 Erva-cidreira</div>
+      <div class="fruit-pill" data-label="Melissa" onclick="pickPill('ceia',this)">🌱 Melissa</div>
     </div>
   </div>
 
-  <!-- CAFÉ DA MANHÃ -->
-  <div class="meal-card">
-    <div class="meal-acc-hdr" onclick="toggleMeal(this)">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <div class="meal-icon" style="background:#fff3cd;flex-shrink:0">🌅</div>
-        <div style="min-width:0"><div class="card-title">Café da manhã</div><div id="sum-cafe" class="meal-acc-sum">10h00</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <button class="clear-btn" onclick="event.stopPropagation();clearRefeicao(['cafe-carb','cafe-prot','cafe-fruta','cafe-chia'],'cafe')">Limpar</button>
-        <span class="meal-acc-chev">▼</span>
-      </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fdecea">🍫</div><div><div class="card-title">Incluso no plano</div></div></div><button class="clear-btn" onclick="clearRefeicao(['doce'],'')">Limpar</button></div>
+    <div class="group-label" style="margin-top:0">Doce do dia (opcional)</div>
+    <div class="option-list" id="g-doce">
+      <div class="opt" onclick="pickOpt('doce',this,'Mel','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🍯 Mel</span><span class="opt-qty">1 col. sopa</span></div>
+      <div class="opt" onclick="pickOpt('doce',this,'Geleia','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🫐 Geleia</span><span class="opt-qty">1 col. sopa</span></div>
+      <div class="opt" onclick="pickOpt('doce',this,'Doce de leite','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🥛 Doce de leite</span><span class="opt-qty">1 col. sopa</span></div>
+      <div class="opt" onclick="pickOpt('doce',this,'Chocolate 50–70%','até 3 quadradinhos')"><div class="opt-check"></div><span class="opt-text">🍫 Chocolate 50–70%</span><span class="opt-qty">até 3 quadradinhos</span></div>
+      <div class="opt" onclick="pickOpt('doce',this,'Sonho de valsa / Ouro branco / Twix / Prestígio','1 un.')"><div class="opt-check"></div><span class="opt-text">🍬 Sonho de valsa / Ouro branco / Twix / Prestígio</span><span class="opt-qty">1 un.</span></div>
     </div>
-    <div class="meal-acc-body">
-      <div class="group-label">Carboidrato</div>
-      <div class="option-list" id="g-cafe-carb">
-        <div class="opt" onclick="pickOpt('cafe-carb',this,'Pão de forma integral','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão de forma integral</span><span class="opt-qty">2 fatias</span></div>
-        <div class="opt" onclick="pickOpt('cafe-carb',this,'Pão francês','1 unidade')"><div class="opt-check"></div><span class="opt-text">Pão francês</span><span class="opt-qty">1 unidade</span></div>
-        <div class="opt" onclick="pickOpt('cafe-carb',this,'Torrada integral','4 unidades')"><div class="opt-check"></div><span class="opt-text">Torrada integral</span><span class="opt-qty">4 unidades</span></div>
-        <div class="opt" onclick="pickOpt('cafe-carb',this,'Tapioca / cuscuz','3 col. sopa')"><div class="opt-check"></div><span class="opt-text">Tapioca / cuscuz</span><span class="opt-qty">3 col. sopa</span></div>
-      </div>
-      <div class="group-label">Proteína</div>
-      <div class="option-list" id="g-cafe-prot">
-        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Ovo mexido')" data-label="Ovo mexido"><div class="opt-check"></div><span class="opt-text">Ovo mexido</span><span class="opt-qty">2 unidades</span></div>
-        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Frango desfiado')" data-label="Frango desfiado"><div class="opt-check"></div><span class="opt-text">Frango desfiado</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Atum')" data-label="Atum"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Queijo fresco / minas / muçarela')" data-label="Queijo fresco / minas / muçarela"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias</span></div>
-      </div>
-      <div class="group-label">Fruta</div>
-      <div class="fruit-pills" id="g-cafe-fruta">
-        <div class="fruit-pill" data-label="Banana prata" onclick="pickPill('cafe-fruta',this)">🍌 Banana prata <span>1 média</span></div>
-        <div class="fruit-pill" data-label="Morango" onclick="pickPill('cafe-fruta',this)">🍓 Morango <span>12–14 un.</span></div>
-        <div class="fruit-pill" data-label="Maçã" onclick="pickPill('cafe-fruta',this)">🍎 Maçã <span>1 pequena</span></div>
-        <div class="fruit-pill" data-label="Pera" onclick="pickPill('cafe-fruta',this)">🍐 Pera <span>1 pequena</span></div>
-        <div class="fruit-pill" data-label="Laranja" onclick="pickPill('cafe-fruta',this)">🍊 Laranja <span>1 pequena</span></div>
-        <div class="fruit-pill" data-label="Tangerina" onclick="pickPill('cafe-fruta',this)">🍊 Tangerina <span>1 média</span></div>
-        <div class="fruit-pill" data-label="Kiwi" onclick="pickPill('cafe-fruta',this)">🥝 Kiwi <span>1½ un.</span></div>
-        <div class="fruit-pill" data-label="Mamão" onclick="pickPill('cafe-fruta',this)">🍈 Mamão <span>1 fatia</span></div>
-        <div class="fruit-pill" data-label="Abacaxi" onclick="pickPill('cafe-fruta',this)">🍍 Abacaxi <span>2 fatias</span></div>
-        <div class="fruit-pill" data-label="Melão" onclick="pickPill('cafe-fruta',this)">🍈 Melão <span>3 fatias</span></div>
-        <div class="fruit-pill" data-label="Melancia" onclick="pickPill('cafe-fruta',this)">🍉 Melancia <span>2 fatias</span></div>
-        <div class="fruit-pill" data-label="Uvas" onclick="pickPill('cafe-fruta',this)">🍇 Uvas <span>15 un.</span></div>
-        <div class="fruit-pill" data-label="Frutas vermelhas" onclick="pickPill('cafe-fruta',this)">🫐 Frutas vermelhas <span>1 xícara</span></div>
-      </div>
-      <div class="group-label">Chia</div>
-      <div class="option-list" id="g-cafe-chia"><div class="opt" onclick="pickOpt('cafe-chia',this,'Chia','1 col. sobremesa')"><div class="opt-check"></div><span class="opt-text">Chia</span><span class="opt-qty">1 col. sobremesa</span></div></div>
-      <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'cafe')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="cafe-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="cafe-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
-    </div>
-  </div>
-
-  <!-- ALMOÇO -->
-  <div class="meal-card">
-    <div class="meal-acc-hdr" onclick="toggleMeal(this)">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <div class="meal-icon" style="background:#d8f3dc;flex-shrink:0">🍽️</div>
-        <div style="min-width:0"><div class="card-title">Almoço</div><div id="sum-alm" class="meal-acc-sum">13h00</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <button class="clear-btn" onclick="event.stopPropagation();clearRefeicao(['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot'],'alm')">Limpar</button>
-        <span class="meal-acc-chev">▼</span>
-      </div>
-    </div>
-    <div class="meal-acc-body">
-      <div class="group-label">Bebida</div>
-      <div class="fruit-pills" id="g-alm-bebida" style="margin-bottom:12px">
-        <div class="fruit-pill" data-label="Água" onclick="pickPill('alm-bebida',this)">💧 Água</div>
-        <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('alm-bebida',this)">🫧 Água com gás</div>
-        <div class="fruit-pill" data-label="Suco" onclick="pickPill('alm-bebida',this)">🧃 Suco</div>
-        <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('alm-bebida',this)">🥤 Refri zero</div>
-      </div>
-      <div class="group-label">Marmita pronta</div>
-      <div class="option-list" id="g-alm-marmita"><div class="opt" onclick="pickMarmita(this,'marmita-desc','alm-marmita')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div></div>
-      <input type="text" id="marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveMarmitaDesc(this,'alm-marmita')"/>
-      <div class="section-divider"></div>
-      <div class="group-label" style="margin-top:0">Folhas — à vontade</div>
-      <div class="fruit-pills" id="g-alm-folhas">
-        <div class="fruit-pill" data-label="Alface" onclick="togglePill('alm-folhas',this)">🥬 Alface</div>
-        <div class="fruit-pill" data-label="Repolho" onclick="togglePill('alm-folhas',this)">🥬 Repolho</div>
-        <div class="fruit-pill" data-label="Couve" onclick="togglePill('alm-folhas',this)">🥬 Couve</div>
-        <div class="fruit-pill" data-label="Salada pronta" onclick="togglePill('alm-folhas',this)">🥗 Salada pronta</div>
-      </div>
-      <div class="group-label">Legume — 5 col. (100 g)</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:6px">2 legumes? 2,5 col. de cada</div>
-      <div class="fruit-pills" id="g-alm-leg">
-        <div class="fruit-pill" data-label="Cenoura" onclick="togglePill('alm-leg',this)">🥕 Cenoura</div>
-        <div class="fruit-pill" data-label="Abobrinha" onclick="togglePill('alm-leg',this)">🥒 Abobrinha</div>
-        <div class="fruit-pill" data-label="Beterraba" onclick="togglePill('alm-leg',this)">🫀 Beterraba</div>
-        <div class="fruit-pill" data-label="Pepino" onclick="togglePill('alm-leg',this)">🥒 Pepino</div>
-        <div class="fruit-pill" data-label="Tomate" onclick="togglePill('alm-leg',this)">🍅 Tomate</div>
-        <div class="fruit-pill" data-label="Vagem" onclick="togglePill('alm-leg',this)">🫘 Vagem</div>
-        <div class="fruit-pill" data-label="Ervilha" onclick="togglePill('alm-leg',this)">🫛 Ervilha</div>
-        <div class="fruit-pill" data-label="Milho" onclick="togglePill('alm-leg',this)">🌽 Milho</div>
-        <div class="fruit-pill" data-label="Couve-flor" onclick="togglePill('alm-leg',this)">🥦 Couve-flor</div>
-        <div class="fruit-pill" data-label="Brócolis" onclick="togglePill('alm-leg',this)">🥦 Brócolis</div>
-        <div class="fruit-pill" data-label="Palmito" onclick="togglePill('alm-leg',this)">🌴 Palmito</div>
-      </div>
-      <div class="group-label">Carboidrato</div>
-      <div class="option-list" id="g-alm-carb">
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Arroz branco ou integral','6 col. (100 g)')"><div class="opt-check"></div><span class="opt-text">Arroz branco ou integral</span><span class="opt-qty">6 col. (100 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Batata / purê','6 col. (170 g)')"><div class="opt-check"></div><span class="opt-text">Batata / purê</span><span class="opt-qty">6 col. (170 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Abóbora','7 col. (200 g)')"><div class="opt-check"></div><span class="opt-text">Abóbora</span><span class="opt-qty">7 col. (200 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Macarrão','1 prato (100 g)')"><div class="opt-check"></div><span class="opt-text">Macarrão</span><span class="opt-qty">1 prato (100 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Batata doce','4 rodelas (120 g)')"><div class="opt-check"></div><span class="opt-text">Batata doce</span><span class="opt-qty">4 rodelas (120 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Mandioca','110 g')"><div class="opt-check"></div><span class="opt-text">Mandioca</span><span class="opt-qty">110 g</span></div>
-      </div>
-      <div class="group-label">Leguminosa</div>
-      <div class="option-list" id="g-alm-legu">
-        <div class="opt" onclick="pickOpt('alm-legu',this,'Feijão','1 concha (80 g)')"><div class="opt-check"></div><span class="opt-text">Feijão</span><span class="opt-qty">1 concha (80 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-legu',this,'Ervilha / lentilha','3 col. (60 g)')"><div class="opt-check"></div><span class="opt-text">Ervilha / lentilha</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-legu',this,'Grão de bico','2 col. (50 g)')"><div class="opt-check"></div><span class="opt-text">Grão de bico</span><span class="opt-qty">2 col. (50 g)</span></div>
-      </div>
-      <div class="group-label">Proteína</div>
-      <div class="option-list" id="g-alm-prot">
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Frango grelhado / desfiado','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Frango grelhado / desfiado</span><span class="opt-qty">1 filé (120 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Peixe','1 filé (140 g)')"><div class="opt-check"></div><span class="opt-text">Peixe</span><span class="opt-qty">1 filé (140 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Ovos','3 unidades')"><div class="opt-check"></div><span class="opt-text">Ovos (mexido / cozido / omelete)</span><span class="opt-qty">3 unidades</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Carne moída','6 col. (120 g)')"><div class="opt-check"></div><span class="opt-text">Carne moída</span><span class="opt-qty">6 col. (120 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Filé de carne','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Filé de carne</span><span class="opt-qty">1 filé (120 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Molho à bolonhesa','1 concha')"><div class="opt-check"></div><span class="opt-text">Molho à bolonhesa</span><span class="opt-qty">1 concha</span></div>
-      </div>
-      <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'alm')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="alm-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="alm-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
-    </div>
-  </div>
-
-  <!-- LANCHE -->
-  <div class="meal-card">
-    <div class="meal-acc-hdr" onclick="toggleMeal(this)">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <div class="meal-icon" style="background:#fff3cd;flex-shrink:0">🍎</div>
-        <div style="min-width:0"><div class="card-title">Lanche da tarde</div><div id="sum-lanche" class="meal-acc-sum">16h00</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <button class="clear-btn" onclick="event.stopPropagation();clearRefeicao(['lanche-bebida','lanche','lanche-cafe'],'lanche')">Limpar</button>
-        <span class="meal-acc-chev">▼</span>
-      </div>
-    </div>
-    <div class="meal-acc-body">
-      <div class="group-label">Bebida</div>
-      <div class="fruit-pills" id="g-lanche-bebida" style="margin-bottom:12px">
-        <div class="fruit-pill" data-label="Água" onclick="pickPill('lanche-bebida',this)">💧 Água</div>
-        <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('lanche-bebida',this)">🫧 Água com gás</div>
-        <div class="fruit-pill" data-label="Suco" onclick="pickPill('lanche-bebida',this)">🧃 Suco</div>
-        <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('lanche-bebida',this)">🥤 Refri zero</div>
-      </div>
-      <div class="group-label">Escolha uma opção</div>
-      <div class="option-list" id="g-lanche">
-        <div class="opt" onclick="pickOpt('lanche',this,'Iogurte natural + fruta + aveia/granola','2 col. aveia')"><div class="opt-check"></div><span class="opt-text">Iogurte natural + fruta + aveia ou granola</span><span class="opt-qty">2 col. aveia</span></div>
-        <div class="opt" onclick="pickOpt('lanche',this,'Bolo de caneca','1 receita')"><div class="opt-check"></div><span class="opt-text">Bolo de caneca</span><span class="opt-qty">1 receita</span></div>
-        <div class="opt" onclick="pickOpt('lanche',this,'Panqueca de banana','banana + ovo + aveia')"><div class="opt-check"></div><span class="opt-text">Panqueca de banana</span><span class="opt-qty">banana + ovo + aveia</span></div>
-        <div class="opt" onclick="pickOpt('lanche',this,'Pão integral + proteína + ricota + fruta','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão integral + proteína + ricota + fruta</span><span class="opt-qty">2 fatias</span></div>
-      </div>
-      <div class="section-divider"></div>
-      <div class="group-label" style="margin-top:0">Adicionar</div>
-      <div class="option-list" id="g-lanche-cafe"><div class="opt" onclick="toggleLancheCafe(this)"><div class="opt-check"></div><span class="opt-text">☕ Café com leite</span><span class="opt-qty">1 xícara</span></div></div>
-      <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'lanche')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="lanche-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="lanche-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
-    </div>
-  </div>
-
-  <!-- JANTAR -->
-  <div class="meal-card">
-    <div class="meal-acc-hdr" onclick="toggleMeal(this)">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <div class="meal-icon" style="background:#eff6ff;flex-shrink:0">🌙</div>
-        <div style="min-width:0"><div class="card-title">Jantar</div><div id="sum-jantar" class="meal-acc-sum">19h00</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <button class="clear-btn" onclick="event.stopPropagation();clearRefeicao(['jantar-bebida','jantar-marmita','jantar'],'jantar')">Limpar</button>
-        <span class="meal-acc-chev">▼</span>
-      </div>
-    </div>
-    <div class="meal-acc-body">
-      <div class="group-label">Bebida</div>
-      <div class="fruit-pills" id="g-jantar-bebida" style="margin-bottom:12px">
-        <div class="fruit-pill" data-label="Água" onclick="pickPill('jantar-bebida',this)">💧 Água</div>
-        <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('jantar-bebida',this)">🫧 Água com gás</div>
-        <div class="fruit-pill" data-label="Suco" onclick="pickPill('jantar-bebida',this)">🧃 Suco</div>
-        <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('jantar-bebida',this)">🥤 Refri zero</div>
-      </div>
-      <div class="group-label">Marmita pronta</div>
-      <div class="option-list" id="g-jantar-marmita"><div class="opt" onclick="pickMarmita(this,'jantar-marmita-desc','jantar-marmita')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div></div>
-      <input type="text" id="jantar-marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveMarmitaDesc(this,'jantar-marmita')"/>
-      <div class="section-divider"></div>
-      <div class="group-label" style="margin-top:0">Escolha uma opção</div>
-      <div class="option-list" id="g-jantar">
-        <div class="opt" onclick="pickOpt('jantar',this,'Wrap + folhas + carne/frango + requeijão','5 col. proteína')"><div class="opt-check"></div><span class="opt-text">Wrap (Rap 10) + folhas + carne/frango + requeijão</span><span class="opt-qty">5 col. proteína</span></div>
-        <div class="opt" onclick="pickOpt('jantar',this,'Omelete + folhas + legumes','3 ovos')"><div class="opt-check"></div><span class="opt-text">Omelete + folhas + legumes</span><span class="opt-qty">3 ovos</span></div>
-        <div class="opt" onclick="pickOpt('jantar',this,'Crepioca com queijo + tomate + folhas','3 col. tapioca')"><div class="opt-check"></div><span class="opt-text">Crepioca com queijo + tomate + folhas</span><span class="opt-qty">3 col. tapioca</span></div>
-        <div class="opt" onclick="pickOpt('jantar',this,'Hambúrguer caseiro + pão + queijo + folhas','100 g')"><div class="opt-check"></div><span class="opt-text">Hambúrguer caseiro + pão + queijo + folhas</span><span class="opt-qty">100 g</span></div>
-      </div>
-      <div class="fora-dieta-section"><div class="fora-dieta-label">Fora da dieta?</div><div class="fora-dieta-opt" onclick="toggleForaDieta(this,'jantar')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div><input type="text" class="fora-dieta-input" data-ref="jantar-comeu" placeholder="🍽️ Alimento: o que você comeu?" oninput="saveForaDieta(this)"/><input type="text" class="fora-dieta-input" data-ref="jantar-motivo" placeholder="💬 Motivo: por qual razão?" oninput="saveForaDieta(this)"/></div>
-    </div>
-  </div>
-
-  <!-- CEIA -->
-  <div class="meal-card">
-    <div class="meal-acc-hdr" onclick="toggleMeal(this)">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <div class="meal-icon" style="background:#f5f5f2;flex-shrink:0">🍵</div>
-        <div style="min-width:0"><div class="card-title">Ceia</div><div id="sum-ceia" class="meal-acc-sum">Antes de dormir</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <button class="clear-btn" onclick="event.stopPropagation();clearRefeicao(['ceia'],'')">Limpar</button>
-        <span class="meal-acc-chev">▼</span>
-      </div>
-    </div>
-    <div class="meal-acc-body">
-      <div class="group-label">Chá (escolha um)</div>
-      <div class="fruit-pills" id="g-ceia">
-        <div class="fruit-pill" data-label="Camomila" onclick="pickPill('ceia',this)">🌼 Camomila</div>
-        <div class="fruit-pill" data-label="Mulungu" onclick="pickPill('ceia',this)">🌿 Mulungu</div>
-        <div class="fruit-pill" data-label="Erva-cidreira" onclick="pickPill('ceia',this)">🍋 Erva-cidreira</div>
-        <div class="fruit-pill" data-label="Melissa" onclick="pickPill('ceia',this)">🌱 Melissa</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- INCLUSO -->
-  <div class="meal-card">
-    <div class="meal-acc-hdr" onclick="toggleMeal(this)">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <div class="meal-icon" style="background:#fdecea;flex-shrink:0">🍫</div>
-        <div style="min-width:0"><div class="card-title">Incluso no plano</div><div id="sum-doce" class="meal-acc-sum">Doce do dia</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <button class="clear-btn" onclick="event.stopPropagation();clearRefeicao(['doce'],'')">Limpar</button>
-        <span class="meal-acc-chev">▼</span>
-      </div>
-    </div>
-    <div class="meal-acc-body">
-      <div class="group-label">Doce do dia (opcional)</div>
-      <div class="option-list" id="g-doce">
-        <div class="opt" onclick="pickOpt('doce',this,'Mel','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🍯 Mel</span><span class="opt-qty">1 col. sopa</span></div>
-        <div class="opt" onclick="pickOpt('doce',this,'Geleia','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🫐 Geleia</span><span class="opt-qty">1 col. sopa</span></div>
-        <div class="opt" onclick="pickOpt('doce',this,'Doce de leite','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🥛 Doce de leite</span><span class="opt-qty">1 col. sopa</span></div>
-        <div class="opt" onclick="pickOpt('doce',this,'Chocolate 50–70%','até 3 quadradinhos')"><div class="opt-check"></div><span class="opt-text">🍫 Chocolate 50–70%</span><span class="opt-qty">até 3 quadradinhos</span></div>
-        <div class="opt" onclick="pickOpt('doce',this,'Sonho de valsa / Ouro branco / Twix / Prestígio','1 un.')"><div class="opt-check"></div><span class="opt-text">🍬 Sonho de valsa / Ouro branco / Twix / Prestígio</span><span class="opt-qty">1 un.</span></div>
-      </div>
-      <div class="section-divider"></div>
-      <div class="fixed-item">☕ Até 4 xícaras de café por dia</div>
-    </div>
+    <div class="section-divider"></div>
+    <div class="fixed-item">☕ Até 4 xícaras de café por dia</div>
   </div>
 </section>
 
-<!-- ÁGUA -->
 <section id="agua" class="section">
   <div class="card">
     <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">💧</div><div class="card-title">Água do dia — meta: 2,4 L</div></div></div>
@@ -470,39 +377,36 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   <div class="note">Evite beber líquidos durante as refeições. Prefira água entre os horários.</div>
 </section>
 
-<!-- RESUMO -->
 <section id="resumo" class="section">
   <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">📋</div><div class="card-title">Resumo de hoje</div></div></div><div id="summary-content"><div class="summary-empty">Faça suas escolhas na aba Refeições para ver o resumo aqui.</div></div></div>
 </section>
 
-<!-- RECEITAS -->
 <section id="receitas" class="section">
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🫙</div><div class="card-title">Bolo de caneca — 3 minutos</div></div></div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>1 ovo</li><li>1 banana prata amassada <strong>ou</strong> 1 maçã ralada</li><li>3 col. sopa de farelo de aveia</li><li>10 gotas de eritritol</li><li>Canela à gosto</li><li>Essência de baunilha à gosto</li><li>1 col. café cheia de fermento em pó</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Misture todos os ingredientes em uma caneca, <strong>exceto o fermento</strong></li><li class="recipe-step">Adicione o fermento por último</li><li class="recipe-step">Leve ao micro-ondas por <strong>3 a 4 minutos</strong></li></ol></div>
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍞</div><div class="card-title">Pão integral + proteína</div></div></div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>2 fatias de pão integral</li><li>Proteína: frango desfiado 2 col. ou atum 2 col. ou ovo cozido 1 un.</li><li>Ricota: 2 col. sopa</li><li>1 porção de fruta</li></ul><div class="group-label">Montagem</div><ol class="recipe-steps"><li class="recipe-step">Passe a ricota nas fatias de pão</li><li class="recipe-step">Adicione a proteína por cima</li><li class="recipe-step">Sirva com a fruta ao lado</li></ol></div>
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fdecea">🍔</div><div class="card-title">Hambúrguer caseiro de patinho</div></div></div><div class="note" style="margin-bottom:12px">Rendimento: 5 hambúrgueres de 100 g prontos</div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>480 g de patinho moído</li><li>1 dente de alho, 1 col. cebola ralada</li><li>Sal e pimenta a gosto</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Misture todos os ingredientes</li><li class="recipe-step">Divida em porções de 110–120 g</li><li class="recipe-step">Grelhe 3–4 minutos de cada lado</li></ol></div>
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍌</div><div class="card-title">Panqueca de banana</div></div></div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>1 banana prata, 1 ovo</li><li>3 col. sopa de farelo de aveia</li><li>1 col. sobremesa de mel, canela à gosto</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Amasse a banana e misture tudo</li><li class="recipe-step">Despeje em frigideira antiaderente</li><li class="recipe-step">Doure dos dois lados</li></ol></div>
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">🌯</div><div class="card-title">Wrap (Rap 10)</div></div></div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>1 wrap Rap 10</li><li>5 col. de carne ou frango (100 g)</li><li>Requeijão 1 col., azeite 1 col.</li><li>Folhas à vontade</li></ul><div class="group-label">Montagem</div><ol class="recipe-steps"><li class="recipe-step">Espalhe o requeijão sobre o wrap</li><li class="recipe-step">Adicione proteína e folhas</li><li class="recipe-step">Regue com azeite e enrole</li></ol></div>
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🫓</div><div class="card-title">Crepioca com queijo</div></div></div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>3 col. sopa de tapioca, 2 ovos</li><li>1 fatia de queijo, sal a gosto</li><li>Tomate fatiado e folhas</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Misture tapioca, ovos e sal</li><li class="recipe-step">Despeje na frigideira</li><li class="recipe-step">Adicione queijo, dobre e sirva</li></ol></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🫙</div><div class="card-title">Bolo de caneca — 3 minutos</div></div></div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>1 ovo</li><li>1 banana prata amassada <strong>ou</strong> 1 maçã ralada</li><li>3 col. sopa de farelo de aveia</li><li>10 gotas de eritritol</li><li>Canela à gosto</li><li>Essência de baunilha à gosto</li><li>1 col. café cheia de fermento em pó</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Misture todos os ingredientes em uma caneca, <strong>exceto o fermento</strong></li><li class="recipe-step">Adicione o fermento por último, mexendo devagar</li><li class="recipe-step">Leve ao micro-ondas por <strong>3 a 4 minutos</strong></li></ol></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍞</div><div class="card-title">Pão integral + proteína</div></div></div><div class="note" style="margin-bottom:12px">Opção de lanche da tarde</div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>2 fatias de pão integral</li><li>Proteína: frango desfiado 2 col. (40 g) <em>ou</em> atum 2 col. (40 g) <em>ou</em> ovo cozido 1 un.</li><li>Ricota: 2 col. sopa (40 g)</li><li>1 porção de fruta</li></ul><div class="group-label">Montagem</div><ol class="recipe-steps"><li class="recipe-step">Passe a ricota nas fatias de pão como base</li><li class="recipe-step">Adicione a proteína escolhida por cima</li><li class="recipe-step">Sirva com a fruta ao lado</li></ol></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fdecea">🍔</div><div class="card-title">Hambúrguer caseiro de patinho</div></div></div><div class="note" style="margin-bottom:12px">Rendimento: 5 hambúrgueres de 100 g prontos</div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>480 g de patinho moído</li><li>1 dente de alho picado ou amassado</li><li>1 col. sopa de cebola ralada</li><li>Sal e pimenta-do-reino a gosto</li><li><em>Opcional:</em> 1 col. chá de azeite ou mostarda dijon</li><li><em>Opcional:</em> orégano, alecrim, salsa ou páprica defumada</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Misture todos os ingredientes até formar uma massa homogênea</li><li class="recipe-step">Divida em 4 porções de 110–120 g (peso cru)</li><li class="recipe-step">Modele com cerca de 2 cm de espessura</li><li class="recipe-step">Grelhe em frigideira antiaderente, 3–4 minutos de cada lado</li><li class="recipe-step">Pronto! Cada unidade terá ~100 g após o cozimento</li></ol></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍌</div><div class="card-title">Panqueca de banana</div></div></div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>1 banana prata (ou morango / maçã)</li><li>1 ovo</li><li>3 col. sopa de farelo de aveia</li><li>1 col. sobremesa de mel (15 g)</li><li>Canela à gosto</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Amasse a banana e misture todos os ingredientes</li><li class="recipe-step">Despeje em frigideira antiaderente em fogo médio</li><li class="recipe-step">Doure dos dois lados e sirva</li></ol></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">🌯</div><div class="card-title">Wrap (Rap 10)</div></div></div><div class="note" style="margin-bottom:12px">Opção de jantar</div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>1 wrap Rap 10</li><li>Proteína: 5 col. sopa de carne ou frango (100 g)</li><li>Requeijão: 1 col. sopa (20 g)</li><li>1 col. sopa de azeite extra virgem</li></ul><div class="group-label">Para acompanhar</div><ul class="ingredient-list"><li>Folhas à vontade (alface, rúcula, couve…)</li></ul><div class="group-label">Montagem</div><ol class="recipe-steps"><li class="recipe-step">Espalhe o requeijão sobre o wrap</li><li class="recipe-step">Adicione a proteína e as folhas</li><li class="recipe-step">Regue com azeite e enrole</li></ol></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍳</div><div class="card-title">Omelete + folhas + legumes</div></div></div><div class="note" style="margin-bottom:12px">Opção de jantar</div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>3 ovos</li><li>Sal, pimenta e ervas a gosto</li><li>1 col. sopa de azeite extra virgem</li></ul><div class="group-label">Para acompanhar</div><ul class="ingredient-list"><li>Legumes refogados ou crus</li><li>Folhas à vontade</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Bata os ovos com sal e ervas</li><li class="recipe-step">Aqueça o azeite em frigideira antiaderente</li><li class="recipe-step">Despeje os ovos e deixe firmar em fogo médio-baixo</li><li class="recipe-step">Dobre ao meio e sirva com folhas e legumes</li></ol></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🫓</div><div class="card-title">Crepioca com queijo</div></div></div><div class="note" style="margin-bottom:12px">Opção de jantar</div><div class="group-label">Ingredientes</div><ul class="ingredient-list"><li>3 col. sopa de tapioca (30 g)</li><li>2 ovos</li><li>Queijo (muçarela ou minas): 1 fatia (20 g)</li><li>Sal a gosto</li></ul><div class="group-label">Para acompanhar</div><ul class="ingredient-list"><li>Tomate fatiado</li><li>Folhas à vontade</li></ul><div class="group-label">Preparo</div><ol class="recipe-steps"><li class="recipe-step">Misture a tapioca com os ovos e sal</li><li class="recipe-step">Despeje em frigideira antiaderente em fogo médio</li><li class="recipe-step">Adicione o queijo e aguarde derreter</li><li class="recipe-step">Dobre ao meio e sirva</li></ol></div>
 </section>
 
-<!-- DICAS -->
 <section id="dicas" class="section">
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🍓</div><div class="card-title">Porções de fruta</div></div></div><div class="fruit-grid"><div class="fruit-item"><strong>Banana prata</strong>1 média (85 g)</div><div class="fruit-item"><strong>Morango</strong>12–14 un. (200 g)</div><div class="fruit-item"><strong>Maçã</strong>1 pequena (130 g)</div><div class="fruit-item"><strong>Pera</strong>1 pequena (130 g)</div><div class="fruit-item"><strong>Laranja</strong>1 pequena (150 g)</div><div class="fruit-item"><strong>Tangerina</strong>1 média (120 g)</div><div class="fruit-item"><strong>Kiwi</strong>1½ un. (130 g)</div><div class="fruit-item"><strong>Mamão</strong>1 fatia (180 g)</div><div class="fruit-item"><strong>Abacaxi</strong>2 fatias (200 g)</div><div class="fruit-item"><strong>Melão</strong>3 fatias (250 g)</div><div class="fruit-item"><strong>Melancia</strong>2 fatias (180 g)</div><div class="fruit-item"><strong>Uvas</strong>15 un. (100 g)</div><div class="fruit-item wide"><strong>Frutas vermelhas</strong> — 1 xícara (150 g)</div></div></div>
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">✅</div><div class="card-title">Orientações gerais</div></div></div><div class="tip-item"><strong>Mastigar bem</strong> — coma devagar</div><div class="tip-item"><strong>Líquidos</strong> — evite refrigerantes durante refeições</div><div class="tip-item"><strong>Temperos</strong> — sal de ervas, alho, cebola, orégano</div><div class="tip-item"><strong>Preparo</strong> — prefira refogado, assado ou grelhado</div><div class="tip-item"><strong>Carnes</strong> — evite embutidos. Prefira patinho ou frango</div><div class="tip-item"><strong>Adoçante</strong> — eritritol no lugar do açúcar</div><div class="tip-item"><strong>Doces</strong> — consuma após almoço ou jantar</div><div class="tip-item"><strong>Ferro</strong> — brócolis, couve, feijão, lentilha</div><div class="tip-item"><strong>Sono</strong> — chá antes de dormir</div><div class="tip-item"><strong>Próxima consulta</strong> — agendar em 30 dias</div></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🍓</div><div class="card-title">Porções de fruta</div></div></div><div class="fruit-grid"><div class="fruit-item"><strong>Banana prata</strong>1 média (85 g)</div><div class="fruit-item"><strong>Morango</strong>12–14 un. (200 g)</div><div class="fruit-item"><strong>Maçã</strong>1 pequena (130 g)</div><div class="fruit-item"><strong>Pera</strong>1 pequena (130 g)</div><div class="fruit-item"><strong>Laranja</strong>1 pequena (150 g)</div><div class="fruit-item"><strong>Tangerina</strong>1 média (120 g)</div><div class="fruit-item"><strong>Kiwi</strong>1½ un. (130 g)</div><div class="fruit-item"><strong>Mamão</strong>1 fatia (180 g)</div><div class="fruit-item"><strong>Abacaxi</strong>2 fatias (200 g)</div><div class="fruit-item"><strong>Melão</strong>3 fatias (250 g)</div><div class="fruit-item"><strong>Melancia</strong>2 fatias (180 g)</div><div class="fruit-item"><strong>Uvas</strong>15 un. (100 g)</div><div class="fruit-item wide"><strong>Frutas vermelhas</strong> — 1 xícara cheia (150 g)</div></div></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">✅</div><div class="card-title">Orientações gerais</div></div></div><div class="tip-item"><strong>Mastigar bem</strong> — coma devagar para ajudar na digestão e saciedade</div><div class="tip-item"><strong>Líquidos</strong> — evite refrigerantes e suco de caixinha durante as refeições</div><div class="tip-item"><strong>Temperos</strong> — sal de ervas, alho, cebola, salsinha, orégano. Evite artificiais</div><div class="tip-item"><strong>Preparo</strong> — prefira refogado, assado ou grelhado em vez de frito</div><div class="tip-item"><strong>Carnes</strong> — evite mortadela, salsicha, linguiça. Prefira patinho, filé de frango ou peixe</div><div class="tip-item"><strong>Adoçante</strong> — eritritol no lugar do açúcar</div><div class="tip-item"><strong>Doces</strong> — se quiser, consuma após almoço ou jantar</div><div class="tip-item"><strong>Ferro</strong> — inclua brócolis, couve, espinafre, feijão, lentilha e grão de bico</div><div class="tip-item"><strong>Sono</strong> — chá antes de dormir: camomila, mulungu, erva-cidreira ou melissa</div><div class="tip-item"><strong>Próxima consulta</strong> — agendar em 30 dias</div></div>
 </section>
 
-<!-- HISTÓRICO -->
 <section id="historico" class="section">
-  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">📅</div><div class="card-title">Histórico de dias</div></div></div><div id="historico-content"><div class="summary-empty">Carregando...</div></div></div>
+  <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">📅</div><div class="card-title">Histórico de dias</div></div></div><div id="historico-content"><div class="summary-empty">Carregando histórico...</div></div></div>
 </section>
 
-<!-- EVOLUÇÃO -->
 <section id="evolucao" class="section">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;background:#f5f5f2;border-radius:var(--radius-sm);padding:8px 12px">
     <button onclick="evNavDia(-1)" style="background:none;border:0.5px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif">‹</button>
     <div id="ev-dia-label" style="font-size:13px;font-weight:600;color:var(--text)">—</div>
     <button onclick="evNavDia(1)" id="ev-dia-next" style="background:none;border:0.5px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif">›</button>
   </div>
+
   <div class="card">
     <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div class="card-title">Como você está?</div></div></div>
     <div style="display:flex;justify-content:space-between;gap:6px">
@@ -513,15 +417,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="humor-opt" onclick="pickHumor(this,'😄','Ótimo')"><div class="humor-emoji">😄</div><div class="humor-label">Ótimo</div></div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div><div class="card-title">Academia</div><div class="meal-time">Fui neste dia?</div></div></div></div>
     <div id="gym-toggle-btn" onclick="toggleAcademiaHoje()" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;background:#f5f5f2;transition:all 0.15s">
-      <div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🏋️</span><div><div id="gym-toggle-label" style="font-size:14px;font-weight:600;color:var(--text)">Não fui</div><div id="gym-toggle-sub" style="font-size:11px;color:var(--muted);margin-top:2px">Toque para marcar presença</div></div></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:22px">🏋️</span>
+        <div>
+          <div id="gym-toggle-label" style="font-size:14px;font-weight:600;color:var(--text)">Não fui</div>
+          <div id="gym-toggle-sub" style="font-size:11px;color:var(--muted);margin-top:2px">Toque para marcar presença</div>
+        </div>
+      </div>
       <div id="gym-toggle-check" style="width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface)"></div>
     </div>
   </div>
+
   <div class="card">
-    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">✏️</div><div><div class="card-title">Medidas</div><div class="meal-time">Registre uma vez por semana</div></div></div><button class="clear-btn" onclick="limparMedidasDia()">Limpar</button></div>
+    <div class="card-header">
+      <div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">✏️</div><div><div class="card-title">Medidas</div><div class="meal-time">Registre uma vez por semana</div></div></div>
+      <button class="clear-btn" onclick="limparMedidasDia()">Limpar</button>
+    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
       <div><div class="group-label" style="margin-top:0">Peso (kg)</div><input type="number" step="0.1" placeholder="ex: 68.4" id="med-peso" class="med-input"/></div>
       <div><div class="group-label" style="margin-top:0">Gordura (%)</div><input type="number" step="0.1" placeholder="ex: 24.5" id="med-gordura" class="med-input"/></div>
@@ -534,6 +449,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <button onclick="salvarMedidas()" style="width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Salvar medidas</button>
     <div id="medidas-msg" style="font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)"></div>
   </div>
+
   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Histórico</div>
   <div style="display:flex;gap:6px;margin-bottom:12px">
     <div class="fruit-pill selected" id="ev-tab-semana" onclick="evSetView('semana',this)" style="border-radius:20px">Semana</div>
@@ -547,24 +463,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   <div id="ev-hist-content"></div>
 </section>
 
-<!-- LISTA -->
 <section id="lista" class="section">
   <div class="card">
     <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🛒</div><div><div class="card-title">Lista de compras</div></div></div><button onclick="salvarLista()" style="background:var(--green);color:#fff;border:none;border-radius:20px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">Salvar lista</button></div>
-    <div class="group-label" style="margin-top:0">Proteínas</div><div id="lista-proteinas"></div>
-    <div class="group-label">Laticínios</div><div id="lista-laticinios"></div>
-    <div class="group-label">Legumes e verduras</div><div id="lista-legumes"></div>
-    <div class="group-label">Leguminosas</div><div id="lista-leguminosas"></div>
-    <div class="group-label">Carboidratos</div><div id="lista-carboidratos"></div>
-    <div class="group-label">Frutas</div><div id="lista-frutas"></div>
-    <div class="group-label">Outros</div><div id="lista-outros"></div>
+    <div class="group-label" style="margin-top:0">Proteínas</div><div id="lista-proteinas" class="lista-grupo"></div>
+    <div class="group-label">Laticínios</div><div id="lista-laticinios" class="lista-grupo"></div>
+    <div class="group-label">Legumes e verduras</div><div id="lista-legumes" class="lista-grupo"></div>
+    <div class="group-label">Leguminosas</div><div id="lista-leguminosas" class="lista-grupo"></div>
+    <div class="group-label">Carboidratos</div><div id="lista-carboidratos" class="lista-grupo"></div>
+    <div class="group-label">Frutas</div><div id="lista-frutas" class="lista-grupo"></div>
+    <div class="group-label">Outros</div><div id="lista-outros" class="lista-grupo"></div>
     <div class="section-divider"></div>
     <button onclick="limparComprados()" style="width:100%;padding:9px;background:none;border:0.5px solid var(--border);border-radius:var(--radius-sm);font-size:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">🗑️ Limpar itens comprados</button>
     <div id="lista-msg" style="font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)"></div>
   </div>
 </section>
 
-<!-- HISTÓRICO COMPRAS -->
 <section id="historico-compras" class="section">
   <div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">📋</div><div><div class="card-title">Histórico de listas</div></div></div></div><div id="historico-compras-content"><div class="summary-empty">Nenhuma lista salva ainda.</div></div></div>
 </section>
@@ -576,50 +490,14 @@ var SUPABASE_URL='https://crvcqvqyxunfvsgdcqld.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNydmNxdnF5eHVuZnZzZ2RjcWxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzOTQ1MjYsImV4cCI6MjA4OTk3MDUyNn0.bYR4VvMYQuXJ00e2wE7QdRhGUF6KfffZlWBFI3u8QZ8';
 var state={choices:{},water:0},saveTimer=null,currentUser=null,currentToken=null;
 
-// ── helpers ──────────────────────────────────────────────────────────
 function todayKey(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function authHeaders(){return{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+currentToken,'Content-Type':'application/json'};}
-function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2000);}
-function setSyncStatus(msg,cls){var el=document.getElementById('sync-status');el.textContent=msg;el.className='sync-status '+(cls||'');}
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebar-overlay').classList.toggle('open');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.remove('open');}
 function setLoginBusy(b){['btn-login','btn-cadastro','btn-esqueceu'].forEach(function(id){var el=document.getElementById(id);if(!el)return;el.disabled=b;el.style.opacity=b?'0.7':'1';});}
+function authHeaders(){return{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+currentToken,'Content-Type':'application/json'};}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2000);}
+function setSyncStatus(msg,cls){var el=document.getElementById('sync-status');el.textContent=msg;el.className='sync-status '+(cls||'');}
 
-// ── accordion refeições ──────────────────────────────────────────────
-var mealSummaryKeys={
-  pretreino:['pretreino','fora-dieta-pretreino'],
-  cafe:['cafe-carb','cafe-prot','cafe-fruta','cafe-chia','fora-dieta-cafe'],
-  alm:['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot','fora-dieta-alm'],
-  lanche:['lanche-bebida','lanche','lanche-cafe','fora-dieta-lanche'],
-  jantar:['jantar-bebida','jantar-marmita','jantar','fora-dieta-jantar'],
-  ceia:['ceia'],
-  doce:['doce']
-};
-var mealTimes={pretreino:'7h30',cafe:'10h00',alm:'13h00',lanche:'16h00',jantar:'19h00',ceia:'Antes de dormir',doce:'Doce do dia'};
-var groupToMeal={'pretreino':'pretreino','cafe-carb':'cafe','cafe-prot':'cafe','cafe-fruta':'cafe','cafe-chia':'cafe','alm-bebida':'alm','alm-marmita':'alm','alm-folhas':'alm','alm-leg':'alm','alm-carb':'alm','alm-legu':'alm','alm-prot':'alm','lanche-bebida':'lanche','lanche':'lanche','lanche-cafe':'lanche','jantar-bebida':'jantar','jantar-marmita':'jantar','jantar':'jantar','ceia':'ceia','doce':'doce'};
-
-function toggleMeal(hdr){
-  var body=hdr.nextElementSibling;
-  var chev=hdr.querySelector('.meal-acc-chev');
-  var open=body.style.display!=='none';
-  body.style.display=open?'none':'block';
-  chev.style.transform=open?'':'rotate(180deg)';
-}
-
-function updateMealSummary(ref){
-  var el=document.getElementById('sum-'+ref);if(!el)return;
-  var keys=mealSummaryKeys[ref]||[];
-  var items=[];
-  keys.forEach(function(k){
-    var v=state.choices[k];if(!v)return;
-    if(k==='fora-dieta-'+ref)items.push('⚠️ Fora da dieta');
-    else if(!k.startsWith('fora-dieta-'))items.push(v.split(' — ')[0]);
-  });
-  if(items.length){el.textContent=items.slice(0,3).join(' · ')+(items.length>3?' …':'');el.className='meal-acc-sum filled';}
-  else{el.textContent=mealTimes[ref]||'';el.className='meal-acc-sum';}
-}
-
-// ── auth ─────────────────────────────────────────────────────────────
 async function fazerLogin(){
   var email=document.getElementById('login-email').value.trim(),senha=document.getElementById('login-senha').value;
   document.getElementById('login-error').textContent='';document.getElementById('login-msg').textContent='';
@@ -629,10 +507,11 @@ async function fazerLogin(){
     var res=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({email:email,password:senha})});
     var data=await res.json();
     if(data.access_token){currentToken=data.access_token;currentUser=data.user;sessionStorage.setItem('plano_token',currentToken);sessionStorage.setItem('plano_user',JSON.stringify(currentUser));entrar();}
-    else document.getElementById('login-error').textContent='Email ou senha incorretos.';
+    else{document.getElementById('login-error').textContent='Email ou senha incorretos.';}
   }catch(e){document.getElementById('login-error').textContent='Erro de conexão.';}
   finally{setLoginBusy(false);}
 }
+
 async function mostrarCadastro(){
   var email=document.getElementById('login-email').value.trim(),senha=document.getElementById('login-senha').value;
   document.getElementById('login-error').textContent='';document.getElementById('login-msg').textContent='';
@@ -641,11 +520,12 @@ async function mostrarCadastro(){
   try{
     var res=await fetch(SUPABASE_URL+'/auth/v1/signup',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({email:email,password:senha})});
     var data=await res.json();
-    if(data.id||data.user)document.getElementById('login-msg').textContent='Conta criada! Verifique seu email.';
-    else document.getElementById('login-error').textContent=data.msg||'Erro ao criar conta.';
+    if(data.id||data.user){document.getElementById('login-msg').textContent='Conta criada! Verifique seu email.';}
+    else{document.getElementById('login-error').textContent=data.msg||'Erro ao criar conta.';}
   }catch(e){document.getElementById('login-error').textContent='Erro de conexão.';}
   finally{setLoginBusy(false);}
 }
+
 async function esqueceuSenha(){
   var email=document.getElementById('login-email').value.trim();
   document.getElementById('login-error').textContent='';document.getElementById('login-msg').textContent='';
@@ -655,73 +535,42 @@ async function esqueceuSenha(){
   catch(e){document.getElementById('login-error').textContent='Erro de conexão.';}
   finally{setLoginBusy(false);}
 }
+
 function fazerLogout(){sessionStorage.removeItem('plano_token');sessionStorage.removeItem('plano_user');currentToken=null;currentUser=null;document.getElementById('app-header').style.display='none';document.getElementById('main-content').style.display='none';document.getElementById('login-screen').style.display='flex';closeSidebar();}
+
 function entrar(){document.getElementById('login-screen').style.display='none';document.getElementById('loading').style.display='flex';document.getElementById('app-header').style.display='flex';document.getElementById('main-content').style.display='block';if(currentUser){document.getElementById('header-sub').textContent=currentUser.email;document.getElementById('sidebar-email').textContent=currentUser.email;}init();}
+
 function handleAuthExpired(){sessionStorage.removeItem('plano_token');sessionStorage.removeItem('plano_user');currentToken=null;currentUser=null;document.getElementById('loading').style.display='none';document.getElementById('app-header').style.display='none';document.getElementById('main-content').style.display='none';document.getElementById('login-screen').style.display='flex';document.getElementById('login-error').textContent='Sua sessão expirou. Entre novamente.';}
 
-// ── supabase plano_diario ─────────────────────────────────────────────
 async function loadFromSupabase(){
-  try{var res=await fetch(SUPABASE_URL+'/rest/v1/plano_diario?data=eq.'+todayKey()+'&user_id=eq.'+currentUser.id+'&select=*',{headers:authHeaders()});if(res.status===401){handleAuthExpired();return;}var rows=await res.json();if(rows&&rows.length>0){state.choices=rows[0].choices||{};state.water=rows[0].water||0;}}
-  catch(e){setSyncStatus('Sem conexão','error');}
+  try{var res=await fetch(SUPABASE_URL+'/rest/v1/plano_diario?data=eq.'+todayKey()+'&user_id=eq.'+currentUser.id+'&select=*',{headers:authHeaders()});if(res.status===401){handleAuthExpired();return;}var rows=await res.json();if(rows&&rows.length>0){state.choices=rows[0].choices||{};state.water=rows[0].water||0;}}catch(e){setSyncStatus('Sem conexão','error');}
 }
+
 async function saveToSupabase(){
-  setSyncStatus('Salvando…','saving');localStorage.setItem('plano_bk_'+todayKey(),JSON.stringify(state));
+  setSyncStatus('Salvando…','saving');localStorage.setItem('plano_ana_'+todayKey(),JSON.stringify(state));
   try{
     var patch=await fetch(SUPABASE_URL+'/rest/v1/plano_diario?data=eq.'+todayKey()+'&user_id=eq.'+currentUser.id,{method:'PATCH',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify({choices:state.choices,water:state.water,updated_at:new Date().toISOString()})});
     if(patch.status===401){handleAuthExpired();return;}
-    var rows=(await (await fetch(SUPABASE_URL+'/rest/v1/plano_diario?data=eq.'+todayKey()+'&user_id=eq.'+currentUser.id+'&select=data',{headers:authHeaders()})).json());
-    if(rows&&rows.length){setSyncStatus('Salvo ✓','saved');setTimeout(function(){setSyncStatus('');},3000);return;}
+    var countRes=await fetch(SUPABASE_URL+'/rest/v1/plano_diario?data=eq.'+todayKey()+'&user_id=eq.'+currentUser.id+'&select=data',{headers:authHeaders()});
+    var rows=await countRes.json();
+    if(rows&&rows.length>0){setSyncStatus('Salvo ✓','saved');setTimeout(function(){setSyncStatus('');},3000);return;}
     var post=await fetch(SUPABASE_URL+'/rest/v1/plano_diario',{method:'POST',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify({data:todayKey(),choices:state.choices,water:state.water,updated_at:new Date().toISOString(),user_id:currentUser.id})});
     if(post.ok||post.status===201){setSyncStatus('Salvo ✓','saved');setTimeout(function(){setSyncStatus('');},3000);}
-    else setSyncStatus('Erro ao salvar','error');
+    else{setSyncStatus('Erro ao salvar','error');}
   }catch(e){setSyncStatus('Offline','error');}
 }
+
 function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveToSupabase,800);}
 
-// ── refeições ─────────────────────────────────────────────────────────
 function renderDate(){var d=new Date();var days=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];var months=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];document.getElementById('date-display').textContent=days[d.getDay()]+', '+d.getDate()+' de '+months[d.getMonth()];}
-
-function pickOpt(group,el,label,qty){
-  el.closest('.option-list').querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected');});
-  el.classList.add('selected');state.choices[group]=qty?label+' — '+qty:label;
-  updateMealSummary(groupToMeal[group]);scheduleSave();showToast('Salvo ✓');
-}
-function toggleOpt(group,el,label){
-  el.classList.toggle('selected');var sel=[];
-  document.querySelectorAll('#g-'+group+' .opt.selected').forEach(function(o){var l=o.getAttribute('data-label');if(l)sel.push(l);});
-  if(sel.length)state.choices[group]=sel.join(', ');else delete state.choices[group];
-  updateMealSummary(groupToMeal[group]);scheduleSave();showToast('Salvo ✓');
-}
-function pickPill(group,el){
-  el.closest('.fruit-pills').querySelectorAll('.fruit-pill').forEach(function(p){p.classList.remove('selected');});
-  el.classList.add('selected');state.choices[group]=el.getAttribute('data-label');
-  updateMealSummary(groupToMeal[group]);scheduleSave();showToast('Salvo ✓');
-}
-function togglePill(group,el){
-  el.classList.toggle('selected');var sel=[];
-  document.querySelectorAll('#g-'+group+' .fruit-pill.selected').forEach(function(p){var l=p.getAttribute('data-label');if(l)sel.push(l);});
-  if(sel.length)state.choices[group]=sel.join(', ');else delete state.choices[group];
-  updateMealSummary(groupToMeal[group]);scheduleSave();showToast('Salvo ✓');
-}
-function pickMarmita(el,inputId,choiceKey){
-  el.classList.toggle('selected');var desc=document.getElementById(inputId);
-  if(el.classList.contains('selected')){state.choices[choiceKey]='Marmita pronta';if(desc)desc.style.display='block';}
-  else{delete state.choices[choiceKey];if(desc){desc.style.display='none';desc.value='';}}
-  updateMealSummary(groupToMeal[choiceKey]);scheduleSave();showToast('Salvo ✓');
-}
-function saveMarmitaDesc(input,choiceKey){var val=input.value.trim();state.choices[choiceKey]=val?'Marmita: '+val:'Marmita pronta';updateMealSummary(groupToMeal[choiceKey]);scheduleSave();}
-function toggleLancheCafe(el){
-  el.classList.toggle('selected');
-  if(el.classList.contains('selected'))state.choices['lanche-cafe']='Café com leite — 1 xícara';else delete state.choices['lanche-cafe'];
-  updateMealSummary('lanche');scheduleSave();showToast('Salvo ✓');
-}
-function toggleForaDieta(el,ref){
-  el.classList.toggle('selected');var inputs=el.parentElement.querySelectorAll('.fora-dieta-input');var isOn=el.classList.contains('selected');
-  inputs.forEach(function(i){i.style.display=isOn?'block':'none';if(!isOn)i.value='';});
-  if(isOn)state.choices['fora-dieta-'+ref]='Fora da dieta';
-  else{delete state.choices['fora-dieta-'+ref];delete state.choices['fora-dieta-'+ref+'-comeu'];delete state.choices['fora-dieta-'+ref+'-motivo'];}
-  updateMealSummary(ref);scheduleSave();showToast('Salvo ✓');
-}
+function pickOpt(group,el,label,qty){el.closest('.option-list').querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected');});el.classList.add('selected');state.choices[group]=qty?label+' — '+qty:label;scheduleSave();showToast('Salvo ✓');}
+function toggleOpt(group,el,label){el.classList.toggle('selected');var sel=[];document.querySelectorAll('#g-'+group+' .opt.selected').forEach(function(o){var l=o.getAttribute('data-label');if(l)sel.push(l);});if(sel.length)state.choices[group]=sel.join(', ');else delete state.choices[group];scheduleSave();showToast('Salvo ✓');}
+function pickPill(group,el){el.closest('.fruit-pills').querySelectorAll('.fruit-pill').forEach(function(p){p.classList.remove('selected');});el.classList.add('selected');state.choices[group]=el.getAttribute('data-label');scheduleSave();showToast('Salvo ✓');}
+function togglePill(group,el){el.classList.toggle('selected');var sel=[];document.querySelectorAll('#g-'+group+' .fruit-pill.selected').forEach(function(p){var l=p.getAttribute('data-label');if(l)sel.push(l);});if(sel.length)state.choices[group]=sel.join(', ');else delete state.choices[group];scheduleSave();showToast('Salvo ✓');}
+function pickMarmita(el,inputId,choiceKey){el.classList.toggle('selected');var desc=document.getElementById(inputId);if(el.classList.contains('selected')){state.choices[choiceKey]='Marmita pronta';if(desc)desc.style.display='block';}else{delete state.choices[choiceKey];if(desc){desc.style.display='none';desc.value='';}}scheduleSave();showToast('Salvo ✓');}
+function saveMarmitaDesc(input,choiceKey){var val=input.value.trim();state.choices[choiceKey]=val?'Marmita: '+val:'Marmita pronta';scheduleSave();}
+function toggleLancheCafe(el){el.classList.toggle('selected');if(el.classList.contains('selected'))state.choices['lanche-cafe']='Café com leite — 1 xícara';else delete state.choices['lanche-cafe'];scheduleSave();showToast('Salvo ✓');}
+function toggleForaDieta(el,ref){el.classList.toggle('selected');var inputs=el.parentElement.querySelectorAll('.fora-dieta-input');var isOn=el.classList.contains('selected');inputs.forEach(function(i){i.style.display=isOn?'block':'none';if(!isOn)i.value='';});if(isOn)state.choices['fora-dieta-'+ref]='Fora da dieta';else{delete state.choices['fora-dieta-'+ref];delete state.choices['fora-dieta-'+ref+'-comeu'];delete state.choices['fora-dieta-'+ref+'-motivo'];}scheduleSave();showToast('Salvo ✓');}
 function saveForaDieta(input){var dr=input.getAttribute('data-ref');var val=input.value.trim();if(val)state.choices['fora-dieta-'+dr]=val;else delete state.choices['fora-dieta-'+dr];scheduleSave();}
 
 function clearRefeicao(grupos,ref){
@@ -730,17 +579,10 @@ function clearRefeicao(grupos,ref){
   if(ref==='alm'){var md=document.getElementById('marmita-desc');if(md){md.style.display='none';md.value='';}}
   if(ref==='jantar'){var jd=document.getElementById('jantar-marmita-desc');if(jd){jd.style.display='none';jd.value='';}}
   if(ref){delete state.choices['fora-dieta-'+ref];delete state.choices['fora-dieta-'+ref+'-comeu'];delete state.choices['fora-dieta-'+ref+'-motivo'];document.querySelectorAll('.fora-dieta-opt').forEach(function(opt){if(opt.getAttribute('onclick')&&opt.getAttribute('onclick').indexOf("'"+ref+"'")>-1){opt.classList.remove('selected');opt.parentElement.querySelectorAll('.fora-dieta-input').forEach(function(i){i.style.display='none';i.value='';})}});}
-  if(ref)updateMealSummary(ref);scheduleSave();showToast('Limpo ✓');
+  scheduleSave();showToast('Limpo ✓');
 }
-function clearDay(){
-  if(!confirm('Limpar todas as escolhas de hoje?'))return;
-  state.choices={};state.water=0;
-  document.querySelectorAll('.opt,.fruit-pill').forEach(function(o){o.classList.remove('selected');});
-  document.querySelectorAll('.fora-dieta-opt').forEach(function(o){o.classList.remove('selected');});
-  document.querySelectorAll('.fora-dieta-input,.marmita-input').forEach(function(i){i.style.display='none';i.value='';});
-  Object.keys(mealSummaryKeys).forEach(function(r){updateMealSummary(r);});
-  renderWater();scheduleSave();showToast('Escolhas apagadas');
-}
+
+function clearDay(){if(!confirm('Limpar todas as escolhas de hoje?'))return;state.choices={};state.water=0;document.querySelectorAll('.opt,.fruit-pill').forEach(function(o){o.classList.remove('selected');});document.querySelectorAll('.fora-dieta-opt').forEach(function(o){o.classList.remove('selected');});document.querySelectorAll('.fora-dieta-input,.marmita-input').forEach(function(i){i.style.display='none';i.value='';});renderWater();scheduleSave();showToast('Escolhas apagadas');}
 
 var refeicoes=[
   {label:'☕ Pré-treino',keys:['pretreino','fora-dieta-pretreino','fora-dieta-pretreino-comeu','fora-dieta-pretreino-motivo']},
@@ -761,9 +603,10 @@ function renderChoicesAgrupado(choices,incluirAgua,water){
     items.forEach(function(item){html+='<div style="font-size:13px;color:var(--green);font-weight:500;padding:2px 0">'+item+'</div>';});
     html+='</div><hr style="border:none;border-top:1px solid var(--border);margin-bottom:12px">';
   });
-  if(incluirAgua&&water){hasAny=true;html+='<div><div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">💧 Água</div><div style="font-size:13px;color:var(--blue);font-weight:500">'+water+' ml</div></div>';}
+  if(incluirAgua&&water){hasAny=true;html+='<div style="margin-bottom:12px"><div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">💧 Água</div><div style="font-size:13px;color:var(--blue);font-weight:500">'+water+' ml</div></div>';}
   return{html:html,hasAny:hasAny};
 }
+
 function renderSummary(){var r=renderChoicesAgrupado(state.choices,true,state.water);document.getElementById('summary-content').innerHTML=r.hasAny?r.html:'<div class="summary-empty">Faça suas escolhas na aba Refeições para ver o resumo aqui.</div>';}
 function renderWater(){var ml=state.water||0;document.getElementById('water-ml').textContent=ml;document.getElementById('water-fill').style.width=Math.min(Math.round(ml/2400*100),100)+'%';var msg='';if(ml>=2400)msg='🎉 Meta de 2,4 L atingida!';else if(ml>=1600)msg='Faltam '+(2400-ml)+' ml para a meta!';else if(ml>=800)msg='Boa! Continue bebendo ao longo do dia.';document.getElementById('water-msg').textContent=msg;}
 function addWater(ml){state.water=Math.min((state.water||0)+ml,2400);renderWater();scheduleSave();showToast('+'+ml+' ml registrado');}
@@ -771,8 +614,8 @@ function resetWater(){state.water=0;renderWater();scheduleSave();}
 
 function restoreChoices(){
   ['pretreino','cafe-carb','cafe-chia','doce','alm-carb','alm-legu','alm-prot','lanche','jantar'].forEach(function(g){
-    var val=state.choices[g];if(!val)return;var c=document.getElementById('g-'+g);if(!c)return;
-    var lp=val.split(' — ')[0];c.querySelectorAll('.opt').forEach(function(o){var el=o.querySelector('.opt-text');if(!el)return;var t=el.textContent.trim();if(t===lp||lp.indexOf(t)===0||t.indexOf(lp)===0)o.classList.add('selected');});
+    var val=state.choices[g];if(!val)return;var container=document.getElementById('g-'+g);if(!container)return;
+    var lp=val.split(' — ')[0];container.querySelectorAll('.opt').forEach(function(o){var el=o.querySelector('.opt-text');if(!el)return;var t=el.textContent.trim();if(t===lp||lp.indexOf(t)===0||t.indexOf(lp)===0)o.classList.add('selected');});
   });
   if(state.choices['cafe-prot']){var prots=state.choices['cafe-prot'].split(', ');document.querySelectorAll('#g-cafe-prot .opt').forEach(function(o){if(prots.indexOf(o.getAttribute('data-label'))>-1)o.classList.add('selected');});}
   ['cafe-fruta','alm-bebida','lanche-bebida','jantar-bebida','ceia'].forEach(function(g){if(!state.choices[g])return;document.querySelectorAll('#g-'+g+' .fruit-pill').forEach(function(p){if(p.getAttribute('data-label')===state.choices[g])p.classList.add('selected');});});
@@ -781,16 +624,15 @@ function restoreChoices(){
   if(state.choices['jantar-marmita']){var jmOpt=document.querySelector('#g-jantar-marmita .opt');if(jmOpt)jmOpt.classList.add('selected');var jdesc=document.getElementById('jantar-marmita-desc');if(jdesc){jdesc.style.display='block';var jv=state.choices['jantar-marmita'];jdesc.value=jv.startsWith('Marmita: ')?jv.replace('Marmita: ',''):'';};}
   if(state.choices['lanche-cafe']){var lcOpt=document.querySelector('#g-lanche-cafe .opt');if(lcOpt)lcOpt.classList.add('selected');}
   ['pretreino','cafe','alm','lanche','jantar'].forEach(function(ref){if(!state.choices['fora-dieta-'+ref])return;document.querySelectorAll('.fora-dieta-opt').forEach(function(opt){if(opt.getAttribute('onclick')&&opt.getAttribute('onclick').indexOf("'"+ref+"'")>-1){opt.classList.add('selected');opt.parentElement.querySelectorAll('.fora-dieta-input').forEach(function(inp){inp.style.display='block';var dr=inp.getAttribute('data-ref');if(state.choices['fora-dieta-'+dr])inp.value=state.choices['fora-dieta-'+dr];});}});});
-  Object.keys(mealSummaryKeys).forEach(function(r){updateMealSummary(r);});
 }
 
-// ── histórico refeições ───────────────────────────────────────────────
 async function loadHistorico(){
   var container=document.getElementById('historico-content');container.innerHTML='<div class="summary-empty">Carregando...</div>';
   try{
     var res=await fetch(SUPABASE_URL+'/rest/v1/plano_diario?user_id=eq.'+currentUser.id+'&select=*&order=data.desc&limit=30',{headers:authHeaders()});
     if(res.status===401){handleAuthExpired();return;}
-    var rows=await res.json();if(!rows||!rows.length){container.innerHTML='<div class="summary-empty">Nenhum registro ainda.</div>';return;}
+    var rows=await res.json();
+    if(!rows||!rows.length){container.innerHTML='<div class="summary-empty">Nenhum registro ainda.</div>';return;}
     var days=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],months=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
     var html='';
     rows.forEach(function(row,idx){
@@ -799,14 +641,14 @@ async function loadHistorico(){
       var choices=row.choices||{};
       var titles=refeicoes.filter(function(r){return r.keys.some(function(k){return choices[k];});}).map(function(r){return r.label.split(' ').slice(1).join(' ');});
       var sub=titles.length?titles.join(' · '):'Nenhuma escolha';
-      var rowId='hr-'+idx;
+      var rowId='hist-ref-'+idx;
       html+='<div style="border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:8px">';
-      html+='<div onclick="toggleHistRef(\''+rowId+'\')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:#f5f5f2"><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+dateStr+'</div><div style="font-size:11px;color:var(--muted);margin-top:2px">'+sub+'</div></div><span id="chvref-'+rowId+'" style="font-size:11px;color:var(--muted);transition:transform 0.2s">▼</span></div>';
+      html+='<div onclick="toggleHistRef(\''+rowId+'\')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:#f5f5f2"><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+dateStr+'</div><div style="font-size:11px;color:var(--muted);margin-top:2px">'+sub+'</div></div><span id="chevref-'+rowId+'" style="font-size:11px;color:var(--muted);transition:transform 0.2s">▼</span></div>';
       html+='<div id="'+rowId+'" style="display:none;padding:12px 14px;border-top:1px solid var(--border)">';
       var hasAny=false;
       refeicoes.forEach(function(r){
         var items=[],foraRef=null,foraComeu=null,foraMotivo=null;
-        r.keys.forEach(function(k){if(k==='fora-dieta-'+r.label.split(' ')[1]&&choices[k])foraRef=k;else if(k.endsWith('-comeu')&&choices[k])foraComeu=choices[k];else if(k.endsWith('-motivo')&&choices[k])foraMotivo=choices[k];else if(choices[k]&&!k.startsWith('fora-dieta-'))items.push(choices[k]);});
+        r.keys.forEach(function(k){if(k.startsWith('fora-dieta-')&&!k.includes('-comeu')&&!k.includes('-motivo')&&choices[k])foraRef=k;else if(k.endsWith('-comeu')&&choices[k])foraComeu=choices[k];else if(k.endsWith('-motivo')&&choices[k])foraMotivo=choices[k];else if(choices[k])items.push(choices[k]);});
         if(!items.length&&!foraRef)return;hasAny=true;
         html+='<div style="margin-bottom:10px"><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px">'+r.label+'</div>';
         items.forEach(function(item){html+='<div style="font-size:13px;color:var(--green);font-weight:500;padding:2px 0">'+item+'</div>';});
@@ -820,11 +662,11 @@ async function loadHistorico(){
     container.innerHTML=html;
   }catch(e){container.innerHTML='<div class="summary-empty">Erro ao carregar histórico.</div>';}
 }
-function toggleHistRef(id){var b=document.getElementById(id),c=document.getElementById('chvref-'+id),o=b.style.display!=='none';b.style.display=o?'none':'block';c.style.transform=o?'':'rotate(180deg)';}
+function toggleHistRef(id){var b=document.getElementById(id),c=document.getElementById('chevref-'+id),o=b.style.display!=='none';b.style.display=o?'none':'block';c.style.transform=o?'':'rotate(180deg)';}
 
-// ── lista de compras ──────────────────────────────────────────────────
+// ═══ LISTA ═══
 var listaItens={proteinas:['Frango (filé)','Frango desfiado','Patinho moído','Peixe (filé)','Ovo','Atum (lata)'],laticinios:['Leite','Iogurte natural','Queijo fresco / minas','Muçarela','Ricota','Requeijão'],legumes:['Alface','Repolho','Couve','Cenoura','Abobrinha','Beterraba','Pepino','Tomate','Vagem','Ervilha','Milho','Couve-flor','Brócolis','Palmito'],leguminosas:['Feijão','Lentilha','Grão de bico'],carboidratos:['Pão de forma integral','Torrada integral','Tapioca','Arroz','Batata','Batata doce','Macarrão','Abóbora','Mandioca','Aveia (farelo)','Wrap Rap 10'],frutas:['Banana prata','Morango','Maçã','Pera','Laranja','Tangerina','Kiwi','Mamão','Abacaxi','Melão','Melancia','Uvas','Frutas vermelhas'],outros:['Chia','Mel','Geleia','Eritritol','Azeite extra virgem','Camomila (chá)','Mulungu (chá)','Erva-cidreira (chá)','Melissa (chá)','Chocolate 50–70%']};
-function listaStateKey(){return'lista_'+(currentUser?currentUser.id:'g');}
+function listaStateKey(){return'lista_compras_'+(currentUser?currentUser.id:'guest');}
 function getListaState(){try{var s=localStorage.getItem(listaStateKey());return s?JSON.parse(s):{}}catch(e){return{};}}
 function setListaState(s){try{localStorage.setItem(listaStateKey(),JSON.stringify(s));}catch(e){}}
 function initLista(){
@@ -845,9 +687,9 @@ async function salvarLista(){
   var ls=getListaState();
   try{
     var cr=await fetch(SUPABASE_URL+'/rest/v1/lista_compras?user_id=eq.'+currentUser.id+'&nome=eq.'+todayKey()+'&select=id',{headers:authHeaders()});
-    var rows=await cr.json();
-    if(rows&&rows.length>0){await fetch(SUPABASE_URL+'/rest/v1/lista_compras?user_id=eq.'+currentUser.id+'&nome=eq.'+todayKey(),{method:'PATCH',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify({itens:ls,updated_at:new Date().toISOString()})});}
-    else{await fetch(SUPABASE_URL+'/rest/v1/lista_compras',{method:'POST',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify({user_id:currentUser.id,nome:todayKey(),itens:ls,created_at:new Date().toISOString()})});}
+    var rows=await cr.json();var res;
+    if(rows&&rows.length>0){res=await fetch(SUPABASE_URL+'/rest/v1/lista_compras?user_id=eq.'+currentUser.id+'&nome=eq.'+todayKey(),{method:'PATCH',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify({itens:ls,updated_at:new Date().toISOString()})});}
+    else{res=await fetch(SUPABASE_URL+'/rest/v1/lista_compras',{method:'POST',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify({user_id:currentUser.id,nome:todayKey(),itens:ls,created_at:new Date().toISOString()})});}
     var me=document.getElementById('lista-msg');if(me){me.textContent='Lista salva ✓';setTimeout(function(){me.textContent='';},3000);}
   }catch(e){var me=document.getElementById('lista-msg');if(me)me.textContent='Erro de conexão.';}
 }
@@ -857,26 +699,28 @@ async function loadHistoricoCompras(){
   try{
     var res=await fetch(SUPABASE_URL+'/rest/v1/lista_compras?user_id=eq.'+currentUser.id+'&select=*&order=created_at.desc&limit=10',{headers:authHeaders()});
     if(res.status===401){handleAuthExpired();return;}
-    var rows=await res.json();if(!rows||!rows.length){container.innerHTML='<div class="summary-empty">Nenhuma lista salva ainda.</div>';return;}
+    var rows=await res.json();
+    if(!rows||!rows.length){container.innerHTML='<div class="summary-empty">Nenhuma lista salva ainda.</div>';return;}
     var days=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],months=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
     var html='';
     rows.forEach(function(row,idx){
       var parts=(row.nome||'').split('-'),d=new Date(parts[0],parts[1]-1,parts[2]);
-      var comprados=Object.keys(row.itens||{}).filter(function(k){return row.itens[k]&&row.itens[k].comprado;});
-      var rId='hl-'+idx;
+      var dateStr=days[d.getDay()]+', '+d.getDate()+' '+months[d.getMonth()];
+      var itens=row.itens||{},comprados=Object.keys(itens).filter(function(k){return itens[k]&&itens[k].comprado;});
+      var rowId='hist-lista-'+idx;
       html+='<div style="border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:6px">';
-      html+='<div onclick="toggleHistRow(\''+rId+'\')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:#f5f5f2"><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+days[d.getDay()]+', '+d.getDate()+' '+months[d.getMonth()]+'</div><div style="font-size:11px;color:var(--muted);margin-top:2px">'+comprados.length+' itens comprados</div></div><span id="chv-'+rId+'" style="font-size:11px;color:var(--muted);transition:transform 0.2s">▼</span></div>';
-      html+='<div id="'+rId+'" style="display:none;padding:12px 14px;border-top:1px solid var(--border)">';
-      if(comprados.length)comprados.forEach(function(item){var qty=(row.itens[item].qty||1);html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;color:var(--text)"><div style="width:16px;height:16px;border-radius:4px;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center"><div style="width:5px;height:3px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px)"></div></div><span>'+item+'</span><span style="margin-left:auto;font-size:11px;color:var(--muted)">× '+qty+' un.</span></div>';});
-      else html+='<div style="font-size:12px;color:var(--muted)">Nenhum item marcado.</div>';
+      html+='<div onclick="toggleHistRow(\''+rowId+'\')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:#f5f5f2"><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+dateStr+'</div><div style="font-size:11px;color:var(--muted);margin-top:2px">'+comprados.length+' itens comprados</div></div><span id="chev-'+rowId+'" style="font-size:11px;color:var(--muted);transition:transform 0.2s">▼</span></div>';
+      html+='<div id="'+rowId+'" style="display:none;padding:12px 14px;border-top:1px solid var(--border)">';
+      if(comprados.length){comprados.forEach(function(item){var qty=itens[item].qty||1;html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;color:var(--text)"><div style="width:16px;height:16px;border-radius:4px;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center"><div style="width:5px;height:3px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px)"></div></div><span>'+item+'</span><span style="margin-left:auto;font-size:11px;color:var(--muted)">× '+qty+' un.</span></div>';});}
+      else{html+='<div style="font-size:12px;color:var(--muted)">Nenhum item marcado.</div>';}
       html+='</div></div>';
     });
     container.innerHTML=html;
   }catch(e){container.innerHTML='<div class="summary-empty">Erro ao carregar histórico.</div>';}
 }
-function toggleHistRow(id){var b=document.getElementById(id),c=document.getElementById('chv-'+id),o=b.style.display!=='none';b.style.display=o?'none':'block';c.style.transform=o?'':'rotate(180deg)';}
+function toggleHistRow(id){var b=document.getElementById(id),c=document.getElementById('chev-'+id),o=b.style.display!=='none';b.style.display=o?'none':'block';c.style.transform=o?'':'rotate(180deg)';}
 
-// ── evolução ──────────────────────────────────────────────────────────
+// ═══ EVOLUÇÃO ═══
 var evView='semana',evSemOff=0,evMesOff=0,evDiaOffset=0,evDadosCache=[];
 var evMeses=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 var evMesesFull=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -927,14 +771,16 @@ function pickHumor(el,emoji,label){
   var ja=el.classList.contains('selected');
   document.getElementById('evolucao').querySelectorAll('.humor-opt').forEach(function(o){o.classList.remove('selected');});
   if(!ja)el.classList.add('selected');
-  var key=evDiaKey(),idx=evDadosCache.findIndex(function(r){return r.data===key;}),val=ja?null:humorMap[emoji];
+  var key=evDiaKey(),idx=evDadosCache.findIndex(function(r){return r.data===key;});
+  var val=ja?null:humorMap[emoji];
   if(idx>=0)evDadosCache[idx].humor=val;
-  acompSalvarDia(key,'humor',val);showToast(ja?'Humor removido':'Humor salvo ✓');
+  acompSalvarDia(key,'humor',val);
+  showToast(ja?'Humor removido':'Humor salvo ✓');
 }
 
 function toggleAcademiaHoje(){
   var key=evDiaKey(),idx=evDadosCache.findIndex(function(r){return r.data===key;}),row=idx>=0?evDadosCache[idx]:{},novo=row.foi_academia?0:1;
-  if(idx>=0){evDadosCache[idx].foi_academia=novo;}else{evDadosCache.push({data:key,user_id:currentUser.id,foi_academia:novo});}
+  if(idx>=0){evDadosCache[idx].foi_academia=novo;}else{var n={data:key,user_id:currentUser.id,foi_academia:novo};evDadosCache.push(n);}
   renderGymToggle(novo);acompSalvarDia(key,'foi_academia',novo);showToast(novo?'Academia registrada ✓':'Academia removida');
 }
 
@@ -948,7 +794,8 @@ async function salvarMedidas(){
   if(peso)evDadosCache[idx].peso=parseFloat(peso);
   if(gordura)evDadosCache[idx].gordura=parseFloat(gordura);
   if(massa)evDadosCache[idx].massa=parseFloat(massa);
-  evDadosCache[idx].medidas=medidas;evRender();
+  evDadosCache[idx].medidas=medidas;
+  evRender();
   if(peso)await acompSalvarDia(key,'peso',parseFloat(peso));
   if(gordura)await acompSalvarDia(key,'gordura',parseFloat(gordura));
   if(massa)await acompSalvarDia(key,'massa',parseFloat(massa));
@@ -964,7 +811,7 @@ async function limparMedidasDia(){
   ['med-peso','med-gordura','med-massa','med-cintura','med-quadril','med-braco','med-coxa'].forEach(function(id){document.getElementById(id).value='';});
   evRender();
   try{await fetch(SUPABASE_URL+'/rest/v1/acompanhamento?data=eq.'+key+'&user_id=eq.'+currentUser.id,{method:'PATCH',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify({peso:null,gordura:null,massa:null,medidas:null})});showToast('Medidas apagadas ✓');}
-  catch(e){console.error(e);}
+  catch(e){console.error('Erro ao limpar medidas:',e);}
 }
 
 async function acompSalvarDia(dateKey,campo,valor){
@@ -976,8 +823,8 @@ async function acompSalvarDia(dateKey,campo,valor){
     var cr=await fetch(SUPABASE_URL+'/rest/v1/acompanhamento?data=eq.'+dateKey+'&user_id=eq.'+currentUser.id+'&select=id',{headers:authHeaders()});
     var rows=await cr.json();
     if(rows&&rows.length>0){await fetch(SUPABASE_URL+'/rest/v1/acompanhamento?data=eq.'+dateKey+'&user_id=eq.'+currentUser.id,{method:'PATCH',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify(payload)});}
-    else if(valor!==null&&valor!==undefined){var ins={data:dateKey,user_id:currentUser.id};ins[campo]=valor;await fetch(SUPABASE_URL+'/rest/v1/acompanhamento',{method:'POST',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify(ins)});}
-  }catch(e){console.error('Erro ao salvar '+campo,e);}
+    else{if(valor!==null&&valor!==undefined){var ins={data:dateKey,user_id:currentUser.id};ins[campo]=valor;await fetch(SUPABASE_URL+'/rest/v1/acompanhamento',{method:'POST',headers:Object.assign({},authHeaders(),{'Prefer':'return=minimal'}),body:JSON.stringify(ins)});}}
+  }catch(e){console.error('Erro ao salvar '+campo+':',e);}
 }
 
 function evEmptyCard(icon,bg,titulo,sub){return'<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:'+bg+'">'+icon+'</div><div class="card-title">'+titulo+'</div></div></div><div class="summary-empty">'+sub+'</div></div>';}
@@ -989,7 +836,8 @@ function evMedTabela(registros,subLabel){
   h+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch">';
   h+='<table style="width:100%;min-width:600px;border-collapse:collapse">';
   var th='font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;border-bottom:1px solid var(--border)';
-  h+='<thead><tr><th style="'+th+';text-align:left;position:sticky;left:0;background:var(--surface);z-index:2">Data</th>';
+  h+='<thead><tr>';
+  h+='<th style="'+th+';text-align:left;position:sticky;left:0;background:var(--surface);z-index:2">Data</th>';
   ['Peso<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">kg</span>','Gordura<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">%</span>','Massa<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">%</span>','Cintura<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span>','Quadril<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span>','Braço<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span>','Coxa<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span>'].forEach(function(lbl){h+='<th style="'+th+';text-align:right">'+lbl+'</th>';});
   h+='</tr></thead><tbody>';
   registros.forEach(function(r,i){
@@ -999,8 +847,13 @@ function evMedTabela(registros,subLabel){
     function diffHtml(cur,prv,maisEBom){if(!prv||!cur)return'';var diff=Math.round((parseFloat(cur)-parseFloat(prv))*10)/10;if(diff===0)return'';var bom=maisEBom?diff>0:diff<0;return'<span style="color:'+(bom?'#2d6a4f':'#c0392b')+';font-size:9px;display:block;line-height:1.3">'+(diff>0?'▲':'▼')+' '+Math.abs(diff)+'</span>';}
     function td(val,pv,maisEBom){var s='<td style="'+tdb+';text-align:right">';if(!val&&val!==0)return s+'<span style="color:var(--border)">—</span></td>';return s+val+diffHtml(val,pv,maisEBom)+'</td>';}
     h+='<tr><td style="'+tdb+';text-align:left;position:sticky;left:0;background:var(--surface);z-index:1;color:var(--muted);font-size:10px">'+dias[d.getDay()]+', '+d.getDate()+'</td>';
-    h+=td(r.peso,prev&&prev.peso,false)+td(r.gordura,prev&&prev.gordura,false)+td(r.massa,prev&&prev.massa,true);
-    h+=td(m.cintura,pm.cintura,false)+td(m.quadril,pm.quadril,false)+td(m.braco,pm.braco,false)+td(m.coxa,pm.coxa,false);
+    h+=td(r.peso,prev&&prev.peso,false);
+    h+=td(r.gordura,prev&&prev.gordura,false);
+    h+=td(r.massa,prev&&prev.massa,true);
+    h+=td(m.cintura,pm.cintura,false);
+    h+=td(m.quadril,pm.quadril,false);
+    h+=td(m.braco,pm.braco,false);
+    h+=td(m.coxa,pm.coxa,false);
     h+='</tr>';
   });
   h+='</tbody></table></div></div>';
@@ -1068,7 +921,6 @@ async function loadEvolucao(){
   evRenderDia();evRender();
 }
 
-// ── navegação ─────────────────────────────────────────────────────────
 function showTab(id,title,navEl){
   document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
@@ -1083,7 +935,6 @@ function showTab(id,title,navEl){
   closeSidebar();
 }
 
-// ── init ──────────────────────────────────────────────────────────────
 async function init(){
   renderDate();setSyncStatus('Carregando…','saving');
   await loadFromSupabase();restoreChoices();renderWater();
@@ -1110,12 +961,8 @@ async function redefinirSenha(){
   try{
     var res=await fetch(SUPABASE_URL+'/auth/v1/verify',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({token:recoveryToken,type:'recovery'})});
     var data=await res.json();
-    if(data.access_token){
-      var res2=await fetch(SUPABASE_URL+'/auth/v1/user',{method:'PUT',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+data.access_token,'Content-Type':'application/json'},body:JSON.stringify({password:nova})});
-      var data2=await res2.json();
-      if(data2.id){document.getElementById('login-msg').textContent='Senha redefinida! Faça login.';setTimeout(function(){window.location.href=window.location.pathname;},2000);}
-      else document.getElementById('login-error').textContent='Erro ao salvar nova senha.';
-    }else document.getElementById('login-error').textContent='Link inválido ou expirado.';
+    if(data.access_token){var res2=await fetch(SUPABASE_URL+'/auth/v1/user',{method:'PUT',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+data.access_token,'Content-Type':'application/json'},body:JSON.stringify({password:nova})});var data2=await res2.json();if(data2.id){document.getElementById('login-msg').textContent='Senha redefinida! Faça login.';setTimeout(function(){window.location.href=window.location.pathname;},2000);}else{document.getElementById('login-error').textContent='Erro ao salvar nova senha.';}}
+    else{document.getElementById('login-error').textContent='Link inválido ou expirado.';}
   }catch(e){document.getElementById('login-error').textContent='Erro de conexão.';}
 }
 </script>
