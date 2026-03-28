@@ -137,6 +137,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .lista-check { width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;transition:all 0.15s; }
 .lista-item.comprado .lista-check { background:var(--green);border-color:var(--green); }
 .lista-item-nome { font-size:12px;color:var(--text);flex:1; }
+.qty-btn { width:22px;height:22px;border-radius:50%;border:0.5px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);line-height:1;font-family:'DM Sans',sans-serif; }
+.qty-btn:active { background:var(--green-pale); }
 .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 998; gap: 12px; }
 .loading-overlay p { color: var(--muted); font-size: 14px; }
 .spinner { width: 32px; height: 32px; border: 3px solid var(--green-pale); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -725,6 +727,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div id="lista-laticinios" class="lista-grupo"></div>
     <div class="group-label">Legumes e verduras</div>
     <div id="lista-legumes" class="lista-grupo"></div>
+    <div class="group-label">Leguminosas</div>
+    <div id="lista-leguminosas" class="lista-grupo"></div>
     <div class="group-label">Carboidratos</div>
     <div id="lista-carboidratos" class="lista-grupo"></div>
     <div class="group-label">Frutas</div>
@@ -761,12 +765,13 @@ var currentToken = null;
 
 // ─── Lista de compras ───────────────────────────────────────────────────────
 var listaItens = {
-  proteinas: ['Frango (filé)','Patinho moído','Peixe (filé)','Ovo','Atum (lata)'],
+  proteinas: ['Frango (filé)','Frango desfiado','Patinho moído','Peixe (filé)','Ovo','Atum (lata)'],
   laticinios: ['Leite','Iogurte natural','Queijo fresco / minas','Muçarela','Ricota','Requeijão'],
   legumes: ['Alface','Repolho','Couve','Cenoura','Abobrinha','Beterraba','Pepino','Tomate','Vagem','Ervilha','Milho','Couve-flor','Brócolis','Palmito'],
+  leguminosas: ['Feijão','Lentilha','Grão de bico'],
   carboidratos: ['Pão de forma integral','Torrada integral','Tapioca','Arroz','Batata','Batata doce','Macarrão','Abóbora','Mandioca','Aveia (farelo)','Wrap Rap 10'],
   frutas: ['Banana prata','Morango','Maçã','Pera','Laranja','Tangerina','Kiwi','Mamão','Abacaxi','Melão','Melancia','Uvas','Frutas vermelhas'],
-  outros: ['Feijão','Lentilha','Grão de bico','Chia','Mel','Geleia','Eritritol','Azeite extra virgem','Camomila (chá)','Mulungu (chá)','Erva-cidreira (chá)','Melissa (chá)','Chocolate 50–70%']
+  outros: ['Chia','Mel','Geleia','Eritritol','Azeite extra virgem','Camomila (chá)','Mulungu (chá)','Erva-cidreira (chá)','Melissa (chá)','Chocolate 50–70%']
 };
 
 function listaStateKey() { return 'lista_compras_' + (currentUser ? currentUser.id : 'guest'); }
@@ -786,20 +791,42 @@ function initLista() {
     if (!container) return;
     container.innerHTML = '';
     listaItens[grupo].forEach(function(nome) {
-      var comprado = listaState[nome] === true;
+      var saved = listaState[nome] || {};
+      var comprado = saved.comprado === true;
+      var qty = saved.qty || 1;
       var div = document.createElement('div');
       div.className = 'lista-item' + (comprado ? ' comprado' : '');
-      div.innerHTML = '<div class="lista-check"></div><span class="lista-item-nome">' + nome + '</span>';
+      div.innerHTML =
+        '<div class="lista-check"></div>' +
+        '<span class="lista-item-nome">' + nome + '</span>' +
+        '<div style="display:flex;align-items:center;gap:4px;flex-shrink:0" onclick="event.stopPropagation()">' +
+        '<button class="qty-btn" onclick="changeQty(this,-1,\'' + nome + '\')">−</button>' +
+        '<span class="qty-val" style="font-size:12px;font-weight:500;min-width:16px;text-align:center;color:var(--text)">' + qty + '</span>' +
+        '<button class="qty-btn" onclick="changeQty(this,1,\'' + nome + '\')">+</button>' +
+        '<span style="font-size:11px;color:var(--muted)">un.</span>' +
+        '</div>';
       div.onclick = function() {
         div.classList.toggle('comprado');
         var s = getListaState();
-        s[nome] = div.classList.contains('comprado');
+        if (!s[nome]) s[nome] = { qty: 1 };
+        s[nome].comprado = div.classList.contains('comprado');
         setListaState(s);
         salvarLista();
       };
       container.appendChild(div);
     });
   });
+}
+
+function changeQty(btn, delta, nome) {
+  var valEl = btn.parentElement.querySelector('.qty-val');
+  var v = Math.max(1, parseInt(valEl.textContent) + delta);
+  valEl.textContent = v;
+  var s = getListaState();
+  if (!s[nome]) s[nome] = { comprado: false };
+  s[nome].qty = v;
+  setListaState(s);
+  salvarLista();
 }
 
 async function salvarLista() {
@@ -838,7 +865,7 @@ async function salvarLista() {
 
 async function limparComprados() {
   var s = getListaState();
-  Object.keys(s).forEach(function(k) { s[k] = false; });
+  Object.keys(s).forEach(function(k) { if(s[k]) s[k].comprado = false; });
   setListaState(s);
   initLista();
   showToast('Itens comprados removidos ✓');
