@@ -740,6 +740,46 @@ function renderDate() {
   document.getElementById('date-display').textContent = days[d.getDay()] + ', ' + d.getDate() + ' de ' + months[d.getMonth()];
 }
 
+function togglePill(el, group, label) {
+  el.classList.toggle('selected');
+  var selected = [];
+  document.querySelectorAll('#g-' + group + ' .fruit-pill.selected').forEach(function(p) {
+    selected.push(p.getAttribute('data-label') || p.textContent.trim().replace(/^.\s/, ''));
+  });
+  el.setAttribute('data-label', label);
+  selected = [];
+  document.querySelectorAll('#g-' + group + ' .fruit-pill.selected').forEach(function(p) {
+    selected.push(p.getAttribute('data-label') || label);
+  });
+  if(selected.length) {
+    state.choices[group] = selected.join(', ') + ' — 5 col. (100 g)';
+  } else {
+    delete state.choices[group];
+  }
+  scheduleSave(); showToast('Salvo ✓');
+}
+
+function pickMarmita(el) {
+  el.classList.toggle('selected');
+  var desc = document.getElementById('marmita-desc');
+  if(el.classList.contains('selected')) {
+    state.choices['alm-marmita'] = 'Marmita pronta';
+    desc.style.display = 'block';
+  } else {
+    delete state.choices['alm-marmita'];
+    desc.style.display = 'none';
+    desc.value = '';
+  }
+  scheduleSave(); showToast('Salvo ✓');
+}
+
+function saveMarmitaDesc() {
+  var desc = document.getElementById('marmita-desc').value.trim();
+  if(desc) state.choices['alm-marmita'] = 'Marmita pronta — ' + desc;
+  else state.choices['alm-marmita'] = 'Marmita pronta';
+  scheduleSave();
+}
+
 function pick(group, el, label, qty) {
   var parent = el.parentElement;
   parent.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
@@ -782,7 +822,7 @@ function resetWater() { state.water = 0; renderWater(); scheduleSave(); }
 var refeicoes = [
   { label: '☕ Pré-treino', keys: ['pretreino'] },
   { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot','cafe-fruta'] },
-  { label: '🍽️ Almoço', keys: ['alm-marmita','alm-leg','alm-carb','alm-legu','alm-prot'] },
+  { label: '🍽️ Almoço', keys: ['alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot'] },
   { label: '🍎 Lanche da tarde', keys: ['lanche'] },
   { label: '🌙 Jantar', keys: ['jantar'] }
 ];
