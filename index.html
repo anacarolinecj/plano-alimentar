@@ -670,8 +670,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 
 <section id="evolucao" class="section">
 
-  <!-- HOJE -->
-  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Hoje</div>
+  <!-- DIA -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;background:#f5f5f2;border-radius:var(--radius-sm);padding:8px 12px">
+    <button onclick="evNavDia(-1)" style="background:none;border:0.5px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif">‹</button>
+    <div id="ev-dia-label" style="font-size:13px;font-weight:600;color:var(--text)">—</div>
+    <button onclick="evNavDia(1)" id="ev-dia-next" style="background:none;border:0.5px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif">›</button>
+  </div>
 
   <div class="card">
     <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div class="card-title">Como você está hoje?</div></div></div>
@@ -1404,16 +1408,135 @@ function pickHumor(el, emoji, label) {
   showToast(jaSelected ? 'Humor removido' : 'Humor salvo ✓');
 }
 
+var evDiaOffset = 0; // 0 = hoje, -1 = ontem, etc.
+
+function evDiaKey(offset) {
+  var d = new Date();
+  d.setDate(d.getDate() + (offset || evDiaOffset));
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function evNavDia(dir) {
+  if(dir > 0 && evDiaOffset >= 0) return;
+  evDiaOffset = evDiaOffset + dir;
+  if(evDiaOffset > 0) evDiaOffset = 0;
+  evRenderDia();
+}
+
+function evRenderDiaLabel() {
+  var d = new Date(); d.setDate(d.getDate() + evDiaOffset);
+  var days = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  var label = evDiaOffset === 0 ? 'Hoje — ' : (evDiaOffset === -1 ? 'Ontem — ' : days[d.getDay()] + ', ');
+  label += d.getDate() + ' ' + months[d.getMonth()];
+  document.getElementById('ev-dia-label').textContent = label;
+  // Desabilita botão "próximo" se já está em hoje
+  var nextBtn = document.getElementById('ev-dia-next');
+  if(nextBtn) { nextBtn.style.opacity = evDiaOffset >= 0 ? '0.3' : '1'; nextBtn.style.pointerEvents = evDiaOffset >= 0 ? 'none' : 'auto'; }
+}
+
+function evRenderDia() {
+  evRenderDiaLabel();
+  var key = evDiaKey();
+  var row = evDadosCache.find(function(r){ return r.data === key; }) || {};
+
+  // Humor
+  document.getElementById('evolucao').querySelectorAll('.humor-opt').forEach(function(el){ el.classList.remove('selected'); });
+  if(row.humor && humorRevMap[row.humor]) {
+    var label = humorRevMap[row.humor].label;
+    document.getElementById('evolucao').querySelectorAll('.humor-opt').forEach(function(el){
+      if(el.querySelector('.humor-label').textContent === label) el.classList.add('selected');
+    });
+  }
+
+  // Academia
+  renderGymToggle(row.foi_academia);
+
+  // Medidas
+  document.getElementById('med-peso').value    = row.peso    || '';
+  document.getElementById('med-gordura').value = row.gordura || '';
+  document.getElementById('med-massa').value   = row.massa   || '';
+  var m = row.medidas || {};
+  document.getElementById('med-cintura').value = m.cintura || '';
+  document.getElementById('med-quadril').value = m.quadril || '';
+  document.getElementById('med-braco').value   = m.braco   || '';
+  document.getElementById('med-coxa').value    = m.coxa    || '';
+}
+
 function toggleAcademiaHoje() {
-  var idx = evDadosCache.findIndex(function(r){ return r.data === todayKey(); });
+  var key = evDiaKey();
+  var idx = evDadosCache.findIndex(function(r){ return r.data === key; });
   var atual = idx >= 0 ? evDadosCache[idx] : {};
   var novoValor = atual.foi_academia ? 0 : 1;
-  acompSalvar('foi_academia', novoValor);
+  acompSalvarDia(key, 'foi_academia', novoValor);
   renderGymToggle(novoValor);
   showToast(novoValor ? 'Academia registrada ✓' : 'Academia removida');
 }
 
-function renderGymToggle(foiAcademia) {
+function pickHumor(el, emoji, label) {
+  var secao = document.getElementById('evolucao');
+  var jaSelected = el.classList.contains('selected');
+  secao.querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
+  if(!jaSelected) el.classList.add('selected');
+  acompSalvarDia(evDiaKey(), 'humor', jaSelected ? null : humorMap[emoji]);
+  showToast(jaSelected ? 'Humor removido' : 'Humor salvo ✓');
+}
+
+async function salvarMedidas() {
+  var peso    = document.getElementById('med-peso').value;
+  var gordura = document.getElementById('med-gordura').value;
+  var massa   = document.getElementById('med-massa').value;
+  var medidas = {
+    cintura: document.getElementById('med-cintura').value,
+    quadril: document.getElementById('med-quadril').value,
+    braco:   document.getElementById('med-braco').value,
+    coxa:    document.getElementById('med-coxa').value
+  };
+  var hasAny = peso || gordura || massa || Object.values(medidas).some(function(v){ return !!v; });
+  if(!hasAny) { document.getElementById('medidas-msg').textContent = 'Preencha pelo menos um campo.'; return; }
+  var key = evDiaKey();
+  if(peso)    await acompSalvarDia(key, 'peso',    parseFloat(peso));
+  if(gordura) await acompSalvarDia(key, 'gordura', parseFloat(gordura));
+  if(massa)   await acompSalvarDia(key, 'massa',   parseFloat(massa));
+  await acompSalvarDia(key, 'medidas', medidas);
+  document.getElementById('medidas-msg').textContent = 'Medidas salvas ✓';
+  setTimeout(function(){ document.getElementById('medidas-msg').textContent = ''; }, 3000);
+}
+
+async function acompSalvarDia(dateKey, campo, valor) {
+  // Atualiza cache
+  var idx = evDadosCache.findIndex(function(r){ return r.data === dateKey; });
+  if(idx >= 0) { evDadosCache[idx][campo] = valor; }
+  else { var novo = { data: dateKey, user_id: currentUser.id }; novo[campo] = valor; evDadosCache.push(novo); }
+  evRender();
+
+  var payload = {}; payload[campo] = valor;
+  try {
+    var checkRes = await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + dateKey + '&user_id=eq.' + currentUser.id + '&select=id', { headers: authHeaders() });
+    var rows = await checkRes.json();
+    if(rows && rows.length > 0) {
+      await fetch(SUPABASE_URL + '/rest/v1/acompanhamento?data=eq.' + dateKey + '&user_id=eq.' + currentUser.id, {
+        method: 'PATCH',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(payload)
+      });
+    } else {
+      var inserir = { data: dateKey, user_id: currentUser.id }; inserir[campo] = valor;
+      await fetch(SUPABASE_URL + '/rest/v1/acompanhamento', {
+        method: 'POST',
+        headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
+        body: JSON.stringify(inserir)
+      });
+    }
+  } catch(e) { console.error('Erro ao salvar ' + campo + ':', e); }
+}
+
+// Mantém compatibilidade
+async function acompSalvar(campo, valor) { await acompSalvarDia(evDiaKey(), campo, valor); }
+async function salvarAcompanhamento(campos) {
+  var keys = Object.keys(campos);
+  for(var i=0;i<keys.length;i++) await acompSalvarDia(evDiaKey(), keys[i], campos[keys[i]]);
+}
   var btn = document.getElementById('gym-toggle-btn');
   var lbl = document.getElementById('gym-toggle-label');
   var sub = document.getElementById('gym-toggle-sub');
@@ -1659,31 +1782,11 @@ async function loadEvolucao() {
     var rows = await res.json();
     evDadosCache = rows || [];
   } catch(e){ evDadosCache=[]; }
-  evSemOff=0; evMesOff=0; evView='semana';
+  evSemOff=0; evMesOff=0; evDiaOffset=0; evView='semana';
   document.getElementById('ev-tab-semana').classList.add('selected','active');
   document.getElementById('ev-tab-mes').classList.remove('selected','active');
   evRender();
-  // Restaura estado de hoje
-  var todayRow = evDadosCache.find(function(r){ return r.data===todayKey(); });
-  if(todayRow){
-    if(todayRow.humor && humorRevMap[todayRow.humor]){
-      var label=humorRevMap[todayRow.humor].label;
-      document.getElementById('evolucao').querySelectorAll('.humor-opt').forEach(function(el){
-        if(el.querySelector('.humor-label').textContent===label) el.classList.add('selected');
-      });
-    }
-    renderGymToggle(todayRow.foi_academia);
-    if(todayRow.peso)    document.getElementById('med-peso').value=todayRow.peso;
-    if(todayRow.gordura) document.getElementById('med-gordura').value=todayRow.gordura;
-    if(todayRow.massa)   document.getElementById('med-massa').value=todayRow.massa;
-    var m=todayRow.medidas||{};
-    if(m.cintura)  document.getElementById('med-cintura').value=m.cintura;
-    if(m.quadril)  document.getElementById('med-quadril').value=m.quadril;
-    if(m.braco)    document.getElementById('med-braco').value=m.braco;
-    if(m.coxa)     document.getElementById('med-coxa').value=m.coxa;
-  } else {
-    renderGymToggle(0);
-  }
+  evRenderDia();
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
