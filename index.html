@@ -7,19 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green: #2d6a4f;
-  --green-light: #52b788;
-  --green-pale: #d8f3dc;
-  --green-mid: #95d5b2;
-  --blue: #2563eb;
-  --blue-pale: #eff6ff;
-  --bg: #fafaf8;
-  --surface: #ffffff;
-  --border: #e8e5df;
-  --text: #1a1a18;
-  --muted: #6b6b67;
-  --radius: 14px;
-  --radius-sm: 8px;
+  --green: #2d6a4f; --green-light: #52b788; --green-pale: #d8f3dc; --green-mid: #95d5b2;
+  --blue: #2563eb; --blue-pale: #eff6ff; --bg: #fafaf8; --surface: #ffffff;
+  --border: #e8e5df; --text: #1a1a18; --muted: #6b6b67;
+  --radius: 14px; --radius-sm: 8px;
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,7 +42,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .nav-item .icon { font-size: 13px; width: 16px; text-align: center; }
 .sidebar-footer { padding: 12px 16px; border-top: 0.5px solid var(--border); }
 .logout-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); cursor: pointer; padding: 4px 0; }
-.logout-item:hover { color: var(--text); }
 .app-header { background: var(--green); padding: 14px 20px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 100; }
 .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; flex-shrink: 0; }
 .hamburger span { display: block; width: 22px; height: 1.5px; background: rgba(255,255,255,0.8); border-radius: 2px; }
@@ -69,10 +59,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .date-badge span { font-size: 13px; color: var(--green); font-weight: 500; }
 .date-badge button { background: none; border: 1px solid var(--green-light); border-radius: 20px; padding: 3px 10px; font-size: 11px; color: var(--green); cursor: pointer; font-family: 'DM Sans', sans-serif; }
 .card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow); }
-.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; justify-content: space-between; }
+.card-header-left { display: flex; align-items: center; gap: 10px; }
 .meal-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
 .card-title { font-size: 15px; font-weight: 600; color: var(--text); }
 .meal-time { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.clear-btn { background: none; border: 0.5px solid var(--border); border-radius: 20px; padding: 3px 8px; font-size: 11px; color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif; flex-shrink: 0; }
 .group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 14px 0 6px; }
 .group-label:first-child { margin-top: 0; }
 .option-list { display: flex; flex-direction: column; gap: 5px; }
@@ -95,6 +87,15 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .fruit-pill.selected span { color: var(--green-light); }
 .marmita-input { width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); outline: none; margin-top: 8px; display: none; }
 .marmita-input:focus { border-color: var(--green-light); }
+.section-divider { height: 1px; background: var(--border); margin: 14px 0; }
+.fora-dieta-section { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.fora-dieta-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #e05252; margin-bottom: 6px; }
+.fora-dieta-opt { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); cursor: pointer; background: var(--bg); transition: all 0.15s; }
+.fora-dieta-opt.selected { background: #fdecea; border-color: #e05252; }
+.fora-dieta-check { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #e05252; flex-shrink: 0; transition: all 0.15s; }
+.fora-dieta-opt.selected .fora-dieta-check { background: #e05252; }
+.fora-dieta-input { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); outline: none; margin-top: 6px; display: none; }
+.fora-dieta-input:focus { border-color: #e05252; }
 .water-display { text-align: center; padding: 10px 0 16px; }
 .water-amount { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--blue); line-height: 1; }
 .water-amount span { font-family: 'DM Sans', sans-serif; font-size: 16px; color: var(--muted); font-weight: 400; }
@@ -130,14 +131,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .dia-opt.active .dia-sub { color:var(--green); }
 .med-input { width:100%; padding:9px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color 0.2s; }
 .med-input:focus { border-color:var(--green-light); }
-.fora-dieta-section { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
-.fora-dieta-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #e05252; margin-bottom: 6px; }
-.fora-dieta-opt { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); cursor: pointer; background: var(--bg); transition: all 0.15s; -webkit-tap-highlight-color: transparent; }
-.fora-dieta-opt.selected { background: #fdecea; border-color: #e05252; }
-.fora-dieta-check { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #e05252; flex-shrink: 0; }
-.fora-dieta-opt.selected .fora-dieta-check { background: #e05252; }
-.fora-dieta-input { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); outline: none; margin-top: 6px; display: none; }
-.fora-dieta-input:focus { border-color: #e05252; }
 .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 998; gap: 12px; }
 .loading-overlay p { color: var(--muted); font-size: 14px; }
 .spinner { width: 32px; height: 32px; border: 3px solid var(--green-pale); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -191,9 +184,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 </div>
 
 <header class="app-header" id="app-header" style="display:none">
-  <button class="hamburger" onclick="toggleSidebar()">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
   <div class="header-info">
     <h1 id="header-title">Refeições</h1>
     <p id="header-sub">—</p>
@@ -202,509 +193,517 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 </header>
 
 <main class="content" id="main-content" style="display:none">
+<section id="refeicoes" class="section active">
+  <div class="date-badge">
+    <span id="date-display">—</span>
+    <button onclick="clearDay()">Limpar tudo</button>
+  </div>
 
-  <section id="refeicoes" class="section active">
-    <div class="date-badge">
-      <span id="date-display">—</span>
-      <button onclick="clearDay()">Limpar dia</button>
+  <!-- PRÉ-TREINO -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="meal-icon" style="background:#d8f3dc">☕</div>
+        <div><div class="card-title">Pré-treino</div><div class="meal-time">7h30</div></div>
+      </div>
+      <button class="clear-btn" onclick="clearRefeicao(['pretreino'],'pretreino')">Limpar</button>
     </div>
-
-    <div class="card">
-      <div class="card-header" style="justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="meal-icon" style="background:#d8f3dc">☕</div>
-          <div><div class="card-title">Pré-treino</div><div class="meal-time">7h30</div></div>
-        </div>
-        <button onclick="clearRefeicao(['pretreino'],'pretreino')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
-      </div>
-      <div class="option-list" id="g-pretreino">
-        <div class="opt" onclick="pickOpt('pretreino',this,'Café com leite','1 xícara (250 ml)')"><div class="opt-check"></div><span class="opt-text">Café com leite</span><span class="opt-qty">1 xícara (250 ml)</span></div>
-      </div>
+    <div class="option-list" id="g-pretreino">
+      <div class="opt" onclick="pickOpt('pretreino',this,'Café com leite','1 xícara (250 ml)')"><div class="opt-check"></div><span class="opt-text">Café com leite</span><span class="opt-qty">1 xícara (250 ml)</span></div>
     </div>
-
-    <div class="card">
-      <div class="card-header" style="justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="meal-icon" style="background:#fff3cd">🌅</div>
-          <div><div class="card-title">Café da manhã</div><div class="meal-time">10h00</div></div>
-        </div>
-        <button onclick="clearRefeicao(['cafe-carb','cafe-prot','cafe-fruta','cafe-chia'],'cafe')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
-      </div>
-      <div class="group-label" style="margin-top:0">Carboidrato</div>
-      <div class="option-list" id="g-cafe-carb">
-        <div class="opt" onclick="pickOpt('cafe-carb',this,'Pão de forma integral','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão de forma integral</span><span class="opt-qty">2 fatias</span></div>
-        <div class="opt" onclick="pickOpt('cafe-carb',this,'Pão francês','1 unidade')"><div class="opt-check"></div><span class="opt-text">Pão francês</span><span class="opt-qty">1 unidade</span></div>
-        <div class="opt" onclick="pickOpt('cafe-carb',this,'Torrada integral','4 unidades')"><div class="opt-check"></div><span class="opt-text">Torrada integral</span><span class="opt-qty">4 unidades</span></div>
-        <div class="opt" onclick="pickOpt('cafe-carb',this,'Tapioca / cuscuz','3 col. sopa')"><div class="opt-check"></div><span class="opt-text">Tapioca / cuscuz</span><span class="opt-qty">3 col. sopa</span></div>
-      </div>
-      <div class="group-label">Proteína</div>
-      <div class="option-list" id="g-cafe-prot">
-        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Ovo mexido')" data-label="Ovo mexido"><div class="opt-check"></div><span class="opt-text">Ovo mexido</span><span class="opt-qty">2 unidades</span></div>
-        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Frango desfiado')" data-label="Frango desfiado"><div class="opt-check"></div><span class="opt-text">Frango desfiado</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Atum')" data-label="Atum"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="toggleOpt('cafe-prot',this,'Queijo fresco / minas / muçarela')" data-label="Queijo fresco / minas / muçarela"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
-      </div>
-      <div class="group-label">Fruta</div>
-      <div class="fruit-pills" id="g-cafe-fruta">
-        <div class="fruit-pill" data-label="Banana prata" onclick="pickPill('cafe-fruta',this)">🍌 Banana prata <span>1 média</span></div>
-        <div class="fruit-pill" data-label="Morango" onclick="pickPill('cafe-fruta',this)">🍓 Morango <span>12–14 un.</span></div>
-        <div class="fruit-pill" data-label="Maçã" onclick="pickPill('cafe-fruta',this)">🍎 Maçã <span>1 pequena</span></div>
-        <div class="fruit-pill" data-label="Pera" onclick="pickPill('cafe-fruta',this)">🍐 Pera <span>1 pequena</span></div>
-        <div class="fruit-pill" data-label="Laranja" onclick="pickPill('cafe-fruta',this)">🍊 Laranja <span>1 pequena</span></div>
-        <div class="fruit-pill" data-label="Tangerina" onclick="pickPill('cafe-fruta',this)">🍊 Tangerina <span>1 média</span></div>
-        <div class="fruit-pill" data-label="Kiwi" onclick="pickPill('cafe-fruta',this)">🥝 Kiwi <span>1½ un.</span></div>
-        <div class="fruit-pill" data-label="Mamão" onclick="pickPill('cafe-fruta',this)">🍈 Mamão <span>1 fatia</span></div>
-        <div class="fruit-pill" data-label="Abacaxi" onclick="pickPill('cafe-fruta',this)">🍍 Abacaxi <span>2 fatias</span></div>
-        <div class="fruit-pill" data-label="Melão" onclick="pickPill('cafe-fruta',this)">🍈 Melão <span>3 fatias</span></div>
-        <div class="fruit-pill" data-label="Melancia" onclick="pickPill('cafe-fruta',this)">🍉 Melancia <span>2 fatias</span></div>
-        <div class="fruit-pill" data-label="Uvas" onclick="pickPill('cafe-fruta',this)">🍇 Uvas <span>15 un.</span></div>
-        <div class="fruit-pill" data-label="Frutas vermelhas" onclick="pickPill('cafe-fruta',this)">🫐 Frutas vermelhas <span>1 xícara</span></div>
-      </div>
-      <div class="group-label">Chia</div>
-      <div class="option-list" id="g-cafe-chia">
-        <div class="opt" onclick="pickOpt('cafe-chia',this,'Chia','1 col. sobremesa')"><div class="opt-check"></div><span class="opt-text">Chia</span><span class="opt-qty">1 col. sobremesa</span></div>
-      </div>
-
-      <div class="fora-dieta-section">
-        <div class="fora-dieta-label">Fora da dieta?</div>
-        <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'cafe')">
-          <div class="fora-dieta-check"></div>
-          <span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span>
-        </div>
-        <input type="text" class="fora-dieta-input" data-ref="cafe-comeu" placeholder="O que você comeu?" oninput="saveForaDieta('cafe',this)" />
-        <input type="text" class="fora-dieta-input" data-ref="cafe-motivo" placeholder="Por qual motivo? ex: aniversário, estresse…" oninput="saveForaDieta('cafe',this)" />
-      </div>
+    <div class="fora-dieta-section">
+      <div class="fora-dieta-label">Fora da dieta?</div>
+      <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'pretreino')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
+      <input type="text" class="fora-dieta-input" data-ref="pretreino-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="pretreino-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
     </div>
+  </div>
 
-    <div class="card">
-      <div class="card-header" style="justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="meal-icon" style="background:#d8f3dc">🍽️</div>
-          <div><div class="card-title">Almoço</div><div class="meal-time">13h00</div></div>
-        </div>
-        <button onclick="clearRefeicao(['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot'],'alm')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
+  <!-- CAFÉ DA MANHÃ -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="meal-icon" style="background:#fff3cd">🌅</div>
+        <div><div class="card-title">Café da manhã</div><div class="meal-time">10h00</div></div>
       </div>
-      <div class="group-label" style="margin-top:0">Bebida</div>
-      <div class="fruit-pills" id="g-alm-bebida" style="margin-bottom:14px">
-        <div class="fruit-pill" data-label="Água" onclick="pickPill('alm-bebida',this)">💧 Água</div>
-        <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('alm-bebida',this)">🫧 Água com gás</div>
-        <div class="fruit-pill" data-label="Suco" onclick="pickPill('alm-bebida',this)">🧃 Suco</div>
-        <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('alm-bebida',this)">🥤 Refri zero</div>
-      </div>
-      <div class="group-label">Marmita pronta</div>
-      <div class="option-list" id="g-alm-marmita">
-        <div class="opt" onclick="pickMarmita(this)"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div>
-      </div>
-      <input type="text" id="marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveMarmitaDesc()" />
-      <div style="height:1px;background:var(--border);margin:14px 0"></div>
-      <div class="group-label" style="margin-top:0">Folhas — à vontade</div>
-      <div class="fruit-pills" id="g-alm-folhas">
-        <div class="fruit-pill" data-label="Alface" onclick="togglePill('alm-folhas',this)">🥬 Alface</div>
-        <div class="fruit-pill" data-label="Repolho" onclick="togglePill('alm-folhas',this)">🥬 Repolho</div>
-        <div class="fruit-pill" data-label="Couve" onclick="togglePill('alm-folhas',this)">🥬 Couve</div>
-        <div class="fruit-pill" data-label="Salada pronta" onclick="togglePill('alm-folhas',this)">🥗 Salada pronta</div>
-      </div>
-      <div class="group-label">Legume — 5 col. (100 g)</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:6px">2 legumes? 2,5 col. de cada</div>
-      <div class="fruit-pills" id="g-alm-leg">
-        <div class="fruit-pill" data-label="Cenoura" onclick="togglePill('alm-leg',this)">🥕 Cenoura</div>
-        <div class="fruit-pill" data-label="Abobrinha" onclick="togglePill('alm-leg',this)">🥒 Abobrinha</div>
-        <div class="fruit-pill" data-label="Beterraba" onclick="togglePill('alm-leg',this)">🫀 Beterraba</div>
-        <div class="fruit-pill" data-label="Pepino" onclick="togglePill('alm-leg',this)">🥒 Pepino</div>
-        <div class="fruit-pill" data-label="Tomate" onclick="togglePill('alm-leg',this)">🍅 Tomate</div>
-        <div class="fruit-pill" data-label="Vagem" onclick="togglePill('alm-leg',this)">🫘 Vagem</div>
-        <div class="fruit-pill" data-label="Ervilha" onclick="togglePill('alm-leg',this)">🫛 Ervilha</div>
-        <div class="fruit-pill" data-label="Milho" onclick="togglePill('alm-leg',this)">🌽 Milho</div>
-        <div class="fruit-pill" data-label="Couve-flor" onclick="togglePill('alm-leg',this)">🥦 Couve-flor</div>
-        <div class="fruit-pill" data-label="Brócolis" onclick="togglePill('alm-leg',this)">🥦 Brócolis</div>
-        <div class="fruit-pill" data-label="Palmito" onclick="togglePill('alm-leg',this)">🌴 Palmito</div>
-      </div>
-      <div class="group-label">Carboidrato</div>
-      <div class="option-list" id="g-alm-carb">
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Arroz branco ou integral','6 col. (100 g)')"><div class="opt-check"></div><span class="opt-text">Arroz branco ou integral</span><span class="opt-qty">6 col. (100 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Batata / purê','6 col. (170 g)')"><div class="opt-check"></div><span class="opt-text">Batata / purê</span><span class="opt-qty">6 col. (170 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Abóbora','7 col. (200 g)')"><div class="opt-check"></div><span class="opt-text">Abóbora</span><span class="opt-qty">7 col. (200 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Macarrão','1 prato (100 g)')"><div class="opt-check"></div><span class="opt-text">Macarrão</span><span class="opt-qty">1 prato (100 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Batata doce','4 rodelas (120 g)')"><div class="opt-check"></div><span class="opt-text">Batata doce</span><span class="opt-qty">4 rodelas (120 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-carb',this,'Mandioca','110 g')"><div class="opt-check"></div><span class="opt-text">Mandioca</span><span class="opt-qty">110 g</span></div>
-      </div>
-      <div class="group-label">Leguminosa</div>
-      <div class="option-list" id="g-alm-legu">
-        <div class="opt" onclick="pickOpt('alm-legu',this,'Feijão','1 concha (80 g)')"><div class="opt-check"></div><span class="opt-text">Feijão</span><span class="opt-qty">1 concha (80 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-legu',this,'Ervilha / lentilha','3 col. (60 g)')"><div class="opt-check"></div><span class="opt-text">Ervilha / lentilha</span><span class="opt-qty">3 col. (60 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-legu',this,'Grão de bico','2 col. (50 g)')"><div class="opt-check"></div><span class="opt-text">Grão de bico</span><span class="opt-qty">2 col. (50 g)</span></div>
-      </div>
-      <div class="group-label">Proteína</div>
-      <div class="option-list" id="g-alm-prot">
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Frango grelhado / desfiado','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Frango grelhado / desfiado</span><span class="opt-qty">1 filé (120 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Peixe','1 filé (140 g)')"><div class="opt-check"></div><span class="opt-text">Peixe</span><span class="opt-qty">1 filé (140 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Ovos','3 unidades')"><div class="opt-check"></div><span class="opt-text">Ovos (mexido / cozido / omelete)</span><span class="opt-qty">3 unidades</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Carne moída','6 col. (120 g)')"><div class="opt-check"></div><span class="opt-text">Carne moída</span><span class="opt-qty">6 col. (120 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Filé de carne','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Filé de carne</span><span class="opt-qty">1 filé (120 g)</span></div>
-        <div class="opt" onclick="pickOpt('alm-prot',this,'Molho à bolonhesa','1 concha')"><div class="opt-check"></div><span class="opt-text">Molho à bolonhesa</span><span class="opt-qty">1 concha</span></div>
-      </div>
-      <div class="fora-dieta-section">
-        <div class="fora-dieta-label">Fora da dieta?</div>
-        <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'alm')">
-          <div class="fora-dieta-check"></div>
-          <span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span>
-        </div>
-        <input type="text" class="fora-dieta-input" data-ref="alm-comeu" placeholder="O que você comeu?" oninput="saveForaDieta('alm',this)" />
-        <input type="text" class="fora-dieta-input" data-ref="alm-motivo" placeholder="Por qual motivo? ex: aniversário, estresse…" oninput="saveForaDieta('alm',this)" />
-      </div>
+      <button class="clear-btn" onclick="clearRefeicao(['cafe-carb','cafe-prot','cafe-fruta','cafe-chia'],'cafe')">Limpar</button>
     </div>
-
-    <div class="card">
-      <div class="card-header" style="justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="meal-icon" style="background:#fff3cd">🍎</div>
-          <div><div class="card-title">Lanche da tarde</div><div class="meal-time">16h00</div></div>
-        </div>
-        <button onclick="clearRefeicao(['lanche-bebida','lanche','lanche-cafe'],'lanche')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
-      </div>
-      <div class="group-label" style="margin-top:0">Bebida</div>
-      <div class="fruit-pills" id="g-lanche-bebida" style="margin-bottom:14px">
-        <div class="fruit-pill" data-label="Água" onclick="pickPill('lanche-bebida',this)">💧 Água</div>
-        <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('lanche-bebida',this)">🫧 Água com gás</div>
-        <div class="fruit-pill" data-label="Suco" onclick="pickPill('lanche-bebida',this)">🧃 Suco</div>
-        <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('lanche-bebida',this)">🥤 Refri zero</div>
-      </div>
-      <div class="group-label">Escolha uma opção</div>
-      <div class="option-list" id="g-lanche">
-        <div class="opt" onclick="pickOpt('lanche',this,'Iogurte natural + fruta + aveia/granola','2 col. aveia')"><div class="opt-check"></div><span class="opt-text">Iogurte natural + fruta + aveia ou granola</span><span class="opt-qty">2 col. aveia</span></div>
-        <div class="opt" onclick="pickOpt('lanche',this,'Bolo de caneca','1 receita')"><div class="opt-check"></div><span class="opt-text">Bolo de caneca</span><span class="opt-qty">1 receita</span></div>
-        <div class="opt" onclick="pickOpt('lanche',this,'Panqueca de banana','banana + ovo + aveia')"><div class="opt-check"></div><span class="opt-text">Panqueca de banana</span><span class="opt-qty">banana + ovo + aveia</span></div>
-        <div class="opt" onclick="pickOpt('lanche',this,'Pão integral + proteína + ricota + fruta','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão integral + proteína + ricota + fruta</span><span class="opt-qty">2 fatias</span></div>
-      </div>
-      <div style="height:1px;background:var(--border);margin:12px 0"></div>
-      <div class="group-label" style="margin-top:0">Adicionar</div>
-      <div class="option-list" id="g-lanche-cafe">
-        <div class="opt" onclick="toggleLancheCafe(this)"><div class="opt-check"></div><span class="opt-text">☕ Café com leite</span><span class="opt-qty">1 xícara</span></div>
-      </div>
-      <div class="fora-dieta-section">
-        <div class="fora-dieta-label">Fora da dieta?</div>
-        <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'lanche')">
-          <div class="fora-dieta-check"></div>
-          <span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span>
-        </div>
-        <input type="text" class="fora-dieta-input" data-ref="lanche-comeu" placeholder="O que você comeu?" oninput="saveForaDieta('lanche',this)" />
-        <input type="text" class="fora-dieta-input" data-ref="lanche-motivo" placeholder="Por qual motivo? ex: aniversário, estresse…" oninput="saveForaDieta('lanche',this)" />
-      </div>
+    <div class="group-label" style="margin-top:0">Carboidrato</div>
+    <div class="option-list" id="g-cafe-carb">
+      <div class="opt" onclick="pickOpt('cafe-carb',this,'Pão de forma integral','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão de forma integral</span><span class="opt-qty">2 fatias</span></div>
+      <div class="opt" onclick="pickOpt('cafe-carb',this,'Pão francês','1 unidade')"><div class="opt-check"></div><span class="opt-text">Pão francês</span><span class="opt-qty">1 unidade</span></div>
+      <div class="opt" onclick="pickOpt('cafe-carb',this,'Torrada integral','4 unidades')"><div class="opt-check"></div><span class="opt-text">Torrada integral</span><span class="opt-qty">4 unidades</span></div>
+      <div class="opt" onclick="pickOpt('cafe-carb',this,'Tapioca / cuscuz','3 col. sopa')"><div class="opt-check"></div><span class="opt-text">Tapioca / cuscuz</span><span class="opt-qty">3 col. sopa</span></div>
     </div>
-
-    <div class="card">
-      <div class="card-header" style="justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="meal-icon" style="background:#eff6ff">🌙</div>
-          <div><div class="card-title">Jantar</div><div class="meal-time">19h00</div></div>
-        </div>
-        <button onclick="clearRefeicao(['jantar-bebida','jantar-marmita','jantar'],'jantar')" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:3px 8px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">Limpar</button>
-      </div>
-      <div class="group-label" style="margin-top:0">Bebida</div>
-      <div class="fruit-pills" id="g-jantar-bebida" style="margin-bottom:14px">
-        <div class="fruit-pill" data-label="Água" onclick="pickPill('jantar-bebida',this)">💧 Água</div>
-        <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('jantar-bebida',this)">🫧 Água com gás</div>
-        <div class="fruit-pill" data-label="Suco" onclick="pickPill('jantar-bebida',this)">🧃 Suco</div>
-        <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('jantar-bebida',this)">🥤 Refri zero</div>
-      </div>
-      <div class="group-label">Marmita pronta</div>
-      <div class="option-list" id="g-jantar-marmita">
-        <div class="opt" onclick="pickJantarMarmita(this)"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div>
-      </div>
-      <input type="text" id="jantar-marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveJantarMarmitaDesc()" />
-      <div style="height:1px;background:var(--border);margin:12px 0"></div>
-      <div class="group-label" style="margin-top:0">Escolha uma opção</div>
-      <div class="option-list" id="g-jantar">
-        <div class="opt" onclick="pickOpt('jantar',this,'Marmita pronta','—')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span><span class="opt-qty">—</span></div>
-        <div class="opt" onclick="pickOpt('jantar',this,'Wrap + folhas + carne/frango + requeijão','5 col. proteína')"><div class="opt-check"></div><span class="opt-text">Wrap (Rap 10) + folhas + carne/frango + requeijão</span><span class="opt-qty">5 col. proteína</span></div>
-        <div class="opt" onclick="pickOpt('jantar',this,'Omelete + folhas + legumes','3 ovos')"><div class="opt-check"></div><span class="opt-text">Omelete + folhas + legumes</span><span class="opt-qty">3 ovos</span></div>
-        <div class="opt" onclick="pickOpt('jantar',this,'Crepioca com queijo + tomate + folhas','3 col. tapioca')"><div class="opt-check"></div><span class="opt-text">Crepioca com queijo + tomate + folhas</span><span class="opt-qty">3 col. tapioca</span></div>
-        <div class="opt" onclick="pickOpt('jantar',this,'Hambúrguer caseiro + pão + queijo + folhas','100 g')"><div class="opt-check"></div><span class="opt-text">Hambúrguer caseiro + pão + queijo + folhas</span><span class="opt-qty">100 g</span></div>
-      </div>
-      <div class="fora-dieta-section">
-        <div class="fora-dieta-label">Fora da dieta?</div>
-        <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'jantar')">
-          <div class="fora-dieta-check"></div>
-          <span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span>
-        </div>
-        <input type="text" class="fora-dieta-input" data-ref="jantar-comeu" placeholder="O que você comeu?" oninput="saveForaDieta('jantar',this)" />
-        <input type="text" class="fora-dieta-input" data-ref="jantar-motivo" placeholder="Por qual motivo? ex: aniversário, estresse…" oninput="saveForaDieta('jantar',this)" />
-      </div>
+    <div class="group-label">Proteína</div>
+    <div class="option-list" id="g-cafe-prot">
+      <div class="opt" onclick="toggleOpt('cafe-prot',this,'Ovo mexido')" data-label="Ovo mexido"><div class="opt-check"></div><span class="opt-text">Ovo mexido</span><span class="opt-qty">2 unidades</span></div>
+      <div class="opt" onclick="toggleOpt('cafe-prot',this,'Frango desfiado')" data-label="Frango desfiado"><div class="opt-check"></div><span class="opt-text">Frango desfiado</span><span class="opt-qty">3 col. (60 g)</span></div>
+      <div class="opt" onclick="toggleOpt('cafe-prot',this,'Atum')" data-label="Atum"><div class="opt-check"></div><span class="opt-text">Atum</span><span class="opt-qty">3 col. (60 g)</span></div>
+      <div class="opt" onclick="toggleOpt('cafe-prot',this,'Queijo fresco / minas / muçarela')" data-label="Queijo fresco / minas / muçarela"><div class="opt-check"></div><span class="opt-text">Queijo fresco / minas / muçarela</span><span class="opt-qty">2 fatias (20 g cada)</span></div>
     </div>
+    <div class="group-label">Fruta</div>
+    <div class="fruit-pills" id="g-cafe-fruta">
+      <div class="fruit-pill" data-label="Banana prata" onclick="pickPill('cafe-fruta',this)">🍌 Banana prata <span>1 média</span></div>
+      <div class="fruit-pill" data-label="Morango" onclick="pickPill('cafe-fruta',this)">🍓 Morango <span>12–14 un.</span></div>
+      <div class="fruit-pill" data-label="Maçã" onclick="pickPill('cafe-fruta',this)">🍎 Maçã <span>1 pequena</span></div>
+      <div class="fruit-pill" data-label="Pera" onclick="pickPill('cafe-fruta',this)">🍐 Pera <span>1 pequena</span></div>
+      <div class="fruit-pill" data-label="Laranja" onclick="pickPill('cafe-fruta',this)">🍊 Laranja <span>1 pequena</span></div>
+      <div class="fruit-pill" data-label="Tangerina" onclick="pickPill('cafe-fruta',this)">🍊 Tangerina <span>1 média</span></div>
+      <div class="fruit-pill" data-label="Kiwi" onclick="pickPill('cafe-fruta',this)">🥝 Kiwi <span>1½ un.</span></div>
+      <div class="fruit-pill" data-label="Mamão" onclick="pickPill('cafe-fruta',this)">🍈 Mamão <span>1 fatia</span></div>
+      <div class="fruit-pill" data-label="Abacaxi" onclick="pickPill('cafe-fruta',this)">🍍 Abacaxi <span>2 fatias</span></div>
+      <div class="fruit-pill" data-label="Melão" onclick="pickPill('cafe-fruta',this)">🍈 Melão <span>3 fatias</span></div>
+      <div class="fruit-pill" data-label="Melancia" onclick="pickPill('cafe-fruta',this)">🍉 Melancia <span>2 fatias</span></div>
+      <div class="fruit-pill" data-label="Uvas" onclick="pickPill('cafe-fruta',this)">🍇 Uvas <span>15 un.</span></div>
+      <div class="fruit-pill" data-label="Frutas vermelhas" onclick="pickPill('cafe-fruta',this)">🫐 Frutas vermelhas <span>1 xícara</span></div>
+    </div>
+    <div class="group-label">Chia</div>
+    <div class="option-list" id="g-cafe-chia">
+      <div class="opt" onclick="pickOpt('cafe-chia',this,'Chia','1 col. sobremesa')"><div class="opt-check"></div><span class="opt-text">Chia</span><span class="opt-qty">1 col. sobremesa</span></div>
+    </div>
+    <div class="fora-dieta-section">
+      <div class="fora-dieta-label">Fora da dieta?</div>
+      <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'cafe')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
+      <input type="text" class="fora-dieta-input" data-ref="cafe-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="cafe-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+    </div>
+  </div>
 
-    <div class="card">
-      <div class="card-header">
+  <!-- ALMOÇO -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="meal-icon" style="background:#d8f3dc">🍽️</div>
+        <div><div class="card-title">Almoço</div><div class="meal-time">13h00</div></div>
+      </div>
+      <button class="clear-btn" onclick="clearRefeicao(['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot'],'alm')">Limpar</button>
+    </div>
+    <div class="group-label" style="margin-top:0">Bebida</div>
+    <div class="fruit-pills" id="g-alm-bebida" style="margin-bottom:14px">
+      <div class="fruit-pill" data-label="Água" onclick="pickPill('alm-bebida',this)">💧 Água</div>
+      <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('alm-bebida',this)">🫧 Água com gás</div>
+      <div class="fruit-pill" data-label="Suco" onclick="pickPill('alm-bebida',this)">🧃 Suco</div>
+      <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('alm-bebida',this)">🥤 Refri zero</div>
+    </div>
+    <div class="group-label">Marmita pronta</div>
+    <div class="option-list" id="g-alm-marmita">
+      <div class="opt" onclick="pickMarmita(this,'marmita-desc','alm-marmita')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div>
+    </div>
+    <input type="text" id="marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveMarmitaDesc(this,'alm-marmita')" />
+    <div class="section-divider"></div>
+    <div class="group-label" style="margin-top:0">Folhas — à vontade</div>
+    <div class="fruit-pills" id="g-alm-folhas">
+      <div class="fruit-pill" data-label="Alface" onclick="togglePill('alm-folhas',this)">🥬 Alface</div>
+      <div class="fruit-pill" data-label="Repolho" onclick="togglePill('alm-folhas',this)">🥬 Repolho</div>
+      <div class="fruit-pill" data-label="Couve" onclick="togglePill('alm-folhas',this)">🥬 Couve</div>
+      <div class="fruit-pill" data-label="Salada pronta" onclick="togglePill('alm-folhas',this)">🥗 Salada pronta</div>
+    </div>
+    <div class="group-label">Legume — 5 col. (100 g)</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:6px">2 legumes? 2,5 col. de cada</div>
+    <div class="fruit-pills" id="g-alm-leg">
+      <div class="fruit-pill" data-label="Cenoura" onclick="togglePill('alm-leg',this)">🥕 Cenoura</div>
+      <div class="fruit-pill" data-label="Abobrinha" onclick="togglePill('alm-leg',this)">🥒 Abobrinha</div>
+      <div class="fruit-pill" data-label="Beterraba" onclick="togglePill('alm-leg',this)">🫀 Beterraba</div>
+      <div class="fruit-pill" data-label="Pepino" onclick="togglePill('alm-leg',this)">🥒 Pepino</div>
+      <div class="fruit-pill" data-label="Tomate" onclick="togglePill('alm-leg',this)">🍅 Tomate</div>
+      <div class="fruit-pill" data-label="Vagem" onclick="togglePill('alm-leg',this)">🫘 Vagem</div>
+      <div class="fruit-pill" data-label="Ervilha" onclick="togglePill('alm-leg',this)">🫛 Ervilha</div>
+      <div class="fruit-pill" data-label="Milho" onclick="togglePill('alm-leg',this)">🌽 Milho</div>
+      <div class="fruit-pill" data-label="Couve-flor" onclick="togglePill('alm-leg',this)">🥦 Couve-flor</div>
+      <div class="fruit-pill" data-label="Brócolis" onclick="togglePill('alm-leg',this)">🥦 Brócolis</div>
+      <div class="fruit-pill" data-label="Palmito" onclick="togglePill('alm-leg',this)">🌴 Palmito</div>
+    </div>
+    <div class="group-label">Carboidrato</div>
+    <div class="option-list" id="g-alm-carb">
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Arroz branco ou integral','6 col. (100 g)')"><div class="opt-check"></div><span class="opt-text">Arroz branco ou integral</span><span class="opt-qty">6 col. (100 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Batata / purê','6 col. (170 g)')"><div class="opt-check"></div><span class="opt-text">Batata / purê</span><span class="opt-qty">6 col. (170 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Abóbora','7 col. (200 g)')"><div class="opt-check"></div><span class="opt-text">Abóbora</span><span class="opt-qty">7 col. (200 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Macarrão','1 prato (100 g)')"><div class="opt-check"></div><span class="opt-text">Macarrão</span><span class="opt-qty">1 prato (100 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Batata doce','4 rodelas (120 g)')"><div class="opt-check"></div><span class="opt-text">Batata doce</span><span class="opt-qty">4 rodelas (120 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-carb',this,'Mandioca','110 g')"><div class="opt-check"></div><span class="opt-text">Mandioca</span><span class="opt-qty">110 g</span></div>
+    </div>
+    <div class="group-label">Leguminosa</div>
+    <div class="option-list" id="g-alm-legu">
+      <div class="opt" onclick="pickOpt('alm-legu',this,'Feijão','1 concha (80 g)')"><div class="opt-check"></div><span class="opt-text">Feijão</span><span class="opt-qty">1 concha (80 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-legu',this,'Ervilha / lentilha','3 col. (60 g)')"><div class="opt-check"></div><span class="opt-text">Ervilha / lentilha</span><span class="opt-qty">3 col. (60 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-legu',this,'Grão de bico','2 col. (50 g)')"><div class="opt-check"></div><span class="opt-text">Grão de bico</span><span class="opt-qty">2 col. (50 g)</span></div>
+    </div>
+    <div class="group-label">Proteína</div>
+    <div class="option-list" id="g-alm-prot">
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Frango grelhado / desfiado','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Frango grelhado / desfiado</span><span class="opt-qty">1 filé (120 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Peixe','1 filé (140 g)')"><div class="opt-check"></div><span class="opt-text">Peixe</span><span class="opt-qty">1 filé (140 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Ovos','3 unidades')"><div class="opt-check"></div><span class="opt-text">Ovos (mexido / cozido / omelete)</span><span class="opt-qty">3 unidades</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Carne moída','6 col. (120 g)')"><div class="opt-check"></div><span class="opt-text">Carne moída</span><span class="opt-qty">6 col. (120 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Filé de carne','1 filé (120 g)')"><div class="opt-check"></div><span class="opt-text">Filé de carne</span><span class="opt-qty">1 filé (120 g)</span></div>
+      <div class="opt" onclick="pickOpt('alm-prot',this,'Molho à bolonhesa','1 concha')"><div class="opt-check"></div><span class="opt-text">Molho à bolonhesa</span><span class="opt-qty">1 concha</span></div>
+    </div>
+    <div class="fora-dieta-section">
+      <div class="fora-dieta-label">Fora da dieta?</div>
+      <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'alm')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
+      <input type="text" class="fora-dieta-input" data-ref="alm-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="alm-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+    </div>
+  </div>
+
+  <!-- LANCHE -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="meal-icon" style="background:#fff3cd">🍎</div>
+        <div><div class="card-title">Lanche da tarde</div><div class="meal-time">16h00</div></div>
+      </div>
+      <button class="clear-btn" onclick="clearRefeicao(['lanche-bebida','lanche','lanche-cafe'],'lanche')">Limpar</button>
+    </div>
+    <div class="group-label" style="margin-top:0">Bebida</div>
+    <div class="fruit-pills" id="g-lanche-bebida" style="margin-bottom:14px">
+      <div class="fruit-pill" data-label="Água" onclick="pickPill('lanche-bebida',this)">💧 Água</div>
+      <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('lanche-bebida',this)">🫧 Água com gás</div>
+      <div class="fruit-pill" data-label="Suco" onclick="pickPill('lanche-bebida',this)">🧃 Suco</div>
+      <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('lanche-bebida',this)">🥤 Refri zero</div>
+    </div>
+    <div class="group-label">Escolha uma opção</div>
+    <div class="option-list" id="g-lanche">
+      <div class="opt" onclick="pickOpt('lanche',this,'Iogurte natural + fruta + aveia/granola','2 col. aveia')"><div class="opt-check"></div><span class="opt-text">Iogurte natural + fruta + aveia ou granola</span><span class="opt-qty">2 col. aveia</span></div>
+      <div class="opt" onclick="pickOpt('lanche',this,'Bolo de caneca','1 receita')"><div class="opt-check"></div><span class="opt-text">Bolo de caneca</span><span class="opt-qty">1 receita</span></div>
+      <div class="opt" onclick="pickOpt('lanche',this,'Panqueca de banana','banana + ovo + aveia')"><div class="opt-check"></div><span class="opt-text">Panqueca de banana</span><span class="opt-qty">banana + ovo + aveia</span></div>
+      <div class="opt" onclick="pickOpt('lanche',this,'Pão integral + proteína + ricota + fruta','2 fatias')"><div class="opt-check"></div><span class="opt-text">Pão integral + proteína + ricota + fruta</span><span class="opt-qty">2 fatias</span></div>
+    </div>
+    <div class="section-divider"></div>
+    <div class="group-label" style="margin-top:0">Adicionar</div>
+    <div class="option-list" id="g-lanche-cafe">
+      <div class="opt" onclick="toggleLancheCafe(this)"><div class="opt-check"></div><span class="opt-text">☕ Café com leite</span><span class="opt-qty">1 xícara</span></div>
+    </div>
+    <div class="fora-dieta-section">
+      <div class="fora-dieta-label">Fora da dieta?</div>
+      <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'lanche')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
+      <input type="text" class="fora-dieta-input" data-ref="lanche-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="lanche-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+    </div>
+  </div>
+
+  <!-- JANTAR -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="meal-icon" style="background:#eff6ff">🌙</div>
+        <div><div class="card-title">Jantar</div><div class="meal-time">19h00</div></div>
+      </div>
+      <button class="clear-btn" onclick="clearRefeicao(['jantar-bebida','jantar-marmita','jantar'],'jantar')">Limpar</button>
+    </div>
+    <div class="group-label" style="margin-top:0">Bebida</div>
+    <div class="fruit-pills" id="g-jantar-bebida" style="margin-bottom:14px">
+      <div class="fruit-pill" data-label="Água" onclick="pickPill('jantar-bebida',this)">💧 Água</div>
+      <div class="fruit-pill" data-label="Água com gás" onclick="pickPill('jantar-bebida',this)">🫧 Água com gás</div>
+      <div class="fruit-pill" data-label="Suco" onclick="pickPill('jantar-bebida',this)">🧃 Suco</div>
+      <div class="fruit-pill" data-label="Refrigerante zero" onclick="pickPill('jantar-bebida',this)">🥤 Refri zero</div>
+    </div>
+    <div class="group-label">Marmita pronta</div>
+    <div class="option-list" id="g-jantar-marmita">
+      <div class="opt" onclick="pickMarmita(this,'jantar-marmita-desc','jantar-marmita')"><div class="opt-check"></div><span class="opt-text">Marmita pronta</span></div>
+    </div>
+    <input type="text" id="jantar-marmita-desc" class="marmita-input" placeholder="Qual marmita? ex: frango com arroz e brócolis" oninput="saveMarmitaDesc(this,'jantar-marmita')" />
+    <div class="section-divider"></div>
+    <div class="group-label" style="margin-top:0">Escolha uma opção</div>
+    <div class="option-list" id="g-jantar">
+      <div class="opt" onclick="pickOpt('jantar',this,'Wrap + folhas + carne/frango + requeijão','5 col. proteína')"><div class="opt-check"></div><span class="opt-text">Wrap (Rap 10) + folhas + carne/frango + requeijão</span><span class="opt-qty">5 col. proteína</span></div>
+      <div class="opt" onclick="pickOpt('jantar',this,'Omelete + folhas + legumes','3 ovos')"><div class="opt-check"></div><span class="opt-text">Omelete + folhas + legumes</span><span class="opt-qty">3 ovos</span></div>
+      <div class="opt" onclick="pickOpt('jantar',this,'Crepioca com queijo + tomate + folhas','3 col. tapioca')"><div class="opt-check"></div><span class="opt-text">Crepioca com queijo + tomate + folhas</span><span class="opt-qty">3 col. tapioca</span></div>
+      <div class="opt" onclick="pickOpt('jantar',this,'Hambúrguer caseiro + pão + queijo + folhas','100 g')"><div class="opt-check"></div><span class="opt-text">Hambúrguer caseiro + pão + queijo + folhas</span><span class="opt-qty">100 g</span></div>
+    </div>
+    <div class="fora-dieta-section">
+      <div class="fora-dieta-label">Fora da dieta?</div>
+      <div class="fora-dieta-opt" onclick="toggleForaDieta(this,'jantar')"><div class="fora-dieta-check"></div><span style="font-size:12px;color:var(--muted)">Comi fora da dieta nesta refeição</span></div>
+      <input type="text" class="fora-dieta-input" data-ref="jantar-comeu" placeholder="O que você comeu?" oninput="saveForaDieta(this)" />
+      <input type="text" class="fora-dieta-input" data-ref="jantar-motivo" placeholder="Por qual motivo?" oninput="saveForaDieta(this)" />
+    </div>
+  </div>
+
+  <!-- CEIA -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
         <div class="meal-icon" style="background:#f5f5f2">🍵</div>
         <div><div class="card-title">Ceia</div><div class="meal-time">Antes de dormir</div></div>
       </div>
-      <div class="group-label" style="margin-top:0">Chá (escolha um)</div>
-      <div class="fruit-pills" id="g-ceia">
-        <div class="fruit-pill" data-label="Camomila" onclick="pickPill('ceia',this)">🌼 Camomila</div>
-        <div class="fruit-pill" data-label="Mulungu" onclick="pickPill('ceia',this)">🌿 Mulungu</div>
-        <div class="fruit-pill" data-label="Erva-cidreira" onclick="pickPill('ceia',this)">🍋 Erva-cidreira</div>
-        <div class="fruit-pill" data-label="Melissa" onclick="pickPill('ceia',this)">🌱 Melissa</div>
+      <button class="clear-btn" onclick="clearRefeicao(['ceia'],'')">Limpar</button>
+    </div>
+    <div class="group-label" style="margin-top:0">Chá (escolha um)</div>
+    <div class="fruit-pills" id="g-ceia">
+      <div class="fruit-pill" data-label="Camomila" onclick="pickPill('ceia',this)">🌼 Camomila</div>
+      <div class="fruit-pill" data-label="Mulungu" onclick="pickPill('ceia',this)">🌿 Mulungu</div>
+      <div class="fruit-pill" data-label="Erva-cidreira" onclick="pickPill('ceia',this)">🍋 Erva-cidreira</div>
+      <div class="fruit-pill" data-label="Melissa" onclick="pickPill('ceia',this)">🌱 Melissa</div>
+    </div>
+  </div>
+
+  <!-- INCLUSO NO PLANO -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="meal-icon" style="background:#fdecea">🍫</div>
+        <div><div class="card-title">Incluso no plano</div></div>
       </div>
+      <button class="clear-btn" onclick="clearRefeicao(['doce'],'')">Limpar</button>
     </div>
+    <div class="group-label" style="margin-top:0">Doce do dia (opcional)</div>
+    <div class="option-list" id="g-doce">
+      <div class="opt" onclick="pickOpt('doce',this,'Mel','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🍯 Mel</span><span class="opt-qty">1 col. sopa</span></div>
+      <div class="opt" onclick="pickOpt('doce',this,'Geleia','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🫐 Geleia</span><span class="opt-qty">1 col. sopa</span></div>
+      <div class="opt" onclick="pickOpt('doce',this,'Doce de leite','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🥛 Doce de leite</span><span class="opt-qty">1 col. sopa</span></div>
+      <div class="opt" onclick="pickOpt('doce',this,'Chocolate 50–70%','até 3 quadradinhos')"><div class="opt-check"></div><span class="opt-text">🍫 Chocolate 50–70%</span><span class="opt-qty">até 3 quadradinhos</span></div>
+      <div class="opt" onclick="pickOpt('doce',this,'Sonho de valsa / Ouro branco / Twix / Prestígio','1 un.')"><div class="opt-check"></div><span class="opt-text">🍬 Sonho de valsa / Ouro branco / Twix / Prestígio</span><span class="opt-qty">1 un.</span></div>
+    </div>
+    <div class="section-divider"></div>
+    <div class="fixed-item">☕ Até 4 xícaras de café por dia</div>
+  </div>
 
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fdecea">🍫</div><div class="card-title">Incluso no plano</div></div>
-      <div class="group-label" style="margin-top:0">Doce do dia (opcional)</div>
-      <div class="option-list" id="g-doce">
-        <div class="opt" onclick="pickOpt('doce',this,'Mel','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🍯 Mel</span><span class="opt-qty">1 col. sopa</span></div>
-        <div class="opt" onclick="pickOpt('doce',this,'Geleia','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🫐 Geleia</span><span class="opt-qty">1 col. sopa</span></div>
-        <div class="opt" onclick="pickOpt('doce',this,'Doce de leite','1 col. sopa')"><div class="opt-check"></div><span class="opt-text">🥛 Doce de leite</span><span class="opt-qty">1 col. sopa</span></div>
-        <div class="opt" onclick="pickOpt('doce',this,'Chocolate 50–70%','até 3 quadradinhos')"><div class="opt-check"></div><span class="opt-text">🍫 Chocolate 50–70%</span><span class="opt-qty">até 3 quadradinhos</span></div>
-        <div class="opt" onclick="pickOpt('doce',this,'Sonho de valsa / Ouro branco / Twix / Prestígio','1 un.')"><div class="opt-check"></div><span class="opt-text">🍬 Sonho de valsa / Ouro branco / Twix / Prestígio</span><span class="opt-qty">1 un.</span></div>
-      </div>
-      <div style="height:1px;background:var(--border);margin:14px 0"></div>
-      <div class="fixed-item">☕ Até 4 xícaras de café por dia</div>
-    </div>
-  </section>
+</section>
 
-  <section id="agua" class="section">
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#eff6ff">💧</div><div class="card-title">Água do dia — meta: 2,4 L</div></div>
-      <div class="water-display">
-        <div class="water-amount"><span id="water-ml">0</span> <span>ml</span></div>
-        <div class="water-sub">de 2400 ml</div>
-      </div>
-      <div class="water-bar-wrap"><div class="water-bar-fill" id="water-fill" style="width:0%"></div></div>
-      <div class="water-msg" id="water-msg"></div>
-      <div class="water-btns">
-        <button class="water-btn" onclick="addWater(200)">+ 200 ml</button>
-        <button class="water-btn" onclick="addWater(300)">+ 300 ml</button>
-        <button class="water-btn" onclick="addWater(500)">+ 500 ml</button>
-        <button class="water-btn reset" onclick="resetWater()">Zerar contador de água</button>
-      </div>
+<section id="agua" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">💧</div><div class="card-title">Água do dia — meta: 2,4 L</div></div></div>
+    <div class="water-display">
+      <div class="water-amount"><span id="water-ml">0</span> <span>ml</span></div>
+      <div class="water-sub">de 2400 ml</div>
     </div>
-    <div class="note">Evite beber líquidos durante as refeições. Prefira água entre os horários.</div>
-  </section>
+    <div class="water-bar-wrap"><div class="water-bar-fill" id="water-fill" style="width:0%"></div></div>
+    <div class="water-msg" id="water-msg"></div>
+    <div class="water-btns">
+      <button class="water-btn" onclick="addWater(200)">+ 200 ml</button>
+      <button class="water-btn" onclick="addWater(300)">+ 300 ml</button>
+      <button class="water-btn" onclick="addWater(500)">+ 500 ml</button>
+      <button class="water-btn reset" onclick="resetWater()">Zerar contador de água</button>
+    </div>
+  </div>
+  <div class="note">Evite beber líquidos durante as refeições. Prefira água entre os horários.</div>
+</section>
 
-  <section id="resumo" class="section">
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">📋</div><div class="card-title">Resumo de hoje</div></div>
-      <div id="summary-content"><div class="summary-empty">Faça suas escolhas na aba Refeições para ver o resumo aqui.</div></div>
-    </div>
-  </section>
+<section id="resumo" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">📋</div><div class="card-title">Resumo de hoje</div></div></div>
+    <div id="summary-content"><div class="summary-empty">Faça suas escolhas na aba Refeições para ver o resumo aqui.</div></div>
+  </div>
+</section>
 
-  <section id="receitas" class="section">
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fff3cd">🫙</div><div class="card-title">Bolo de caneca — 3 minutos</div></div>
-      <div class="group-label">Ingredientes</div>
-      <ul class="ingredient-list">
-        <li>1 ovo</li><li>1 banana prata amassada <strong>ou</strong> 1 maçã ralada</li>
-        <li>3 col. sopa de farelo de aveia</li><li>10 gotas de eritritol</li>
-        <li>Canela à gosto</li><li>Essência de baunilha à gosto</li>
-        <li>1 col. café cheia de fermento em pó</li>
-      </ul>
-      <div class="group-label">Preparo</div>
-      <ol class="recipe-steps">
-        <li class="recipe-step">Misture todos os ingredientes em uma caneca, <strong>exceto o fermento</strong></li>
-        <li class="recipe-step">Adicione o fermento por último, mexendo devagar</li>
-        <li class="recipe-step">Leve ao micro-ondas por <strong>3 a 4 minutos</strong></li>
-      </ol>
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fdecea">🍔</div><div class="card-title">Hambúrguer caseiro de patinho</div></div>
-      <div class="note" style="margin-bottom:12px">Rendimento: 5 hambúrgueres de 100 g prontos</div>
-      <div class="group-label">Ingredientes</div>
-      <ul class="ingredient-list">
-        <li>480 g de patinho moído</li><li>1 dente de alho picado ou amassado</li>
-        <li>1 col. sopa de cebola ralada</li><li>Sal e pimenta-do-reino a gosto</li>
-        <li><em>Opcional:</em> 1 col. chá de azeite ou mostarda dijon</li>
-        <li><em>Opcional:</em> orégano, alecrim, salsa ou páprica defumada</li>
-      </ul>
-      <div class="group-label">Preparo</div>
-      <ol class="recipe-steps">
-        <li class="recipe-step">Misture todos os ingredientes até formar uma massa homogênea</li>
-        <li class="recipe-step">Divida em 4 porções de 110–120 g (peso cru)</li>
-        <li class="recipe-step">Modele com cerca de 2 cm de espessura</li>
-        <li class="recipe-step">Grelhe em frigideira antiaderente, 3–4 minutos de cada lado</li>
-        <li class="recipe-step">Pronto! Cada unidade terá ~100 g após o cozimento</li>
-      </ol>
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#eff6ff">🌯</div><div class="card-title">Wrap (Rap 10)</div></div>
-      <div class="note" style="margin-bottom:12px">Opção de jantar</div>
-      <div class="group-label">Ingredientes</div>
-      <ul class="ingredient-list">
-        <li>1 wrap Rap 10</li>
-        <li>Proteína: 5 col. sopa de carne ou frango (100 g)</li>
-        <li>Requeijão: 1 col. sopa (20 g)</li>
-        <li>1 col. sopa de azeite extra virgem</li>
-      </ul>
-      <div class="group-label">Para acompanhar</div>
-      <ul class="ingredient-list">
-        <li>Folhas à vontade (alface, rúcula, couve…)</li>
-      </ul>
-      <div class="group-label">Montagem</div>
-      <ol class="recipe-steps">
-        <li class="recipe-step">Espalhe o requeijão sobre o wrap</li>
-        <li class="recipe-step">Adicione a proteína e as folhas</li>
-        <li class="recipe-step">Regue com azeite e enrole</li>
-      </ol>
-    </div>
+<section id="receitas" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🫙</div><div class="card-title">Bolo de caneca — 3 minutos</div></div></div>
+    <div class="group-label">Ingredientes</div>
+    <ul class="ingredient-list">
+      <li>1 ovo</li><li>1 banana prata amassada <strong>ou</strong> 1 maçã ralada</li>
+      <li>3 col. sopa de farelo de aveia</li><li>10 gotas de eritritol</li>
+      <li>Canela à gosto</li><li>Essência de baunilha à gosto</li>
+      <li>1 col. café cheia de fermento em pó</li>
+    </ul>
+    <div class="group-label">Preparo</div>
+    <ol class="recipe-steps">
+      <li class="recipe-step">Misture todos os ingredientes em uma caneca, <strong>exceto o fermento</strong></li>
+      <li class="recipe-step">Adicione o fermento por último, mexendo devagar</li>
+      <li class="recipe-step">Leve ao micro-ondas por <strong>3 a 4 minutos</strong></li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍞</div><div class="card-title">Pão integral + proteína</div></div></div>
+    <div class="note" style="margin-bottom:12px">Opção de lanche da tarde</div>
+    <div class="group-label">Ingredientes</div>
+    <ul class="ingredient-list">
+      <li>2 fatias de pão integral</li>
+      <li>Proteína (escolha uma): frango desfiado 2 col. sopa (40 g) <em>ou</em> atum 2 col. sopa (40 g) <em>ou</em> ovo cozido 1 unidade</li>
+      <li>Ricota: 2 col. sopa (40 g)</li>
+      <li>1 porção de fruta (ver aba Dicas para quantidades)</li>
+    </ul>
+    <div class="group-label">Montagem</div>
+    <ol class="recipe-steps">
+      <li class="recipe-step">Passe a ricota nas fatias de pão como base</li>
+      <li class="recipe-step">Adicione a proteína escolhida por cima</li>
+      <li class="recipe-step">Sirva com a fruta ao lado</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fdecea">🍔</div><div class="card-title">Hambúrguer caseiro de patinho</div></div></div>
+    <div class="note" style="margin-bottom:12px">Rendimento: 5 hambúrgueres de 100 g prontos</div>
+    <div class="group-label">Ingredientes</div>
+    <ul class="ingredient-list">
+      <li>480 g de patinho moído</li><li>1 dente de alho picado ou amassado</li>
+      <li>1 col. sopa de cebola ralada</li><li>Sal e pimenta-do-reino a gosto</li>
+      <li><em>Opcional:</em> 1 col. chá de azeite ou mostarda dijon</li>
+      <li><em>Opcional:</em> orégano, alecrim, salsa ou páprica defumada</li>
+    </ul>
+    <div class="group-label">Preparo</div>
+    <ol class="recipe-steps">
+      <li class="recipe-step">Misture todos os ingredientes até formar uma massa homogênea</li>
+      <li class="recipe-step">Divida em 4 porções de 110–120 g (peso cru)</li>
+      <li class="recipe-step">Modele com cerca de 2 cm de espessura</li>
+      <li class="recipe-step">Grelhe em frigideira antiaderente, 3–4 minutos de cada lado</li>
+      <li class="recipe-step">Pronto! Cada unidade terá ~100 g após o cozimento</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍌</div><div class="card-title">Panqueca de banana</div></div></div>
+    <div class="group-label">Ingredientes</div>
+    <ul class="ingredient-list">
+      <li>1 banana prata (ou morango / maçã)</li><li>1 ovo</li>
+      <li>3 col. sopa de farelo de aveia</li><li>1 col. sobremesa de mel (15 g)</li>
+      <li>Canela à gosto</li>
+    </ul>
+    <div class="group-label">Preparo</div>
+    <ol class="recipe-steps">
+      <li class="recipe-step">Amasse a banana e misture todos os ingredientes</li>
+      <li class="recipe-step">Despeje em frigideira antiaderente em fogo médio</li>
+      <li class="recipe-step">Doure dos dois lados e sirva</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">🌯</div><div class="card-title">Wrap (Rap 10)</div></div></div>
+    <div class="note" style="margin-bottom:12px">Opção de jantar</div>
+    <div class="group-label">Ingredientes</div>
+    <ul class="ingredient-list">
+      <li>1 wrap Rap 10</li>
+      <li>Proteína: 5 col. sopa de carne ou frango (100 g)</li>
+      <li>Requeijão: 1 col. sopa (20 g)</li>
+      <li>1 col. sopa de azeite extra virgem</li>
+    </ul>
+    <div class="group-label">Para acompanhar</div>
+    <ul class="ingredient-list"><li>Folhas à vontade (alface, rúcula, couve…)</li></ul>
+    <div class="group-label">Montagem</div>
+    <ol class="recipe-steps">
+      <li class="recipe-step">Espalhe o requeijão sobre o wrap</li>
+      <li class="recipe-step">Adicione a proteína e as folhas</li>
+      <li class="recipe-step">Regue com azeite e enrole</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">🍳</div><div class="card-title">Omelete + folhas + legumes</div></div></div>
+    <div class="note" style="margin-bottom:12px">Opção de jantar</div>
+    <div class="group-label">Ingredientes</div>
+    <ul class="ingredient-list">
+      <li>3 ovos</li>
+      <li>Sal, pimenta e ervas a gosto (salsinha, orégano…)</li>
+      <li>1 col. sopa de azeite extra virgem</li>
+    </ul>
+    <div class="group-label">Para acompanhar</div>
+    <ul class="ingredient-list">
+      <li>Legumes refogados ou crus (tomate, cebola, pimentão…)</li>
+      <li>Folhas à vontade (alface, rúcula, couve…)</li>
+    </ul>
+    <div class="group-label">Preparo</div>
+    <ol class="recipe-steps">
+      <li class="recipe-step">Bata os ovos com sal e ervas</li>
+      <li class="recipe-step">Aqueça o azeite em frigideira antiaderente</li>
+      <li class="recipe-step">Despeje os ovos e deixe firmar em fogo médio-baixo</li>
+      <li class="recipe-step">Dobre ao meio e sirva com folhas e legumes</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🫓</div><div class="card-title">Crepioca com queijo</div></div></div>
+    <div class="note" style="margin-bottom:12px">Opção de jantar</div>
+    <div class="group-label">Ingredientes</div>
+    <ul class="ingredient-list">
+      <li>3 col. sopa de tapioca (30 g)</li>
+      <li>2 ovos</li>
+      <li>Queijo (muçarela ou minas): 1 fatia (20 g)</li>
+      <li>Sal a gosto</li>
+    </ul>
+    <div class="group-label">Para acompanhar</div>
+    <ul class="ingredient-list">
+      <li>Tomate fatiado</li>
+      <li>Folhas à vontade (alface, rúcula…)</li>
+    </ul>
+    <div class="group-label">Preparo</div>
+    <ol class="recipe-steps">
+      <li class="recipe-step">Misture a tapioca com os ovos e sal até formar uma massa</li>
+      <li class="recipe-step">Despeje em frigideira antiaderente em fogo médio</li>
+      <li class="recipe-step">Adicione o queijo por cima e aguarde derreter</li>
+      <li class="recipe-step">Dobre ao meio e sirva com tomate e folhas</li>
+    </ol>
+  </div>
+</section>
 
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fff3cd">🍳</div><div class="card-title">Omelete + folhas + legumes</div></div>
-      <div class="note" style="margin-bottom:12px">Opção de jantar</div>
-      <div class="group-label">Ingredientes</div>
-      <ul class="ingredient-list">
-        <li>3 ovos</li>
-        <li>Sal, pimenta e ervas a gosto (salsinha, orégano…)</li>
-        <li>1 col. sopa de azeite extra virgem</li>
-      </ul>
-      <div class="group-label">Para acompanhar</div>
-      <ul class="ingredient-list">
-        <li>Legumes refogados ou crus (tomate, cebola, pimentão…)</li>
-        <li>Folhas à vontade (alface, rúcula, couve…)</li>
-      </ul>
-      <div class="group-label">Preparo</div>
-      <ol class="recipe-steps">
-        <li class="recipe-step">Bata os ovos com sal e ervas</li>
-        <li class="recipe-step">Aqueça o azeite em frigideira antiaderente</li>
-        <li class="recipe-step">Despeje os ovos e deixe firmar em fogo médio-baixo</li>
-        <li class="recipe-step">Dobre ao meio e sirva com folhas e legumes</li>
-      </ol>
+<section id="dicas" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🍓</div><div class="card-title">Porções de fruta</div></div></div>
+    <div class="fruit-grid">
+      <div class="fruit-item"><strong>Banana prata</strong>1 média (85 g)</div>
+      <div class="fruit-item"><strong>Morango</strong>12–14 un. (200 g)</div>
+      <div class="fruit-item"><strong>Maçã</strong>1 pequena (130 g)</div>
+      <div class="fruit-item"><strong>Pera</strong>1 pequena (130 g)</div>
+      <div class="fruit-item"><strong>Laranja</strong>1 pequena (150 g)</div>
+      <div class="fruit-item"><strong>Tangerina</strong>1 média (120 g)</div>
+      <div class="fruit-item"><strong>Kiwi</strong>1½ un. (130 g)</div>
+      <div class="fruit-item"><strong>Mamão</strong>1 fatia (180 g)</div>
+      <div class="fruit-item"><strong>Abacaxi</strong>2 fatias (200 g)</div>
+      <div class="fruit-item"><strong>Melão</strong>3 fatias (250 g)</div>
+      <div class="fruit-item"><strong>Melancia</strong>2 fatias (180 g)</div>
+      <div class="fruit-item"><strong>Uvas</strong>15 un. (100 g)</div>
+      <div class="fruit-item wide"><strong>Frutas vermelhas</strong> (amora, mirtilo, framboesa) — 1 xícara cheia (150 g)</div>
     </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">✅</div><div class="card-title">Orientações gerais</div></div></div>
+    <div class="tip-item"><strong>Mastigar bem</strong> — coma devagar para ajudar na digestão e saciedade</div>
+    <div class="tip-item"><strong>Líquidos</strong> — evite refrigerantes e suco de caixinha durante as refeições</div>
+    <div class="tip-item"><strong>Temperos</strong> — sal de ervas, alho, cebola, salsinha, orégano. Evite artificiais</div>
+    <div class="tip-item"><strong>Preparo</strong> — prefira refogado, assado ou grelhado em vez de frito</div>
+    <div class="tip-item"><strong>Carnes</strong> — evite mortadela, salsicha, linguiça. Prefira patinho, filé de frango ou peixe</div>
+    <div class="tip-item"><strong>Adoçante</strong> — eritritol no lugar do açúcar (sugestão: Linea ou Zero Cal)</div>
+    <div class="tip-item"><strong>Doces</strong> — se quiser, consuma após almoço ou jantar</div>
+    <div class="tip-item"><strong>Ferro</strong> — inclua brócolis, couve, espinafre, feijão, lentilha e grão de bico</div>
+    <div class="tip-item"><strong>Sono</strong> — chá antes de dormir: camomila, mulungu, erva-cidreira ou melissa</div>
+    <div class="tip-item"><strong>Próxima consulta</strong> — agendar em 30 dias. Anote dúvidas sobre alimentos</div>
+  </div>
+</section>
 
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">🫓</div><div class="card-title">Crepioca com queijo</div></div>
-      <div class="note" style="margin-bottom:12px">Opção de jantar</div>
-      <div class="group-label">Ingredientes</div>
-      <ul class="ingredient-list">
-        <li>3 col. sopa de tapioca (30 g)</li>
-        <li>2 ovos</li>
-        <li>Queijo (muçarela ou minas): 1 fatia (20 g)</li>
-        <li>Sal a gosto</li>
-      </ul>
-      <div class="group-label">Para acompanhar</div>
-      <ul class="ingredient-list">
-        <li>Tomate fatiado</li>
-        <li>Folhas à vontade (alface, rúcula…)</li>
-      </ul>
-      <div class="group-label">Preparo</div>
-      <ol class="recipe-steps">
-        <li class="recipe-step">Misture a tapioca com os ovos e sal até formar uma massa</li>
-        <li class="recipe-step">Despeje em frigideira antiaderente em fogo médio</li>
-        <li class="recipe-step">Adicione o queijo por cima e aguarde derreter</li>
-        <li class="recipe-step">Dobre ao meio e sirva com tomate e folhas</li>
-      </ol>
-    </div>
-      <div class="note" style="margin-bottom:12px">Opção de lanche da tarde — 2 fatias de pão integral</div>
-      <div class="group-label">Ingredientes</div>
-      <ul class="ingredient-list">
-        <li>2 fatias de pão integral</li>
-        <li>Proteína (escolha uma): frango desfiado 2 col. sopa (40 g) <em>ou</em> atum 2 col. sopa (40 g) <em>ou</em> ovo cozido 1 unidade</li>
-        <li>Ricota: 2 col. sopa (40 g)</li>
-        <li>1 porção de fruta (ver aba Dicas para quantidades)</li>
-      </ul>
-      <div class="group-label">Montagem</div>
-      <ol class="recipe-steps">
-        <li class="recipe-step">Passe a ricota nas fatias de pão como base</li>
-        <li class="recipe-step">Adicione a proteína escolhida por cima</li>
-        <li class="recipe-step">Sirva com a fruta ao lado</li>
-      </ol>
-    </div>
-      <div class="group-label">Ingredientes</div>
-      <ul class="ingredient-list">
-        <li>1 banana prata (ou morango / maçã)</li><li>1 ovo</li>
-        <li>3 col. sopa de farelo de aveia</li><li>1 col. sobremesa de mel (15 g)</li>
-        <li>Canela à gosto</li>
-      </ul>
-      <div class="group-label">Preparo</div>
-      <ol class="recipe-steps">
-        <li class="recipe-step">Amasse a banana e misture todos os ingredientes</li>
-        <li class="recipe-step">Despeje em frigideira antiaderente em fogo médio</li>
-        <li class="recipe-step">Doure dos dois lados e sirva</li>
-      </ol>
-    </div>
-  </section>
+<section id="historico" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">📅</div><div class="card-title">Histórico de dias</div></div></div>
+    <div id="historico-content"><div class="summary-empty">Carregando histórico...</div></div>
+  </div>
+</section>
 
-  <section id="dicas" class="section">
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">🍓</div><div class="card-title">Porções de fruta</div></div>
-      <div class="fruit-grid">
-        <div class="fruit-item"><strong>Banana prata</strong>1 média (85 g)</div>
-        <div class="fruit-item"><strong>Morango</strong>12–14 un. (200 g)</div>
-        <div class="fruit-item"><strong>Maçã</strong>1 pequena (130 g)</div>
-        <div class="fruit-item"><strong>Pera</strong>1 pequena (130 g)</div>
-        <div class="fruit-item"><strong>Laranja</strong>1 pequena (150 g)</div>
-        <div class="fruit-item"><strong>Tangerina</strong>1 média (120 g)</div>
-        <div class="fruit-item"><strong>Kiwi</strong>1½ un. (130 g)</div>
-        <div class="fruit-item"><strong>Mamão</strong>1 fatia (180 g)</div>
-        <div class="fruit-item"><strong>Abacaxi</strong>2 fatias (200 g)</div>
-        <div class="fruit-item"><strong>Melão</strong>3 fatias (250 g)</div>
-        <div class="fruit-item"><strong>Melancia</strong>2 fatias (180 g)</div>
-        <div class="fruit-item"><strong>Uvas</strong>15 un. (100 g)</div>
-        <div class="fruit-item wide"><strong>Frutas vermelhas</strong> (amora, mirtilo, framboesa) — 1 xícara cheia (150 g)</div>
-      </div>
+<section id="evolucao" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#fff3cd">😊</div><div class="card-title">Humor e energia — hoje</div></div></div>
+    <div style="display:flex;justify-content:space-between;gap:6px">
+      <div class="humor-opt" onclick="pickHumor(this,'😞','Péssimo')"><div class="humor-emoji">😞</div><div class="humor-label">Péssimo</div></div>
+      <div class="humor-opt" onclick="pickHumor(this,'😕','Ruim')"><div class="humor-emoji">😕</div><div class="humor-label">Ruim</div></div>
+      <div class="humor-opt" onclick="pickHumor(this,'😐','Ok')"><div class="humor-emoji">😐</div><div class="humor-label">Ok</div></div>
+      <div class="humor-opt" onclick="pickHumor(this,'😊','Bom')"><div class="humor-emoji">😊</div><div class="humor-label">Bom</div></div>
+      <div class="humor-opt" onclick="pickHumor(this,'😄','Ótimo')"><div class="humor-emoji">😄</div><div class="humor-label">Ótimo</div></div>
     </div>
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">✅</div><div class="card-title">Orientações gerais</div></div>
-      <div class="tip-item"><strong>Mastigar bem</strong> — coma devagar para ajudar na digestão e saciedade</div>
-      <div class="tip-item"><strong>Líquidos</strong> — evite refrigerantes e suco de caixinha durante as refeições</div>
-      <div class="tip-item"><strong>Temperos</strong> — sal de ervas, alho, cebola, salsinha, orégano. Evite artificiais</div>
-      <div class="tip-item"><strong>Preparo</strong> — prefira refogado, assado ou grelhado em vez de frito</div>
-      <div class="tip-item"><strong>Carnes</strong> — evite mortadela, salsicha, linguiça. Prefira patinho, filé de frango ou peixe</div>
-      <div class="tip-item"><strong>Adoçante</strong> — eritritol no lugar do açúcar (sugestão: Linea ou Zero Cal)</div>
-      <div class="tip-item"><strong>Doces</strong> — se quiser, consuma após almoço ou jantar</div>
-      <div class="tip-item"><strong>Ferro</strong> — inclua brócolis, couve, espinafre, feijão, lentilha e grão de bico</div>
-      <div class="tip-item"><strong>Sono</strong> — chá antes de dormir: camomila, mulungu, erva-cidreira ou melissa</div>
-      <div class="tip-item"><strong>Próxima consulta</strong> — agendar em 30 dias. Anote dúvidas sobre alimentos</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div class="card-title">Academia — esta semana</div></div></div>
+    <div style="display:flex;justify-content:space-between;gap:4px">
+      <div class="dia-opt" onclick="toggleAcademia(this,'seg')" data-dia="seg"><div class="dia-letra">S</div><div class="dia-sub">Seg</div></div>
+      <div class="dia-opt" onclick="toggleAcademia(this,'ter')" data-dia="ter"><div class="dia-letra">T</div><div class="dia-sub">Ter</div></div>
+      <div class="dia-opt" onclick="toggleAcademia(this,'qua')" data-dia="qua"><div class="dia-letra">Q</div><div class="dia-sub">Qua</div></div>
+      <div class="dia-opt" onclick="toggleAcademia(this,'qui')" data-dia="qui"><div class="dia-letra">Q</div><div class="dia-sub">Qui</div></div>
+      <div class="dia-opt" onclick="toggleAcademia(this,'sex')" data-dia="sex"><div class="dia-letra">S</div><div class="dia-sub">Sex</div></div>
+      <div class="dia-opt" onclick="toggleAcademia(this,'sab')" data-dia="sab"><div class="dia-letra">S</div><div class="dia-sub">Sáb</div></div>
+      <div class="dia-opt" onclick="toggleAcademia(this,'dom')" data-dia="dom"><div class="dia-letra">D</div><div class="dia-sub">Dom</div></div>
     </div>
-  </section>
-
-  <section id="historico" class="section">
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">📅</div><div class="card-title">Histórico de dias</div></div>
-      <div id="historico-content"><div class="summary-empty">Carregando histórico...</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">📏</div><div class="card-title">Medidas semanais</div></div></div>
+    <div class="note" style="margin-bottom:14px">Registre uma vez por semana, sempre no mesmo dia</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div><div class="group-label" style="margin-top:0">Peso (kg)</div><input type="number" step="0.1" placeholder="ex: 68.4" id="med-peso" class="med-input" /></div>
+      <div><div class="group-label" style="margin-top:0">Gordura (%)</div><input type="number" step="0.1" placeholder="ex: 24.5" id="med-gordura" class="med-input" /></div>
+      <div><div class="group-label" style="margin-top:0">Massa muscular (%)</div><input type="number" step="0.1" placeholder="ex: 32.0" id="med-massa" class="med-input" /></div>
+      <div><div class="group-label" style="margin-top:0">Cintura (cm)</div><input type="number" step="0.1" placeholder="ex: 72" id="med-cintura" class="med-input" /></div>
+      <div><div class="group-label" style="margin-top:0">Quadril (cm)</div><input type="number" step="0.1" placeholder="ex: 95" id="med-quadril" class="med-input" /></div>
+      <div><div class="group-label" style="margin-top:0">Braço (cm)</div><input type="number" step="0.1" placeholder="ex: 30" id="med-braco" class="med-input" /></div>
+      <div><div class="group-label" style="margin-top:0">Coxa (cm)</div><input type="number" step="0.1" placeholder="ex: 55" id="med-coxa" class="med-input" /></div>
     </div>
-  </section>
-
-  <section id="evolucao" class="section">
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#fff3cd">😊</div><div class="card-title">Humor e energia — hoje</div></div>
-      <div style="display:flex;justify-content:space-between;gap:6px">
-        <div class="humor-opt" onclick="pickHumor(this,'😞','Péssimo')"><div class="humor-emoji">😞</div><div class="humor-label">Péssimo</div></div>
-        <div class="humor-opt" onclick="pickHumor(this,'😕','Ruim')"><div class="humor-emoji">😕</div><div class="humor-label">Ruim</div></div>
-        <div class="humor-opt" onclick="pickHumor(this,'😐','Ok')"><div class="humor-emoji">😐</div><div class="humor-label">Ok</div></div>
-        <div class="humor-opt" onclick="pickHumor(this,'😊','Bom')"><div class="humor-emoji">😊</div><div class="humor-label">Bom</div></div>
-        <div class="humor-opt" onclick="pickHumor(this,'😄','Ótimo')"><div class="humor-emoji">😄</div><div class="humor-label">Ótimo</div></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">🏋️</div><div class="card-title">Academia — esta semana</div></div>
-      <div style="display:flex;justify-content:space-between;gap:4px">
-        <div class="dia-opt" onclick="toggleAcademia(this,'seg')" data-dia="seg"><div class="dia-letra">S</div><div class="dia-sub">Seg</div></div>
-        <div class="dia-opt" onclick="toggleAcademia(this,'ter')" data-dia="ter"><div class="dia-letra">T</div><div class="dia-sub">Ter</div></div>
-        <div class="dia-opt" onclick="toggleAcademia(this,'qua')" data-dia="qua"><div class="dia-letra">Q</div><div class="dia-sub">Qua</div></div>
-        <div class="dia-opt" onclick="toggleAcademia(this,'qui')" data-dia="qui"><div class="dia-letra">Q</div><div class="dia-sub">Qui</div></div>
-        <div class="dia-opt" onclick="toggleAcademia(this,'sex')" data-dia="sex"><div class="dia-letra">S</div><div class="dia-sub">Sex</div></div>
-        <div class="dia-opt" onclick="toggleAcademia(this,'sab')" data-dia="sab"><div class="dia-letra">S</div><div class="dia-sub">Sáb</div></div>
-        <div class="dia-opt" onclick="toggleAcademia(this,'dom')" data-dia="dom"><div class="dia-letra">D</div><div class="dia-sub">Dom</div></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#eff6ff">📏</div><div class="card-title">Medidas semanais</div></div>
-      <div class="note" style="margin-bottom:14px">Registre uma vez por semana, sempre no mesmo dia</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-        <div><div class="group-label" style="margin-top:0">Peso (kg)</div><input type="number" step="0.1" placeholder="ex: 68.4" id="med-peso" class="med-input" /></div>
-        <div><div class="group-label" style="margin-top:0">Gordura (%)</div><input type="number" step="0.1" placeholder="ex: 24.5" id="med-gordura" class="med-input" /></div>
-        <div><div class="group-label" style="margin-top:0">Massa muscular (%)</div><input type="number" step="0.1" placeholder="ex: 32.0" id="med-massa" class="med-input" /></div>
-        <div><div class="group-label" style="margin-top:0">Cintura (cm)</div><input type="number" step="0.1" placeholder="ex: 72" id="med-cintura" class="med-input" /></div>
-        <div><div class="group-label" style="margin-top:0">Quadril (cm)</div><input type="number" step="0.1" placeholder="ex: 95" id="med-quadril" class="med-input" /></div>
-        <div><div class="group-label" style="margin-top:0">Braço (cm)</div><input type="number" step="0.1" placeholder="ex: 30" id="med-braco" class="med-input" /></div>
-        <div><div class="group-label" style="margin-top:0">Coxa (cm)</div><input type="number" step="0.1" placeholder="ex: 55" id="med-coxa" class="med-input" /></div>
-      </div>
-      <button onclick="salvarMedidas()" style="width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Salvar medidas</button>
-      <div id="medidas-msg" style="font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)"></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="meal-icon" style="background:#d8f3dc">📈</div><div class="card-title">Histórico de medidas</div></div>
-      <div id="medidas-historico"><div class="summary-empty">Nenhum registro ainda.</div></div>
-    </div>
-  </section>
+    <button onclick="salvarMedidas()" style="width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">Salvar medidas</button>
+    <div id="medidas-msg" style="font-size:12px;text-align:center;margin-top:8px;min-height:16px;color:var(--green)"></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#d8f3dc">📈</div><div class="card-title">Histórico de medidas</div></div></div>
+    <div id="medidas-historico"><div class="summary-empty">Nenhum registro ainda.</div></div>
+  </div>
+</section>
 
 </main>
 <div class="toast" id="toast"></div>
@@ -865,24 +864,15 @@ function renderDate() {
   document.getElementById('date-display').textContent = days[d.getDay()] + ', ' + d.getDate() + ' de ' + months[d.getMonth()];
 }
 
-function toggleForaDieta(el, ref) {
-  el.classList.toggle('selected');
-  var inputs = el.parentElement.querySelectorAll('.fora-dieta-input');
-  var isOn = el.classList.contains('selected');
-  inputs.forEach(function(i){ i.style.display = isOn ? 'block' : 'none'; if(!isOn) i.value = ''; });
-  if(isOn) state.choices['fora-dieta-' + ref] = 'Fora da dieta';
-  else { delete state.choices['fora-dieta-' + ref]; delete state.choices['fora-dieta-' + ref + '-comeu']; delete state.choices['fora-dieta-' + ref + '-motivo']; }
+// Seleciona uma opção radio
+function pickOpt(group, el, label, qty) {
+  el.closest('.option-list').querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+  el.classList.add('selected');
+  state.choices[group] = qty ? label + ' — ' + qty : label;
   scheduleSave(); showToast('Salvo ✓');
 }
 
-function saveForaDieta(ref, input) {
-  var dataRef = input.getAttribute('data-ref');
-  var val = input.value.trim();
-  if(val) state.choices['fora-dieta-' + dataRef] = val;
-  else delete state.choices['fora-dieta-' + dataRef];
-  scheduleSave();
-}
-
+// Seleciona múltiplas opções (.opt)
 function toggleOpt(group, el, label) {
   el.classList.toggle('selected');
   var selected = [];
@@ -895,56 +885,15 @@ function toggleOpt(group, el, label) {
   scheduleSave(); showToast('Salvo ✓');
 }
 
-function clearRefeicao(grupos, ref) {
-  grupos.forEach(function(g) { delete state.choices[g]; });
-  // Limpa opts
-  grupos.forEach(function(g) {
-    var container = document.getElementById('g-' + g);
-    if(container) container.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
-  });
-  // Limpa inputs marmita/fora da dieta
-  var inputs = ['marmita-desc','jantar-marmita-desc','fora-dieta-' + ref + '-comeu','fora-dieta-' + ref + '-motivo'];
-  inputs.forEach(function(id) {
-    var el = document.getElementById(id); if(!el) return;
-    el.style.display = 'none'; el.value = '';
-  });
-  // Limpa fora da dieta opt
-  if(ref) {
-    delete state.choices['fora-dieta-' + ref];
-    delete state.choices['fora-dieta-' + ref + '-comeu'];
-    delete state.choices['fora-dieta-' + ref + '-motivo'];
-    document.querySelectorAll('.fora-dieta-opt').forEach(function(opt) {
-      if(opt.getAttribute('onclick') && opt.getAttribute('onclick').indexOf("'" + ref + "'") > -1) {
-        opt.classList.remove('selected');
-        opt.parentElement.querySelectorAll('.fora-dieta-input').forEach(function(i){ i.style.display='none'; i.value=''; });
-      }
-    });
-  }
-  scheduleSave(); showToast('Limpo ✓');
-}
-  el.classList.toggle('selected');
-  if(el.classList.contains('selected')) state.choices['lanche-cafe'] = 'Café com leite — 1 xícara';
-  else delete state.choices['lanche-cafe'];
-  scheduleSave(); showToast('Salvo ✓');
-}
-
-function pickOpt(group, el, label, qty) {
-  el.closest('.option-list').querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
-  el.classList.add('selected');
-  state.choices[group] = label + ' — ' + qty;
-  scheduleSave(); showToast('Salvo ✓');
-}
-
-// Seleciona uma pílula (radio — só uma por grupo)
+// Seleciona uma pílula radio
 function pickPill(group, el) {
-  var label = el.getAttribute('data-label');
   el.closest('.fruit-pills').querySelectorAll('.fruit-pill').forEach(function(p){ p.classList.remove('selected'); });
   el.classList.add('selected');
-  state.choices[group] = label;
+  state.choices[group] = el.getAttribute('data-label');
   scheduleSave(); showToast('Salvo ✓');
 }
 
-// Alterna pílula (checkbox — múltiplas por grupo)
+// Alterna pílula multi
 function togglePill(group, el) {
   el.classList.toggle('selected');
   var selected = [];
@@ -957,138 +906,99 @@ function togglePill(group, el) {
   scheduleSave(); showToast('Salvo ✓');
 }
 
-function pickMarmita(el) {
+function pickMarmita(el, inputId, choiceKey) {
   el.classList.toggle('selected');
-  var desc = document.getElementById('marmita-desc');
+  var desc = document.getElementById(inputId);
   if(el.classList.contains('selected')) {
-    state.choices['alm-marmita'] = 'Marmita pronta';
-    desc.style.display = 'block';
+    state.choices[choiceKey] = 'Marmita pronta';
+    if(desc) desc.style.display = 'block';
   } else {
-    delete state.choices['alm-marmita'];
-    desc.style.display = 'none';
-    desc.value = '';
+    delete state.choices[choiceKey];
+    if(desc) { desc.style.display = 'none'; desc.value = ''; }
   }
   scheduleSave(); showToast('Salvo ✓');
 }
 
-function saveMarmitaDesc() {
-  var desc = document.getElementById('marmita-desc').value.trim();
-  state.choices['alm-marmita'] = desc ? 'Marmita: ' + desc : 'Marmita pronta';
+function saveMarmitaDesc(input, choiceKey) {
+  var val = input.value.trim();
+  state.choices[choiceKey] = val ? 'Marmita: ' + val : 'Marmita pronta';
   scheduleSave();
 }
 
-function restoreChoices() {
-  // Grupos com .opt (radio)
-  var optGroups = ['pretreino','cafe-carb','cafe-chia','doce','alm-carb','alm-legu','alm-prot','lanche','jantar'];
-  // Jantar marmita
-  if(state.choices['jantar-marmita']) {
-    var jmOpt = document.querySelector('#g-jantar-marmita .opt');
-    if(jmOpt) jmOpt.classList.add('selected');
-    var jdesc = document.getElementById('jantar-marmita-desc');
-    if(jdesc) {
-      jdesc.style.display = 'block';
-      var jval = state.choices['jantar-marmita'];
-      jdesc.value = jval.startsWith('Marmita: ') ? jval.replace('Marmita: ','') : '';
-    }
-  }
-  optGroups.forEach(function(g) {
-    var val = state.choices[g]; if(!val) return;
-    var container = document.getElementById('g-' + g); if(!container) return;
-    var labelPart = val.split(' — ')[0];
-    container.querySelectorAll('.opt').forEach(function(o) {
-      var el = o.querySelector('.opt-text'); if(!el) return;
-      var text = el.textContent.trim();
-      if(text === labelPart || labelPart.indexOf(text) === 0 || text.indexOf(labelPart) === 0) o.classList.add('selected');
-    });
-  });
-  // Frutas (radio pill)
-  if(state.choices['cafe-fruta']) {
-    var frutaLabel = state.choices['cafe-fruta'];
-    document.querySelectorAll('#g-cafe-fruta .fruit-pill').forEach(function(p) {
-      if(p.getAttribute('data-label') === frutaLabel) p.classList.add('selected');
-    });
-  }
-  // Proteína do café (multi opt)
-  if(state.choices['cafe-prot']) {
-    var prots = state.choices['cafe-prot'].split(', ');
-    document.querySelectorAll('#g-cafe-prot .opt').forEach(function(o) {
-      if(prots.indexOf(o.getAttribute('data-label')) > -1) o.classList.add('selected');
-    });
-  }
-  // Folhas (multi pill)
-  if(state.choices['alm-folhas']) {
-    var folhas = state.choices['alm-folhas'].split(', ');
-    document.querySelectorAll('#g-alm-folhas .fruit-pill').forEach(function(p) {
-      if(folhas.indexOf(p.getAttribute('data-label')) > -1) p.classList.add('selected');
-    });
-  }
-  // Legumes (multi pill)
-  if(state.choices['alm-leg']) {
-    var legs = state.choices['alm-leg'].split(', ');
-    document.querySelectorAll('#g-alm-leg .fruit-pill').forEach(function(p) {
-      if(legs.indexOf(p.getAttribute('data-label')) > -1) p.classList.add('selected');
-    });
-  }
-  // Restaura bebidas
-  ['alm-bebida','lanche-bebida','jantar-bebida'].forEach(function(g) {
-    if(!state.choices[g]) return;
-    document.querySelectorAll('#g-' + g + ' .fruit-pill').forEach(function(p) {
-      if(p.getAttribute('data-label') === state.choices[g]) p.classList.add('selected');
-    });
-  });
-  // Restaura fora da dieta
-  if(state.choices['fora-dieta']) {
-    var fdOpt = document.querySelector('#g-fora-dieta .opt');
-    if(fdOpt) fdOpt.classList.add('selected');
-    var comeu = document.getElementById('fora-dieta-comeu');
-    var motivo = document.getElementById('fora-dieta-motivo');
-    if(comeu) { comeu.style.display = 'block'; comeu.value = state.choices['fora-dieta-comeu'] || ''; }
-    if(motivo) { motivo.style.display = 'block'; motivo.value = state.choices['fora-dieta-motivo'] || ''; }
-  }
-  // Restaura ceia
-  if(state.choices['ceia']) {
-    document.querySelectorAll('#g-ceia .fruit-pill').forEach(function(p) {
-      if(p.getAttribute('data-label') === state.choices['ceia']) p.classList.add('selected');
-    });
-  }
-  // Restaura café do lanche
-  if(state.choices['lanche-cafe']) {
-    var cafeOpt = document.querySelector('#g-lanche-cafe .opt');
-    if(cafeOpt) cafeOpt.classList.add('selected');
-  }
-  if(state.choices['alm-marmita']) {
-    var mOpt = document.querySelector('#g-alm-marmita .opt');
-    if(mOpt) mOpt.classList.add('selected');
-    var desc = document.getElementById('marmita-desc');
-    if(desc) {
-      desc.style.display = 'block';
-      var val = state.choices['alm-marmita'];
-      desc.value = val.startsWith('Marmita: ') ? val.replace('Marmita: ','') : '';
-    }
-  }
+function toggleLancheCafe(el) {
+  el.classList.toggle('selected');
+  if(el.classList.contains('selected')) state.choices['lanche-cafe'] = 'Café com leite — 1 xícara';
+  else delete state.choices['lanche-cafe'];
+  scheduleSave(); showToast('Salvo ✓');
 }
 
-function renderWater() {
-  var ml = state.water || 0;
-  document.getElementById('water-ml').textContent = ml;
-  document.getElementById('water-fill').style.width = Math.min(Math.round(ml/2400*100),100) + '%';
-  var msg = '';
-  if(ml >= 2400) msg = '🎉 Meta de 2,4 L atingida!';
-  else if(ml >= 1600) msg = 'Faltam ' + (2400-ml) + ' ml para a meta!';
-  else if(ml >= 800) msg = 'Boa! Continue bebendo ao longo do dia.';
-  document.getElementById('water-msg').textContent = msg;
+function toggleForaDieta(el, ref) {
+  el.classList.toggle('selected');
+  var inputs = el.parentElement.querySelectorAll('.fora-dieta-input');
+  var isOn = el.classList.contains('selected');
+  inputs.forEach(function(i){ i.style.display = isOn ? 'block' : 'none'; if(!isOn) i.value = ''; });
+  if(isOn) state.choices['fora-dieta-' + ref] = 'Fora da dieta';
+  else {
+    delete state.choices['fora-dieta-' + ref];
+    delete state.choices['fora-dieta-' + ref + '-comeu'];
+    delete state.choices['fora-dieta-' + ref + '-motivo'];
+  }
+  scheduleSave(); showToast('Salvo ✓');
 }
-function addWater(ml) { state.water = Math.min((state.water||0)+ml,2400); renderWater(); scheduleSave(); showToast('+'+ml+' ml registrado'); }
-function resetWater() { state.water = 0; renderWater(); scheduleSave(); }
+
+function saveForaDieta(input) {
+  var dataRef = input.getAttribute('data-ref');
+  var val = input.value.trim();
+  if(val) state.choices['fora-dieta-' + dataRef] = val;
+  else delete state.choices['fora-dieta-' + dataRef];
+  scheduleSave();
+}
+
+function clearRefeicao(grupos, ref) {
+  grupos.forEach(function(g) { delete state.choices[g]; });
+  grupos.forEach(function(g) {
+    var container = document.getElementById('g-' + g);
+    if(container) container.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
+  });
+  if(ref === 'alm') {
+    var md = document.getElementById('marmita-desc');
+    if(md) { md.style.display = 'none'; md.value = ''; }
+  }
+  if(ref === 'jantar') {
+    var jd = document.getElementById('jantar-marmita-desc');
+    if(jd) { jd.style.display = 'none'; jd.value = ''; }
+  }
+  if(ref) {
+    delete state.choices['fora-dieta-' + ref];
+    delete state.choices['fora-dieta-' + ref + '-comeu'];
+    delete state.choices['fora-dieta-' + ref + '-motivo'];
+    document.querySelectorAll('.fora-dieta-opt').forEach(function(opt) {
+      if(opt.getAttribute('onclick') && opt.getAttribute('onclick').indexOf("'" + ref + "'") > -1) {
+        opt.classList.remove('selected');
+        opt.parentElement.querySelectorAll('.fora-dieta-input').forEach(function(i){ i.style.display = 'none'; i.value = ''; });
+      }
+    });
+  }
+  scheduleSave(); showToast('Limpo ✓');
+}
+
+function clearDay() {
+  if(!confirm('Limpar todas as escolhas de hoje?')) return;
+  state.choices = {}; state.water = 0;
+  document.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
+  document.querySelectorAll('.fora-dieta-opt').forEach(function(o){ o.classList.remove('selected'); });
+  document.querySelectorAll('.fora-dieta-input, .marmita-input').forEach(function(i){ i.style.display = 'none'; i.value = ''; });
+  renderWater(); scheduleSave(); showToast('Escolhas apagadas');
+}
 
 var refeicoes = [
-  { label: '☕ Pré-treino', keys: ['pretreino'] },
+  { label: '☕ Pré-treino', keys: ['pretreino','fora-dieta-pretreino','fora-dieta-pretreino-comeu','fora-dieta-pretreino-motivo'] },
   { label: '🌅 Café da manhã', keys: ['cafe-carb','cafe-prot','cafe-fruta','cafe-chia','fora-dieta-cafe','fora-dieta-cafe-comeu','fora-dieta-cafe-motivo'] },
   { label: '🍽️ Almoço', keys: ['alm-bebida','alm-marmita','alm-folhas','alm-leg','alm-carb','alm-legu','alm-prot','fora-dieta-alm','fora-dieta-alm-comeu','fora-dieta-alm-motivo'] },
   { label: '🍎 Lanche da tarde', keys: ['lanche-bebida','lanche','lanche-cafe','fora-dieta-lanche','fora-dieta-lanche-comeu','fora-dieta-lanche-motivo'] },
   { label: '🌙 Jantar', keys: ['jantar-bebida','jantar-marmita','jantar','fora-dieta-jantar','fora-dieta-jantar-comeu','fora-dieta-jantar-motivo'] },
-  { label: '🍫 Doce do dia', keys: ['doce'] },
-  { label: '🍵 Ceia', keys: ['ceia'] }
+  { label: '🍵 Ceia', keys: ['ceia'] },
+  { label: '🍫 Doce do dia', keys: ['doce'] }
 ];
 
 function renderChoicesAgrupado(choices, incluirAgua, water) {
@@ -1111,6 +1021,88 @@ function renderChoicesAgrupado(choices, incluirAgua, water) {
 function renderSummary() {
   var result = renderChoicesAgrupado(state.choices, true, state.water);
   document.getElementById('summary-content').innerHTML = result.hasAny ? result.html : '<div class="summary-empty">Faça suas escolhas na aba Refeições para ver o resumo aqui.</div>';
+}
+
+function renderWater() {
+  var ml = state.water || 0;
+  document.getElementById('water-ml').textContent = ml;
+  document.getElementById('water-fill').style.width = Math.min(Math.round(ml/2400*100),100) + '%';
+  var msg = '';
+  if(ml >= 2400) msg = '🎉 Meta de 2,4 L atingida!';
+  else if(ml >= 1600) msg = 'Faltam ' + (2400-ml) + ' ml para a meta!';
+  else if(ml >= 800) msg = 'Boa! Continue bebendo ao longo do dia.';
+  document.getElementById('water-msg').textContent = msg;
+}
+function addWater(ml) { state.water = Math.min((state.water||0)+ml,2400); renderWater(); scheduleSave(); showToast('+'+ml+' ml registrado'); }
+function resetWater() { state.water = 0; renderWater(); scheduleSave(); }
+
+function restoreChoices() {
+  var optGroups = ['pretreino','cafe-carb','cafe-chia','doce','alm-carb','alm-legu','alm-prot','lanche','jantar'];
+  optGroups.forEach(function(g) {
+    var val = state.choices[g]; if(!val) return;
+    var container = document.getElementById('g-' + g); if(!container) return;
+    var labelPart = val.split(' — ')[0];
+    container.querySelectorAll('.opt').forEach(function(o) {
+      var el = o.querySelector('.opt-text'); if(!el) return;
+      var text = el.textContent.trim();
+      if(text === labelPart || labelPart.indexOf(text) === 0 || text.indexOf(labelPart) === 0) o.classList.add('selected');
+    });
+  });
+  // cafe-prot (multi opt)
+  if(state.choices['cafe-prot']) {
+    var prots = state.choices['cafe-prot'].split(', ');
+    document.querySelectorAll('#g-cafe-prot .opt').forEach(function(o) {
+      if(prots.indexOf(o.getAttribute('data-label')) > -1) o.classList.add('selected');
+    });
+  }
+  // Pílulas radio
+  ['cafe-fruta','alm-bebida','lanche-bebida','jantar-bebida','ceia'].forEach(function(g) {
+    if(!state.choices[g]) return;
+    document.querySelectorAll('#g-' + g + ' .fruit-pill').forEach(function(p) {
+      if(p.getAttribute('data-label') === state.choices[g]) p.classList.add('selected');
+    });
+  });
+  // Pílulas multi
+  ['alm-folhas','alm-leg'].forEach(function(g) {
+    if(!state.choices[g]) return;
+    var labels = state.choices[g].split(', ');
+    document.querySelectorAll('#g-' + g + ' .fruit-pill').forEach(function(p) {
+      if(labels.indexOf(p.getAttribute('data-label')) > -1) p.classList.add('selected');
+    });
+  });
+  // Marmita almoço
+  if(state.choices['alm-marmita']) {
+    var mOpt = document.querySelector('#g-alm-marmita .opt');
+    if(mOpt) mOpt.classList.add('selected');
+    var desc = document.getElementById('marmita-desc');
+    if(desc) { desc.style.display = 'block'; var v = state.choices['alm-marmita']; desc.value = v.startsWith('Marmita: ') ? v.replace('Marmita: ','') : ''; }
+  }
+  // Marmita jantar
+  if(state.choices['jantar-marmita']) {
+    var jmOpt = document.querySelector('#g-jantar-marmita .opt');
+    if(jmOpt) jmOpt.classList.add('selected');
+    var jdesc = document.getElementById('jantar-marmita-desc');
+    if(jdesc) { jdesc.style.display = 'block'; var jv = state.choices['jantar-marmita']; jdesc.value = jv.startsWith('Marmita: ') ? jv.replace('Marmita: ','') : ''; }
+  }
+  // Lanche café
+  if(state.choices['lanche-cafe']) {
+    var lcOpt = document.querySelector('#g-lanche-cafe .opt');
+    if(lcOpt) lcOpt.classList.add('selected');
+  }
+  // Fora da dieta
+  ['pretreino','cafe','alm','lanche','jantar'].forEach(function(ref) {
+    if(!state.choices['fora-dieta-' + ref]) return;
+    document.querySelectorAll('.fora-dieta-opt').forEach(function(opt) {
+      if(opt.getAttribute('onclick') && opt.getAttribute('onclick').indexOf("'" + ref + "'") > -1) {
+        opt.classList.add('selected');
+        opt.parentElement.querySelectorAll('.fora-dieta-input').forEach(function(inp) {
+          inp.style.display = 'block';
+          var dr = inp.getAttribute('data-ref');
+          if(state.choices['fora-dieta-' + dr]) inp.value = state.choices['fora-dieta-' + dr];
+        });
+      }
+    });
+  });
 }
 
 async function loadHistorico() {
@@ -1149,17 +1141,8 @@ function showTab(id, title, navEl) {
   closeSidebar();
 }
 
-function clearDay() {
-  if(!confirm('Limpar todas as escolhas de hoje?')) return;
-  state.choices = {}; state.water = 0;
-  document.querySelectorAll('.opt, .fruit-pill').forEach(function(o){ o.classList.remove('selected'); });
-  document.querySelectorAll('.fora-dieta-opt').forEach(function(o){ o.classList.remove('selected'); });
-  document.querySelectorAll('.fora-dieta-input, .marmita-input').forEach(function(i){ i.style.display='none'; i.value=''; });
-  renderWater(); scheduleSave(); showToast('Escolhas apagadas');
-}
-
 var humorMap = { '😞':1,'😕':2,'😐':3,'😊':4,'😄':5 };
-var humorRevMap = { 1:{emoji:'😞',label:'Péssimo'},2:{emoji:'😕',label:'Ruim'},3:{emoji:'😐',label:'Ok'},4:{emoji:'😊',label:'Bom'},5:{emoji:'😄',label:'Ótimo'} };
+var humorRevMap = { 1:{label:'Péssimo'},2:{label:'Ruim'},3:{label:'Ok'},4:{label:'Bom'},5:{label:'Ótimo'} };
 
 function pickHumor(el, emoji, label) {
   document.querySelectorAll('.humor-opt').forEach(function(o){ o.classList.remove('selected'); });
@@ -1190,19 +1173,14 @@ async function salvarAcompanhamento(campos) {
         body: JSON.stringify(Object.assign({}, campos, { data: todayKey(), user_id: currentUser.id, updated_at: new Date().toISOString() }))
       });
     }
-  } catch(e) { console.error('Erro ao salvar acompanhamento:', e); }
+  } catch(e) { console.error('Erro acompanhamento:', e); }
 }
 
 async function salvarMedidas() {
   var peso = document.getElementById('med-peso').value;
   var gordura = document.getElementById('med-gordura').value;
   var massa = document.getElementById('med-massa').value;
-  var medidas = {
-    cintura: document.getElementById('med-cintura').value,
-    quadril: document.getElementById('med-quadril').value,
-    braco: document.getElementById('med-braco').value,
-    coxa: document.getElementById('med-coxa').value
-  };
+  var medidas = { cintura: document.getElementById('med-cintura').value, quadril: document.getElementById('med-quadril').value, braco: document.getElementById('med-braco').value, coxa: document.getElementById('med-coxa').value };
   var hasAny = peso || gordura || massa || Object.values(medidas).some(function(v){ return v; });
   if(!hasAny) { document.getElementById('medidas-msg').textContent = 'Preencha pelo menos um campo.'; return; }
   var campos = { updated_at: new Date().toISOString(), medidas: medidas };
@@ -1228,8 +1206,7 @@ async function loadMedidasHistorico() {
     comMedidas.forEach(function(row) {
       var parts = row.data.split('-');
       var d = new Date(parts[0], parts[1]-1, parts[2]);
-      var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
-      html += '<div style="margin-bottom:14px"><div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:6px">' + dateStr + '</div>';
+      html += '<div style="margin-bottom:14px"><div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:6px">' + days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + '</div>';
       html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">';
       if(row.peso) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Peso:</span> <strong>' + row.peso + ' kg</strong></div>';
       if(row.gordura) html += '<div style="font-size:12px;padding:3px 0"><span style="color:var(--muted)">Gordura:</span> <strong>' + row.gordura + '%</strong></div>';
