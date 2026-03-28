@@ -868,6 +868,8 @@ function toggleOpt(group, el, label) {
   else delete state.choices[group];
   scheduleSave(); showToast('Salvo ✓');
 }
+
+function toggleLancheCafe(el) {
   el.classList.toggle('selected');
   if(el.classList.contains('selected')) state.choices['lanche-cafe'] = 'Café com leite — 1 xícara';
   else delete state.choices['lanche-cafe'];
