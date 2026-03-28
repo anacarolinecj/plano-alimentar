@@ -804,10 +804,10 @@ function initLista() {
 async function salvarLista() {
   var listaState = getListaState();
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/listas_compras', {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/lista_compras', {
       method: 'POST',
       headers: Object.assign({}, authHeaders(), { 'Prefer': 'return=minimal' }),
-      body: JSON.stringify({ user_id: currentUser.id, data: todayKey(), itens: listaState, created_at: new Date().toISOString() })
+      body: JSON.stringify({ user_id: currentUser.id, nome: todayKey(), itens: listaState, created_at: new Date().toISOString() })
     });
     if (res.ok || res.status === 201) {
       document.getElementById('lista-msg').textContent = 'Lista salva ✓';
@@ -832,7 +832,7 @@ async function loadHistoricoCompras() {
   var container = document.getElementById('historico-compras-content');
   container.innerHTML = '<div class="summary-empty">Carregando...</div>';
   try {
-    var res = await fetch(SUPABASE_URL + '/rest/v1/listas_compras?user_id=eq.' + currentUser.id + '&select=*&order=created_at.desc&limit=10', { headers: authHeaders() });
+    var res = await fetch(SUPABASE_URL + '/rest/v1/lista_compras?user_id=eq.' + currentUser.id + '&select=*&order=created_at.desc&limit=10', { headers: authHeaders() });
     if (res.status === 401) { handleAuthExpired(); return; }
     var rows = await res.json();
     if (!rows || !rows.length) { container.innerHTML = '<div class="summary-empty">Nenhuma lista salva ainda.</div>'; return; }
@@ -840,7 +840,7 @@ async function loadHistoricoCompras() {
     var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
     var html = '';
     rows.forEach(function(row) {
-      var parts = row.data.split('-');
+      var parts = row.nome.split('-');
       var d = new Date(parts[0], parts[1]-1, parts[2]);
       var dateStr = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
       var itens = row.itens || {};
