@@ -530,7 +530,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
   <!-- Medidas -->
   <div class="card">
-    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">✏️</div><div><div class="card-title">Medidas</div><div class="meal-time">Registre uma vez por semana</div></div></div></div>
+    <div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">✏️</div><div><div class="card-title">Medidas</div><div class="meal-time">Registre uma vez por semana</div></div></div><button class="clear-btn" onclick="limparMedidasDia()">Limpar</button></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
       <div><div class="group-label" style="margin-top:0">Peso (kg)</div><input type="number" step="0.1" placeholder="ex: 68.4" id="med-peso" class="med-input" /></div>
       <div><div class="group-label" style="margin-top:0">Gordura (%)</div><input type="number" step="0.1" placeholder="ex: 24.5" id="med-gordura" class="med-input" /></div>
@@ -897,22 +897,20 @@ function evMedTabela(registros, subLabel) {
   if(!registros || !registros.length) return evEmptyCard('📏','#eff6ff','Medidas','Nenhuma medida registrada');
   var dias=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
   var h='<div class="card"><div class="card-header"><div class="card-header-left"><div class="meal-icon" style="background:#eff6ff">📏</div><div><div class="card-title">Medidas</div><div class="meal-time">'+subLabel+'</div></div></div></div>';
-
-  // wrapper com largura forçada para garantir scroll sempre
   h+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch">';
   h+='<table style="width:100%;min-width:600px;border-collapse:collapse">';
 
-  // cabeçalho
   var thBase='font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:5px 8px;border-bottom:1px solid var(--border)';
   h+='<thead><tr>';
   h+='<th style="'+thBase+';text-align:left;position:sticky;left:0;background:var(--surface);z-index:2">Data</th>';
   h+='<th style="'+thBase+';text-align:right">Peso<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">kg</span></th>';
   h+='<th style="'+thBase+';text-align:right">Gordura<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">%</span></th>';
   h+='<th style="'+thBase+';text-align:right">Massa<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">%</span></th>';
-  h+='<th style="'+thBase+';text-align:right;border-left:2px dashed var(--border)">Cintura<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
+  h+='<th style="'+thBase+';text-align:right">Cintura<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
   h+='<th style="'+thBase+';text-align:right">Quadril<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
   h+='<th style="'+thBase+';text-align:right">Braço<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
   h+='<th style="'+thBase+';text-align:right">Coxa<br><span style="font-size:8px;font-weight:400;text-transform:none;letter-spacing:0">cm</span></th>';
+  h+='<th style="'+thBase+';text-align:center"></th>';
   h+='</tr></thead><tbody>';
 
   registros.forEach(function(r, i) {
@@ -932,31 +930,51 @@ function evMedTabela(registros, subLabel) {
       return '<span style="color:'+(bom?'#2d6a4f':'#c0392b')+';font-size:9px;display:block;line-height:1.3">'+(diff>0?'▲':'▼')+' '+Math.abs(diff)+'</span>';
     }
 
-    function td(val, prevVal, maisEBom, extraStyle) {
-      var s='<td style="'+tdBase+';text-align:right'+(extraStyle?';'+extraStyle:'')+'">';
+    function td(val, prevVal, maisEBom) {
+      var s='<td style="'+tdBase+';text-align:right">';
       if(!val && val!==0) return s+'<span style="color:var(--border)">—</span></td>';
       return s+val+diffHtml(val,prevVal,maisEBom)+'</td>';
     }
 
     h+='<tr>';
     h+='<td style="'+tdBase+';text-align:left;position:sticky;left:0;background:var(--surface);z-index:1;color:var(--muted);font-size:10px">'+dateStr+'</td>';
-    h+=td(r.peso,       prev&&prev.peso,    false);
-    h+=td(r.gordura,    prev&&prev.gordura, false);
-    h+=td(r.massa,      prev&&prev.massa,   true);
-    h+=td(m.cintura,    pm.cintura,         false, 'border-left:2px dashed var(--border)');
-    h+=td(m.quadril,    pm.quadril,         false);
-    h+=td(m.braco,      pm.braco,           false);
-    h+=td(m.coxa,       pm.coxa,            false);
+    h+=td(r.peso,    prev&&prev.peso,    false);
+    h+=td(r.gordura, prev&&prev.gordura, false);
+    h+=td(r.massa,   prev&&prev.massa,   true);
+    h+=td(m.cintura, pm.cintura,         false);
+    h+=td(m.quadril, pm.quadril,         false);
+    h+=td(m.braco,   pm.braco,           false);
+    h+=td(m.coxa,    pm.coxa,            false);
     h+='</tr>';
   });
 
-  h+='</tbody></table></div>';
-  h+='<div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:right">arraste → para ver cintura, quadril, braço e coxa</div>';
-  h+='</div>';
+  h+='</tbody></table></div></div>';
   return h;
 }
 
-function evMedCard(med, subLabel, regDoMes) {
+async function limparMedidasDia() {
+  var key = evDiaKey();
+  if(!confirm('Limpar medidas deste dia?')) return;
+  var idx = evDadosCache.findIndex(function(r){ return r.data === key; });
+  if(idx >= 0) {
+    evDadosCache[idx].peso    = null;
+    evDadosCache[idx].gordura = null;
+    evDadosCache[idx].massa   = null;
+    evDadosCache[idx].medidas = null;
+  }
+  ['med-peso','med-gordura','med-massa','med-cintura','med-quadril','med-braco','med-coxa'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
+  evRender();
+  try {
+    await fetch(SUPABASE_URL+'/rest/v1/acompanhamento?data=eq.'+key+'&user_id=eq.'+currentUser.id, {
+      method: 'PATCH',
+      headers: Object.assign({}, authHeaders(), {'Prefer':'return=minimal'}),
+      body: JSON.stringify({ peso: null, gordura: null, massa: null, medidas: null })
+    });
+    showToast('Medidas apagadas ✓');
+  } catch(e) { console.error('Erro ao limpar medidas:', e); }
+}
   var registros = regDoMes && regDoMes.length ? regDoMes : (med && med.atual ? [med.atual] : []);
   return evMedTabela(registros, subLabel);
 }
